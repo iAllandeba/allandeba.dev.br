@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>allandeba.dev.br.Web</title>
+    <base href="/" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LXV86L0VHK"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-LXV86L0VHK');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>
+        (function (w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start': new Date().getTime(),
+                event: 'gtm.js',
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-KQW8JRH');
+    </script>
+    <!-- End Google Tag Manager -->
+
+    <!-- FAVICON -->
+    <link async rel="apple-touch-icon" sizes="57x57" href="img/favicon/apple-icon-57x57.png" />
+    <link async rel="apple-touch-icon" sizes="60x60" href="img/favicon/apple-icon-60x60.png" />
+    <link async rel="apple-touch-icon" sizes="72x72" href="img/favicon/apple-icon-72x72.png" />
+    <link async rel="apple-touch-icon" sizes="76x76" href="img/favicon/apple-icon-76x76.png" />
+    <link async rel="apple-touch-icon" sizes="114x114" href="img/favicon/apple-icon-114x114.png" />
+    <link async rel="apple-touch-icon" sizes="120x120" href="img/favicon/apple-icon-120x120.png" />
+    <link async rel="apple-touch-icon" sizes="144x144" href="img/favicon/apple-icon-144x144.png" />
+    <link async rel="apple-touch-icon" sizes="152x152" href="img/favicon/apple-icon-152x152.png" />
+    <link async rel="apple-touch-icon" sizes="180x180" href="img/favicon/apple-icon-180x180.png" />
+    <link async rel="icon" type="image/png" sizes="192x192" href="img/favicon/android-icon-192x192.png" />
+    <link async rel="icon" type="image/png" sizes="32x32" href="img/favicon/favicon-32x32.png" />
+    <link async rel="icon" type="image/png" sizes="96x96" href="img/favicon/favicon-96x96.png" />
+    <link async rel="icon" type="image/png" sizes="16x16" href="img/favicon/favicon-16x16.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+
+    <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="css/app.css" />
+    <link href="allandeba.dev.br.Web.styles.css" rel="stylesheet" />
+
+    <link rel="icon" type="image/png" href="img/favicon/favicon.ico" />
+    <link href="img/favicon/manifest.json" rel="manifest" />
+</head>
+
+<body>
+    <div id="app">
+        <div class="container">
+            <div class="loading"></div>
+            <div class="loading" style="animation-direction:alternate-reverse;animation-duration:4s;"></div>
+            <div class="loading" style="animation-duration:5s;"></div>
+            <div class="loading-cont ">
+                <svg class="loading-progress">
+                    <circle r="40%" cx="50%" cy="50%" />
+                    <circle r="40%" cx="50%" cy="50%" />
+                </svg>
+                <div class="loading-progress-text"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+
+    <script src="_framework/blazor.webassembly.js"></script>
+    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
+</body>
+
+</html>

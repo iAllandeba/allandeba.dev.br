@@ -1,0 +1,79 @@
+@layout HomeLayout
+@page "/"
+@using allandeba.dev.br.Core.Common.Constants
+@using allandeba.dev.br.Core.Models.Github
+@using allandeba.dev.br.Core.Requests.Github
+@using allandeba.dev.br.Web.Components.Shared
+
+@inject IGithubHandler GithubHandler
+
+@if (_githubProjects is null)
+{
+    <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="250px"/>
+}
+else if (_githubProjects.Count > 0)
+{
+    <DynamicCarousel Items="@_githubProjects" PerRow="2" Fixed="true">
+        <CarouselItemsTemplate>
+            <MudCard Elevation="4" Class="pa-7 mud-height-full mud-width-full d-flex flex-column">
+                <MudCardHeader Style="margin: 0; padding: 0">
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h5"><strong>@context?.Name</strong></MudText>
+                    </CardHeaderContent>
+                    <CardHeaderActions>
+                        @if (context?.HasWebsite is true)
+                        {
+                            <MudButton Href="@context?.Website" Target="_blank" StartIcon="@Icons.Material.Filled.RunCircle" Variant="Variant.Text" Color="Color.Tertiary">Testar</MudButton>
+                        }
+                    </CardHeaderActions>
+                </MudCardHeader>
+
+                <MudCardContent style="margin: 0.5rem; padding: 0.5rem; word-wrap: break-word; font-size:small; align-content: center; align-items: center; display: flex;">
+                    @if (context.Description.Length > 172)
+                    {
+                        <MudText Typo="Typo.body1">@context?.Description.Substring(0, 172) ...</MudText>
+                    }
+                    else
+                    {
+                        <MudText Typo="Typo.body1">@context?.MarkDown</MudText>
+                    }
+                </MudCardContent>
+
+                <MudCardActions>
+                    <MudButton Href="@context?.GithubUrl" Target="_blank" StartIcon="@Icons.Material.Filled.Code" Variant="Variant.Text" Color="Color.Tertiary">Read More</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </CarouselItemsTemplate>
+    </DynamicCarousel>
+}
+
+<MudGrid Class="mt-9" Spacing="12" Justify="Justify.Center">
+    <MudItem>
+        <MudIconButton Class="social-media-icon" Target="_blank" Href="https://www.linkedin.com/in/allan-debastiani/" Icon="@Icons.Custom.Brands.LinkedIn" Color="Color.Secondary" aria-label="linkedin" Size="Size.Large"/>
+    </MudItem>
+    
+    <MudItem>
+        <MudIconButton Class="social-media-icon" Target="_blank" Href="https://github.com/allandeba" Icon="@Icons.Custom.Brands.GitHub" Color="Color.Secondary" aria-label="github" Size="Size.Large"/>
+    </MudItem>
+</MudGrid>
+
+
+@code{
+    private List<GithubProject>? _githubProjects;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await FillGithubProjects();
+    }
+
+    private async Task FillGithubProjects()
+    {
+        var request = new GetGithubProjectRequest
+        {
+            User = OwnersInfo.GithubUser
+        };
+        var response = await GithubHandler.GetFavoriteProjectsAsync(request);
+        if (response.IsSuccess)
+            _githubProjects = response.Data?.GithubProjects;
+    }
+}
