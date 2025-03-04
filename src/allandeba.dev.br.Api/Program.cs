@@ -5,6 +5,7 @@ using Deba.Caching;
 using Deba.Caching.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.AddAppSettings();
 builder.AddConfiguration();
 builder.AddSecurity();
 builder.AddDataContexts();

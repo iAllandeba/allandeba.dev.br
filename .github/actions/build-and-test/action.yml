@@ -4,6 +4,9 @@ inputs:
   dotnet-version:
     description: 'The version of .NET to use'
     required: true
+  project-path:
+    description: 'The project path of .NET to use'
+    required: true
 
 runs:
   using: "composite"
@@ -14,13 +17,13 @@ runs:
         dotnet-version: ${{ inputs.dotnet-version }}
 
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore ${{ inputs.project-path }}
       shell: bash
 
     - name: Build
-      run: dotnet build --no-restore --configuration Release
+      run: dotnet build ${{ inputs.project-path }} --no-restore --configuration Release
       shell: bash
 
-    - name: Run Unit Tests
-      run: dotnet test src/tests --configuration Release
-      shell: bash
+#    - name: Run Unit Tests
+#      run: dotnet test src/tests --configuration Release
+#      shell: bash

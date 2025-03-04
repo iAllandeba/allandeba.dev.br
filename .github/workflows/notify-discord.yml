@@ -3,8 +3,10 @@ name: Notify Discord
 on:
   workflow_run:
     workflows:
-      - "Deploy to Homologation"
-      - "Deploy to Production"
+      - "Deploy Web to Homologation"
+      - "Deploy WebAPI to Homologation"
+      - "Deploy Web to Production"
+      - "Deploy WebAPI to Production"
     types:
       - completed
 

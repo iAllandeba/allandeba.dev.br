@@ -11,6 +11,13 @@ namespace allandeba.dev.br.Api.Common.Api;
 
 public static class BuilderExtension
 {
+    public static void AddAppSettings(this WebApplicationBuilder builder)
+    {
+        builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+        builder.Configuration.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
+        builder.Configuration.AddEnvironmentVariables();
+    }
+    
     public static void AddConfiguration(
         this WebApplicationBuilder builder)
     {
