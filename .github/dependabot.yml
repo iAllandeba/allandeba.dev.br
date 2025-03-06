@@ -10,9 +10,6 @@ updates:
     labels:
       - "dependencies"
       - "automated pr"
-    update-types:
-    - "minor"
-    - "patch"
     open-pull-requests-limit: 10
 
   - package-ecosystem: "nuget"
@@ -25,9 +22,6 @@ updates:
     labels:
       - "dependencies"
       - "dotnet"
-    update-types:
-    - "minor"
-    - "patch"
     open-pull-requests-limit: 10
 
   - package-ecosystem: "docker"
@@ -40,7 +34,4 @@ updates:
     labels:
       - "dependencies"
       - "docker"
-    update-types:
-    - "minor"
-    - "patch"
     open-pull-requests-limit: 5
