@@ -3,6 +3,7 @@ name: Deploy Web to Homologation
 on:
   push:
     paths-ignore:
+      - '/src/allandeba.dev.br.Api'
       - 'README.md'
       - 'LICENSE'
       - '/assets'
