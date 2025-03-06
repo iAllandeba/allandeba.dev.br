@@ -3,6 +3,7 @@ name: Deploy Web to Production
 on:
   push:
     paths-ignore:
+      - '/src/allandeba.dev.br.Api'
       - 'README.md'
       - 'LICENSE'
       - '/assets'
