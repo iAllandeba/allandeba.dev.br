@@ -1,0 +1,20 @@
+@page "/sair"
+@inherits LogoutPage
+@layout HeadlessLayout
+
+<PageTitle>allandeba.dev.br - Sair</PageTitle>
+
+<MudText Typo="Typo.h3">Finalizando Sessão...</MudText>
+<MudPaper Class="pa-8 mt-4">
+    <div class="d-flex justify-center pb-8 pt-8">
+        <img src="img/favicon/favicon.ico" alt="allandeba.dev.br" width="200"/>
+    </div>
+    <MudAlert Severity="Severity.Info">
+        <div>
+            Sessão Finalizada...
+            <MudButton Variant="Variant.Text" Href="/">
+                IR PARA TELA DE LOGIN
+            </MudButton>
+        </div>
+    </MudAlert>
+</MudPaper>

@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UserSecretsId>8ca7e1b2-eda6-4499-bda0-c1e00e191a7a</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Deba.Extensions" Version="1.0.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="8.0.13" />
+  </ItemGroup>
+
+</Project>

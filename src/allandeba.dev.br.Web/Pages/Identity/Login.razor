@@ -1,0 +1,78 @@
+@page "/login"
+@layout HeadlessLayout
+@inherits LoginPage
+
+<PageTitle>allandeba.dev.br - Entrar</PageTitle>
+
+<MudGrid Justify="Justify.Center">
+    <MudItem xs="12" sm="12" md="8" lg="5" xl="5" xxl="5">
+        <MudPaper Class="mud-width-full pa-8">
+            <div class="d-flex justify-center pb-8 pt-8">
+                <img
+                    src="img/favicon/favicon.ico"
+                    alt="allandeba.dev.br"
+                    width="200"/>
+            </div>
+
+            <EditForm Model="@InputModel" OnValidSubmit="OnValidSubmitAsync">
+                <DataAnnotationsValidator/>
+
+                <MudTextField
+                    T="string"
+                    Label="E-mail"
+                    HelperText="Campo obrigatório"
+                    InputType="InputType.Email"
+                    For="@(() => InputModel.Email)"
+                    @bind-Value="InputModel.Email"/>
+
+                <MudTextField
+                    T="string"
+                    Label="Senha"
+                    HelperText="Campo obrigatório"
+                    For="@(() => InputModel.Password)"
+                    @bind-Value="InputModel.Password"
+                    InputType="@_passwordInput"
+                    Adornment="Adornment.End"
+                    AdornmentIcon="@_passwordInputIcon"
+                    OnAdornmentClick="TogglePasswordVisibility"/>
+
+                <div class="d-flex mt-8">
+                    @if (IsBusy)
+                    {
+                        <MudProgressCircular Color="Color.Info" Indeterminate="true"/>
+                    }
+                    else
+                    {
+                        <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">ENTRAR</MudButton>
+                        @* <MudSpacer/> *@
+                        @* <MudButton Href="/comecar">QUERO ME CADASTRAR</MudButton> *@
+                    }
+                </div>
+
+            </EditForm>
+        </MudPaper>
+    </MudItem>
+</MudGrid>
+
+@code {
+
+    bool _passwordVisibility;
+    InputType _passwordInput = InputType.Password;
+    string _passwordInputIcon = Icons.Material.Filled.VisibilityOff;
+    
+    void TogglePasswordVisibility()
+    {
+        _passwordVisibility = !_passwordVisibility;
+        @if (_passwordVisibility)
+        {
+            _passwordInputIcon = Icons.Material.Filled.Visibility;
+            _passwordInput = InputType.Text;
+        }
+        else
+        {
+            _passwordInputIcon = Icons.Material.Filled.VisibilityOff;
+            _passwordInput = InputType.Password;
+        }
+    }
+
+}

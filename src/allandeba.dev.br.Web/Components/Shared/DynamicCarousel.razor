@@ -1,0 +1,94 @@
+@typeparam TData
+
+@if (_initialized) 
+{
+    <MudCarousel Class="mud-width-full" Style="height:280px;"  ShowArrows="true" ShowBullets="false" EnableSwipeGesture="true" AutoCycle="false" TData="@TData">
+        @foreach (var group in _itemGroups)
+        {
+            <MudCarouselItem>
+                <div class="d-flex justify-content-center" style="height:100%;">
+                    <MudStack Class="mud-width-full" Row Justify="Justify.Center" Wrap="Wrap.NoWrap">
+                        @foreach (var item in group)
+                        {
+                            @CarouselItemsTemplate(item)
+                        }
+                    </MudStack>
+                </div>
+            </MudCarouselItem>
+        }    
+    </MudCarousel>
+}
+
+
+@code {
+    [Inject]
+    private IBrowserViewportService BrowserViewportService { get; set; } = null!;
+
+    [Parameter, EditorRequired]
+    public RenderFragment<TData> CarouselItemsTemplate { get; set; } = null!;
+
+    [Parameter, EditorRequired]
+    public IEnumerable<TData> Items { get; set; } = null!;
+
+    [Parameter]
+    public int PerRow { get; set; }
+
+    [Parameter] public bool Fixed { get; set; }
+    
+
+    private bool _initialized;
+    private IEnumerable<IEnumerable<TData>> _itemGroups = new List<IEnumerable<TData>>();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        
+        if (!firstRender) return;
+
+        _initialized = true;
+
+        var breakpoint = await BrowserViewportService.GetCurrentBreakpointAsync();
+
+        switch (breakpoint)
+        {
+            case Breakpoint.Xs:
+            case Breakpoint.Sm:
+                _itemGroups = ChunkList<TData>(Items, 1);
+                break;
+            case Breakpoint.Md:
+                _itemGroups = ChunkList<TData>(Items, PerRow / 2);
+                break;
+            default:
+                _itemGroups = ChunkList<TData>(Items, PerRow);
+                break;
+        }      
+
+        StateHasChanged();
+    }
+
+    private IEnumerable<IEnumerable<T>> ChunkList<T>(IEnumerable<T> items, int chunkSize)
+    {
+        chunkSize = Math.Max(chunkSize, 1);
+
+        var chunks = new List<T[]>();
+        var itemCount = items.Count();
+        var numberOfChunks = (int)Math.Ceiling((double)itemCount / chunkSize);
+
+        for (int i = 0; i < numberOfChunks; i++)
+        {
+            var itemsRemaining = itemCount - i * chunkSize;
+            var currentChunkSize = Math.Min(chunkSize, itemsRemaining);
+
+            if (currentChunkSize < chunkSize && Fixed)
+            {
+                chunks.Add(items.TakeLast(chunkSize).ToArray());
+            }
+            else
+            {
+                chunks.Add(items.Skip(i * chunkSize).Take(currentChunkSize).ToArray());
+            }
+        }
+
+        return chunks.AsEnumerable();
+    }
+}

@@ -1,0 +1,52 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@using allandeba.dev.br.Web.Components.Identity
+@using allandeba.dev.br.Web.Components.ThemeManager
+
+@inherits LayoutComponentBase
+
+<ThemeManager />
+<MudSnackbarProvider/>
+<MudDialogProvider/>
+<MudPopoverProvider />
+
+<AuthorizeView>
+    <Authorized>
+        <MudLayout>
+            <MudAppBar>
+                <MudIconButton
+                    Icon="@Icons.Material.Filled.Menu"
+                    Color="Color.Primary"
+                    Edge="Edge.Start"
+                    OnClick="ToggleDrawer"/>
+                <MudText Color="Color.Primary">allandeba.dev.br</MudText>
+                
+                <MudSpacer/>
+                <MudText Typo="Typo.caption" Color="Color.Primary">
+                    @context.User.Identity?.Name
+                </MudText>
+
+                <ThemeSwitcher/>
+            </MudAppBar>
+            <MudDrawer @bind-Open="@_isDrawerOpened">
+                <NavMenu/>
+            </MudDrawer>
+            <MudMainContent>
+                <MudContainer Class="mt-4">
+                    @Body
+                </MudContainer>
+            </MudMainContent>
+        </MudLayout>
+    </Authorized>
+    <NotAuthorized>
+        <LoginRedirect/>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+
+    private bool _isDrawerOpened = true;
+
+    private void ToggleDrawer()
+        => _isDrawerOpened = !_isDrawerOpened;
+
+}

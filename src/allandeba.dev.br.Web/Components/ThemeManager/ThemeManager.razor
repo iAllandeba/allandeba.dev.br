@@ -1,0 +1,67 @@
+@using allandeba.dev.br.Web.Common.Enums
+@using allandeba.dev.br.Web.Services
+
+@inject ThemeManagerService ThemeManagerService
+@inject EventAggregator EventAggregator
+
+<MudThemeProvider
+        @ref="_mudThemeProvider"
+        @bind-IsDarkMode="_isDarkMode"
+        Theme="Configuration.Theme"/>
+
+@code
+{
+    private bool _isDarkMode;
+    private MudThemeProvider _mudThemeProvider = null!;
+
+    protected override void OnInitialized()
+    {
+        ThemeManagerService.OnThemeChanged += OnThemeChanged;
+        EventAggregator.Subscribe<EThemeType>(OnThemeChanged);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var theme = await ThemeManagerService.GetCacheThemeAsync();
+            await SetThemeAsync(theme);
+        }
+    }
+
+    private async Task SetThemeAsync(EThemeType theme)
+    {
+        switch (theme)
+        {
+            case EThemeType.Light:
+                _isDarkMode = false;
+                break;
+            case EThemeType.Dark:
+                _isDarkMode = true;
+                break;
+            default:
+                _isDarkMode = await _mudThemeProvider.GetSystemPreference();
+                await _mudThemeProvider.WatchSystemPreference(OnSystemPreferenceChanged);
+                break;
+        }
+        
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task OnSystemPreferenceChanged(bool newValue)
+    {
+        _isDarkMode = newValue;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private void OnThemeChanged(EThemeType theme)
+    {
+        SetThemeAsync(theme).ConfigureAwait(false);
+    }
+
+    public void Dispose()
+    {
+        ThemeManagerService.OnThemeChanged -= OnThemeChanged;
+        EventAggregator.Subscribe<EThemeType>(OnThemeChanged);
+    }
+}

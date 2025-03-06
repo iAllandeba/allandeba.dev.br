@@ -1,0 +1,47 @@
+@using allandeba.dev.br.Web.Common.Enums
+@using allandeba.dev.br.Web.Services
+@inject ThemeManagerService ThemeManagerService
+@inject EventAggregator EventAggregator
+
+<MudMenu Icon="@_themeIcon" Color="Color.Primary">
+    <MudMenuItem OnClick="() => ThemeManagerService.SetThemeAsync(EThemeType.Light)">
+        <MudIcon Icon="@Icons.Material.Rounded.LightMode" Class="me-2" />Light
+    </MudMenuItem>
+
+    <MudMenuItem OnClick="() => ThemeManagerService.SetThemeAsync(EThemeType.Dark)">
+        <MudIcon Icon="@Icons.Material.Rounded.DarkMode" Class="me-2" />Dark
+    </MudMenuItem>
+
+    <MudMenuItem OnClick="() => ThemeManagerService.SetThemeAsync(EThemeType.System)">
+        <MudIcon Icon="@Icons.Material.Rounded.BrightnessAuto" Class="me-2" />Auto
+    </MudMenuItem>
+</MudMenu>
+
+@code {
+
+    private string? _themeIcon;
+
+    protected override void OnInitialized()
+    {
+        ThemeManagerService.OnThemeChanged += OnThemeChanged;
+        EventAggregator.Subscribe<EThemeType>(OnThemeChanged);
+    }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        _themeIcon = await ThemeManagerService.GetThemeIcon();
+    }
+    
+    private void OnThemeChanged(EThemeType theme)
+    {
+        _themeIcon = ThemeManagerService.GetThemeIcon(theme); 
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        ThemeManagerService.OnThemeChanged -= OnThemeChanged;
+        EventAggregator.Subscribe<EThemeType>(OnThemeChanged);
+    }
+
+}
