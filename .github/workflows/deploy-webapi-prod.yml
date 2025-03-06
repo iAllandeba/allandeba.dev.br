@@ -2,6 +2,12 @@ name: Deploy WebAPI to Production
 
 on:
   push:
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
+      - '/assets'
+      - '/.github/dependabot.yml'
+      - '/.github/workflows/cleanup.yml'
     branches:
       - main
 
