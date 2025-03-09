@@ -1,5 +1,4 @@
 using allandeba.dev.br.Web.Common.Enums;
-using allandeba.dev.br.Web.Components.ThemeManager;
 using Deba.Caching.Interfaces;
 using MudBlazor;
 

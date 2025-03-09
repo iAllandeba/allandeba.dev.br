@@ -1,18 +1,18 @@
 using allandeba.dev.br.Api;
 using allandeba.dev.br.Api.Common.Api;
 using allandeba.dev.br.Api.Endpoints;
-using Deba.Caching;
-using Deba.Caching.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.AddAppSettings();
+builder.AddOptions();
 builder.AddConfiguration();
+builder.AddServices();
+builder.AddHttpSettings();
 builder.AddSecurity();
 builder.AddDataContexts();
 builder.AddCrossOrigin();
 builder.AddDocumentation();
-builder.AddServices();
-builder.Services.AddDebaCaching(ECachingType.MemoryCache);
+builder.AddPackages();
 
 var app = builder.Build();
 
