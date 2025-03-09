@@ -10,7 +10,7 @@ if (window.location.hostname === 'localhost') {
 
 (
     function(d,t) {
-        var BASE_URL="http://chat.allandeba.dev.br";
+        var BASE_URL="https://chat.allandeba.dev.br";
         
         var g= d.createElement(t), s= d.getElementsByTagName(t)[0];
         g.src=BASE_URL+"/packs/js/sdk.js";
