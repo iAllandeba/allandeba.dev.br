@@ -20,7 +20,7 @@ public class Configuration
         PaletteLight = new PaletteLight
         {
             Primary = new MudColor("#202326"),
-            PrimaryContrastText = new MudColor("#000000"),
+            PrimaryContrastText = new MudColor("#E7E9EB"),
             TextPrimary = new MudColor("#202326"),
 
             Secondary = new MudColor("#E7E9EB"),
