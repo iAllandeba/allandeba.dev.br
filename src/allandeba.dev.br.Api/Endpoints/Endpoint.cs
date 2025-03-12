@@ -1,7 +1,7 @@
 using allandeba.dev.br.Api.Common.Api;
 using allandeba.dev.br.Api.Endpoints.Github;
 using allandeba.dev.br.Api.Data.Entities;
-using allandeba.dev.br.Api.Endpoints.EvolutionApi;
+using allandeba.dev.br.Api.Endpoints.Chatwoot;
 using allandeba.dev.br.Api.Endpoints.Identity;
 
 namespace allandeba.dev.br.Api.Endpoints;
@@ -31,8 +31,8 @@ public static class Endpoint
             .MapEndpoint<GetFavoriteProjectsEndpoint>();
         
         endpoints.MapGroup("v1/chatwoot")
-            .WithTags("ChatWoot")
-            .MapEndpoint<NotifyEndpoint>();
+            .WithTags("Chatwoot")
+            .MapEndpoint<ChatTriggeredEndpoint>();
     }
 
     private static IEndpointRouteBuilder MapEndpoint<TEndpoint>(this IEndpointRouteBuilder app)
