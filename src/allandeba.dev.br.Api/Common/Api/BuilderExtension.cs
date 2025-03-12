@@ -107,7 +107,7 @@ public static class BuilderExtension
     {
         builder.Services.AddTransient<IGithubHandler, GithubHandler>();
         builder.Services.AddTransient<GithubService>();
-        builder.Services.AddTransient<IChatWootHandler, ChatWootHandler>();
+        builder.Services.AddTransient<IEvolutionApiHandler, EvolutionApiHandler>();
     }
 
     public static void AddPackages(this WebApplicationBuilder builder)

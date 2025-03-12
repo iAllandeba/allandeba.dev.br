@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="AngleSharp" Version="1.2.0" />
-    <PackageReference Include="Deba.Caching" Version="1.0.4" />
+    <PackageReference Include="Deba.Caching" Version="2.0.2" />
     <PackageReference Include="Deba.EvolutionApi" Version="0.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.13" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.13" />
