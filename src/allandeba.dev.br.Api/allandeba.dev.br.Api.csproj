@@ -25,4 +25,9 @@
     <ProjectReference Include="..\allandeba.dev.br.Core\allandeba.dev.br.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Requests\" />
+    <Folder Include="Responses\" />
+  </ItemGroup>
+
 </Project>

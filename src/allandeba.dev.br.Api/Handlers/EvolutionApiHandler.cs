@@ -1,8 +1,9 @@
+using allandeba.dev.br.Api.Handlers.Interfaces;
 using allandeba.dev.br.Api.Models.Environments;
+using allandeba.dev.br.Api.Requests.EvolutionApi;
+using allandeba.dev.br.Api.Responses.EvolutionApi;
 using allandeba.dev.br.Core.Handlers;
-using allandeba.dev.br.Core.Requests.EvolutionApi;
 using allandeba.dev.br.Core.Responses;
-using allandeba.dev.br.Core.Responses.EvolutionApi;
 using Deba.EvolutionApi.Interfaces;
 using Deba.EvolutionApi.Models.Requests.SendText;
 using Microsoft.Extensions.Options;

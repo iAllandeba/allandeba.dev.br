@@ -3,7 +3,7 @@ using allandeba.dev.br.Api.Endpoints.Chatwoot.Models;
 
 namespace allandeba.dev.br.Api.Endpoints.Chatwoot.MessageCreated.Models;
 
-public class MessageCreatedPaylod
+public class MessageCreatedPayload
 {
     public int Id { get; set; }
     public Inbox? Inbox { get; set; }
