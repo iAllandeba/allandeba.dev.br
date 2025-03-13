@@ -1,8 +1,8 @@
-using allandeba.dev.br.Core.Requests.EvolutionApi;
+using allandeba.dev.br.Api.Requests.EvolutionApi;
+using allandeba.dev.br.Api.Responses.EvolutionApi;
 using allandeba.dev.br.Core.Responses;
-using allandeba.dev.br.Core.Responses.EvolutionApi;
 
-namespace allandeba.dev.br.Core.Handlers;
+namespace allandeba.dev.br.Api.Handlers.Interfaces;
 
 public interface IEvolutionApiHandler
 {

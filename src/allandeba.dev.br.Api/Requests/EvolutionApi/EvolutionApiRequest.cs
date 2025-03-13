@@ -1,4 +1,4 @@
-namespace allandeba.dev.br.Core.Requests.EvolutionApi;
+namespace allandeba.dev.br.Api.Requests.EvolutionApi;
 
 public class EvolutionApiRequest
 {

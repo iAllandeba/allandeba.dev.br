@@ -2,8 +2,10 @@ using System.Reflection;
 using allandeba.dev.br.Api.Data;
 using allandeba.dev.br.Api.Handlers;
 using allandeba.dev.br.Api.Data.Entities;
+using allandeba.dev.br.Api.Handlers.Interfaces;
 using allandeba.dev.br.Api.Models.Environments;
 using allandeba.dev.br.Api.Services;
+using allandeba.dev.br.Api.Services.Interfaces;
 using allandeba.dev.br.Core;
 using allandeba.dev.br.Core.Handlers;
 using Deba.Caching;
@@ -108,6 +110,7 @@ public static class BuilderExtension
         builder.Services.AddTransient<IGithubHandler, GithubHandler>();
         builder.Services.AddTransient<GithubService>();
         builder.Services.AddTransient<IEvolutionApiHandler, EvolutionApiHandler>();
+        builder.Services.AddTransient<IChatwootService, ChatwootService>();
     }
 
     public static void AddPackages(this WebApplicationBuilder builder)
