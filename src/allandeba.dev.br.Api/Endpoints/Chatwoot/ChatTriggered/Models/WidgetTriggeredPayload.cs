@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
+using allandeba.dev.br.Api.Endpoints.Chatwoot.Models;
 
-namespace allandeba.dev.br.Api.Endpoints.Chatwoot.Models;
+namespace allandeba.dev.br.Api.Endpoints.Chatwoot.ChatTriggered.Models;
 
 public class WidgetTriggeredPayload
 {

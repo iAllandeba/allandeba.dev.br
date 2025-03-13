@@ -1,4 +1,5 @@
 using allandeba.dev.br.Api.Common.Api;
+using allandeba.dev.br.Api.Endpoints.Chatwoot.MessageCreated.Models;
 using allandeba.dev.br.Api.Endpoints.Chatwoot.Models;
 using allandeba.dev.br.Core.Handlers;
 using allandeba.dev.br.Core.Requests.EvolutionApi;
@@ -8,33 +9,33 @@ using Deba.Caching.Interfaces;
 using Deba.Caching.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace allandeba.dev.br.Api.Endpoints.Chatwoot;
+namespace allandeba.dev.br.Api.Endpoints.Chatwoot.MessageCreated;
 
-public class ChatTriggeredEndpoint : IEndpoint
+public class MessageCreatedEndpoint : IEndpoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapPost("/chatTriggered", HandleAsync)
-            .WithName("Notifica que alguem abriu o chat no site: Post")
-            .WithSummary("Notifica no whatsapp quando alguem abrir o chat no website")
-            .WithDescription("Notifica no whatsapp quando alguem abrir o chat no website")
-            .WithOrder(1)
+        => app.MapPost("/messageCreated", HandleAsync)
+            .WithName("Notifica que alguem enviou uma mensagem no chat no site: Post")
+            .WithSummary("Notifica no whatsapp quando alguem enviar uma mensagem no chat no website")
+            .WithDescription("Notifica no whatsapp quando alguem enviar uma mensagem no chat no website")
+            .WithOrder(2)
             .Produces<Response<EvolutionApiResponse?>>();
     
     private static async Task<IResult> HandleAsync(
-        [FromBody] WidgetTriggeredPayload payload,
+        [FromBody] MessageCreatedPaylod payload,
         IEvolutionApiHandler handler,
         IMemoryCacheService memoryCache)
     {
-        if (!await CanSendNotification(memoryCache, payload.SourceId))
-            return TypedResults.Accepted("Uma notificação já foi encaminhada para esse mesmo sourceId e não será notificado novamente dentro do tempo de espera para cada nova notificação");
+        if (!await CanSendNotification(memoryCache, payload.Conversation?.ContactInbox?.SourceId))
+            return TypedResults.Accepted("Uma notificação já foi encaminhada para esse mesmo Id e não será notificado novamente dentro do tempo de espera para cada nova notificação");
         
         var environment = GetEnvironmentMessageFrom(payload.Inbox);
         var request = new EvolutionApiRequest
         {
-            Message = @$"O chat foi *aberto* no website
+            Message = @$"Uma *nova mensagem* foi encaminhada no website
 Ambiente de *{environment}*
 id: {payload.Id}
-sourceId: {payload.SourceId}"
+sourceId: {payload.Conversation?.ContactInbox?.SourceId}"
         };
         
         var result = await handler.SendText(request);
@@ -45,7 +46,7 @@ sourceId: {payload.SourceId}"
 
     private static async Task<bool> CanSendNotification(IMemoryCacheService memoryCache, string? payloadSourceId)
     {
-        var key = $"chatTriggered_{payloadSourceId}";
+        var key = $"messageCreated_{payloadSourceId}";
         
         if (!string.IsNullOrEmpty(payloadSourceId))
         {
