@@ -2,15 +2,11 @@ using System.Reflection;
 using allandeba.dev.br.Api.Data;
 using allandeba.dev.br.Api.Handlers;
 using allandeba.dev.br.Api.Data.Entities;
-using allandeba.dev.br.Api.Handlers.Interfaces;
-using allandeba.dev.br.Api.Models.Environments;
 using allandeba.dev.br.Api.Services;
-using allandeba.dev.br.Api.Services.Interfaces;
 using allandeba.dev.br.Core;
 using allandeba.dev.br.Core.Handlers;
 using Deba.Caching;
 using Deba.Caching.Models;
-using Deba.EvolutionApi;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,9 +16,7 @@ public static class BuilderExtension
 {
     public static void AddOptions(this WebApplicationBuilder builder)
     {
-        builder.Services.Configure<EvolutionApiOptions>(
-            builder.Configuration.GetSection(nameof(EvolutionApiOptions))
-        );
+
     }
     
     public static void AddHttpSettings(this WebApplicationBuilder builder)
@@ -96,8 +90,6 @@ public static class BuilderExtension
                     .WithOrigins([
                         Configuration.BackendUrl,
                         Configuration.FrontendUrl,
-                        
-                        ApiConfiguration.ChatWootUrl,
                     ])
                     .AllowAnyMethod()
                     .AllowAnyHeader()
@@ -109,28 +101,10 @@ public static class BuilderExtension
     {
         builder.Services.AddTransient<IGithubHandler, GithubHandler>();
         builder.Services.AddTransient<GithubService>();
-        builder.Services.AddTransient<IEvolutionApiHandler, EvolutionApiHandler>();
-        builder.Services.AddTransient<IChatwootService, ChatwootService>();
     }
 
     public static void AddPackages(this WebApplicationBuilder builder)
     {
         builder.Services.AddDebaCaching(ECachingType.MemoryCache);
-        AddDebaEvolutionApi(builder);
-    }
-
-    private static void AddDebaEvolutionApi(WebApplicationBuilder builder)
-    {
-        var evolutionApiOptions = builder.Configuration.GetRequiredSection($"{nameof(EvolutionApiOptions)}")
-            .Get<EvolutionApiOptions>();
-        
-        if (evolutionApiOptions!.IsInvalid)
-            throw new Exception("Evolution API options invalid.");
-        
-        builder.Services.AddDebaEvolutionApi(new Deba.EvolutionApi.Models.Options.EvolutionApiOptions
-        {
-            ApiKey = evolutionApiOptions.ApiKey,
-            ApiUrl = evolutionApiOptions.ApiUrl,
-        });
     }
 }
