@@ -1,16 +1,16 @@
 <!-- ChatWoot -->
 let websiteToken = '';
 if (window.location.hostname === 'localhost') {
-  websiteToken = 'UbQRYkTj9zZKvjVm5kwPGa6a';  
+  websiteToken = 'DrNwBcyGPCPkv4ReNo3yDXub';  
 } else if (window.location.hostname.includes("hml.")) {
-    websiteToken = 'jdsnnR1hAb72TZLYZT8ZsLPf';
+    websiteToken = '5GFHmAciFyixRpems8W2kF21';
 } else {
-    websiteToken = 'pWLn4B1wXC6kHKEBtxjacAE1';
+    websiteToken = 'uHchg8XcwWRsMQFQP71VMhh3';
 }
 
 (
     function(d,t) {
-        var BASE_URL="https://chat.allandeba.dev.br";
+        var BASE_URL="https://app.chatwoot.com";
         
         var g= d.createElement(t), s= d.getElementsByTagName(t)[0];
         g.src=BASE_URL+"/packs/js/sdk.js";
