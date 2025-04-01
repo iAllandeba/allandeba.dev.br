@@ -1,3 +1,4 @@
+using System.Net.Mail;
 using allandeba.dev.br.Api.Data.Entities;
 using allandeba.dev.br.Api.Extensions;
 using allandeba.dev.br.Core.Handlers;
@@ -35,10 +36,12 @@ public class AccountHandler(SignInManager<Users> signInManager) : IAccountHandle
     {
         try
         {
+            var mailAddress = new MailAddress(request.Email);
             var newUser = new Users
             {
-                Email = request.Email,
-                EmailConfirmed = true
+                Email = mailAddress.Address,
+                EmailConfirmed = true,
+                UserName = mailAddress.User
             };
 
             var result = await signInManager.UserManager.CreateAsync(newUser, request.Password);
