@@ -3,6 +3,7 @@ using System.Text;
 using allandeba.dev.br.Core.Handlers;
 using allandeba.dev.br.Core.Requests.Account;
 using allandeba.dev.br.Core.Responses;
+using allandeba.dev.br.Core.Responses.Account;
 
 namespace allandeba.dev.br.Web.Handlers;
 
@@ -15,25 +16,22 @@ public class AccountHandler : IAccountHandler
         _httpClient = httpClientFactory.CreateClient(Configuration.HttpClientName);
     }
 
-    public async Task<Response<string>> LoginAsync(LoginRequest request)
+    public async Task<Response<AccountResponse?>> LoginAsync(LoginRequest request)
     {
-        var result = await _httpClient.PostAsJsonAsync("v1/identity/login?useCookies=true", request);
-        return result.IsSuccessStatusCode
-            ? new Response<string>("Login realizado com sucesso!", 200, "Login realizado com sucesso!")
-            : new Response<string>(null, 400, "Não foi possível realizar o login");
+        var result = await _httpClient.PostAsJsonAsync("v1/account/login", request);
+        return await result.Content.ReadFromJsonAsync<Response<AccountResponse?>>() ?? throw new InvalidOperationException();
     }
 
-    public async Task<Response<string>> RegisterAsync(RegisterRequest request)
+    public async Task<Response<AccountResponse?>> RegisterAsync(RegisterRequest request)
     {
-        var result = await _httpClient.PostAsJsonAsync("v1/identity/register", request);
-        return result.IsSuccessStatusCode
-            ? new Response<string>("Cadastro realizado com sucesso!", 201, "Cadastro realizado com sucesso!")
-            : new Response<string>(null, 400, "Não foi possível realizar o seu cadastro");
+        var result = await _httpClient.PostAsJsonAsync("v1/account/register", request);
+        return await result.Content.ReadFromJsonAsync<Response<AccountResponse?>>() ?? throw new InvalidOperationException();
     }
 
-    public async Task LogoutAsync()
+    public async Task<Response<AccountResponse?>> LogoutAsync()
     {
         var emptyContent = new StringContent("{}", Encoding.UTF8, "application/json");
-        await _httpClient.PostAsJsonAsync("v1/identity/logout", emptyContent);
+        var result = await _httpClient.PostAsJsonAsync("v1/account/logout", emptyContent);
+        return await result.Content.ReadFromJsonAsync<Response<AccountResponse?>>() ?? throw new InvalidOperationException();
     }
 }

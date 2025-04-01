@@ -1,7 +1,7 @@
 using allandeba.dev.br.Api.Common.Api;
 using allandeba.dev.br.Api.Endpoints.Github;
 using allandeba.dev.br.Api.Data.Entities;
-using allandeba.dev.br.Api.Endpoints.Identity;
+using allandeba.dev.br.Api.Endpoints.Account;
 
 namespace allandeba.dev.br.Api.Endpoints;
 
@@ -16,8 +16,10 @@ public static class Endpoint
             .WithTags("Identity")
             .MapIdentityApi<Users>();
 
-        endpoints.MapGroup("v1/identity")
-            .WithTags("Identity")
+        endpoints.MapGroup("v1/account")
+            .WithTags("Account")
+            .MapEndpoint<RegisterEndpoint>()
+            .MapEndpoint<LoginEndpoint>()
             .MapEndpoint<LogoutEndpoint>()
             .MapEndpoint<GetRolesEndpoint>();
 

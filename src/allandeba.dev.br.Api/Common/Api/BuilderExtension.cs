@@ -101,6 +101,7 @@ public static class BuilderExtension
     {
         builder.Services.AddTransient<IGithubHandler, GithubHandler>();
         builder.Services.AddTransient<GithubService>();
+        builder.Services.AddTransient<IAccountHandler, AccountHandler>();
     }
 
     public static void AddPackages(this WebApplicationBuilder builder)

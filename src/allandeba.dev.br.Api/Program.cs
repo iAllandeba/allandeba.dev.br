@@ -17,7 +17,10 @@ builder.AddPackages();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
+{
     app.ConfigureDevEnvironment();
+    app.ApplyMigrations();
+}
 
 app.UseCors(ApiConfiguration.CorsPolicyName);
 app.UseSecurity();

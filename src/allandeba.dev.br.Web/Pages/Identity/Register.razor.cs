@@ -28,9 +28,6 @@ public partial class RegisterPage : ComponentBase
 
     protected override async Task OnInitializedAsync()
     {
-        Snackbar.Add("Não autorizado", Severity.Error);
-        NavigationManager.NavigateTo("/");
-
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
 

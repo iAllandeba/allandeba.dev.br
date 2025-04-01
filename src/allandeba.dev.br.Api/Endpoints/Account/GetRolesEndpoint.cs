@@ -2,7 +2,7 @@ using System.Security.Claims;
 using allandeba.dev.br.Api.Common.Api;
 using allandeba.dev.br.Core.Models.Account;
 
-namespace allandeba.dev.br.Api.Endpoints.Identity;
+namespace allandeba.dev.br.Api.Endpoints.Account;
 
 public class GetRolesEndpoint : IEndpoint
 {
