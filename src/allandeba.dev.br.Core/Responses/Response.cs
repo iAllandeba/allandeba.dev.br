@@ -4,7 +4,8 @@ namespace allandeba.dev.br.Core.Responses;
 
 public class Response<TData>
 {
-    private readonly int _code;
+    [JsonInclude]
+    private int _code;
 
     [JsonConstructor]
     public Response() =>
