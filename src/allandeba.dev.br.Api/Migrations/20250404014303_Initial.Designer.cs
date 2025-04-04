@@ -12,7 +12,7 @@ using allandeba.dev.br.Api.Data;
 namespace allandeba.dev.br.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250217033048_Initial")]
+    [Migration("20250404014303_Initial")]
     partial class Initial
     {
         /// <inheritdoc />

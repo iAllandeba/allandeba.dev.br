@@ -24,4 +24,8 @@
     <ProjectReference Include="..\allandeba.dev.br.Core\allandeba.dev.br.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>
