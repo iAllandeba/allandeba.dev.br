@@ -22,6 +22,8 @@ public static class AppExtension
     {
         using var scope = app.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        if (!context.Database.EnsureCreated()) return;
+        
         if (context.Database.GetPendingMigrations().Any())
             context.Database.Migrate();
     }
