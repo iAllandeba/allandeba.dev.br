@@ -1,4 +1,5 @@
 using allandeba.dev.br.Api.Data;
+using allandeba.dev.br.Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace allandeba.dev.br.Api.Common.Api;
@@ -22,7 +23,9 @@ public static class AppExtension
     {
         using var scope = app.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-        if (!context.Database.EnsureCreated()) return;
+
+        if (!context.Database.CanConnect())
+            throw new Exception($"Não foi possivel se conectar com o banco de dados!\nArquivo está configurado: {!string.IsNullOrEmpty(Configuration.ConnectionString)}");
         
         if (context.Database.GetPendingMigrations().Any())
             context.Database.Migrate();
