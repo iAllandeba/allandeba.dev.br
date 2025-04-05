@@ -20,7 +20,7 @@ env:
   DEPLOY_PORT: 9005
   HEALTH_CHECK_URL: https://api.allandeba.dev.br
   PROJECT_PATH: ./src/allandeba.dev.br.Api
-  ENVIRONMENT_FILE: /etc/environment_allandeba.dev.br
+  ENVIRONMENT_FILE: /etc/environments/allandeba.dev.br
   DOTNET_VERSION: 8.0.x
   
 jobs:
