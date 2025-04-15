@@ -1,0 +1,252 @@
+@layout HomeLayout
+@page "/teste-pagamento"
+@using System.ComponentModel.DataAnnotations
+@using System.Net.Http.Headers
+@using System.Net.Mime
+@using System.Text.Json
+@using System.Text
+@inject IJSRuntime JsRuntime
+@inject ISnackbar Snackbar
+
+<PageTitle>Simulando | Dados já inseridos na plataforma</PageTitle>
+
+<MudCard Elevation="3" Class="rounded-lg">
+    <MudCardHeader>
+        <CardHeaderContent>
+            <MudText Typo="Typo.h5" Class="mb-0">Simulando | Dados já inseridos na plataforma</MudText>
+            <MudText Typo="Typo.body2">Simule dados que já estariam dentro da plataforma e enviariam a cobrança via Whatsapp para realizar o pagamento via PIX</MudText>
+        </CardHeaderContent>
+    </MudCardHeader>
+    
+    <MudCardContent>
+        <MudForm @ref="_form" Model="@_model" @bind-IsValid="@_success">
+            <MudGrid>
+                <MudItem xs="12" sm="6">
+                    <MudTextField @bind-Value="_model.Nome" 
+                                 Label="Nome" 
+                                 Variant="Variant.Outlined" 
+                                 Required="true" 
+                                 RequiredError="Nome é obrigatório"
+                                 Class="mt-3" />
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudTextField @bind-Value="_model.Sobrenome" 
+                                 Label="Sobrenome" 
+                                 Variant="Variant.Outlined" 
+                                 Required="true" 
+                                 RequiredError="Sobrenome é obrigatório"
+                                 Class="mt-3" />
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudTextField @bind-Value="_model.Cpf" 
+                                 Label="CPF" 
+                                 Variant="Variant.Outlined" 
+                                 Required="true" 
+                                 RequiredError="CPF é obrigatório"
+                                 Mask="@(new PatternMask("000.000.000-00"))"
+                                 Adornment="Adornment.Start" 
+                                 AdornmentIcon="@Icons.Material.Filled.Badge"
+                                 Class="mt-3" />
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudTextField @bind-Value="_model.Telefone" 
+                                 Label="Telefone" 
+                                 Variant="Variant.Outlined" 
+                                 Required="true" 
+                                 RequiredError="Telefone é obrigatório"
+                                 Mask="@(new PatternMask("(00) 00000-0000"))"
+                                 Adornment="Adornment.Start" 
+                                 AdornmentIcon="@Icons.Material.Filled.Phone"
+                                 Class="mt-3" />
+                </MudItem>
+                <MudItem xs="12">
+                    <MudTextField @bind-Value="_model.Email"
+                                  Label="Email"
+                                  Variant="Variant.Outlined"
+                                  Required="true"
+                                  RequiredError="Email é obrigatório"
+                                  Validation="@(new EmailAddressAttribute() {ErrorMessage = "Email inválido"})"
+                                  Adornment="Adornment.Start"
+                                  AdornmentIcon="@Icons.Material.Filled.Email"
+                                  Class="mt-3" />
+                </MudItem>
+            </MudGrid>
+        </MudForm>
+    </MudCardContent>
+    
+    <MudCardActions Class="d-flex justify-center pb-4 px-4">
+        <MudButton Variant="Variant.Filled" 
+                  Color="Color.Primary" 
+                  Size="Size.Large"
+                  StartIcon="@Icons.Material.Filled.Payment"
+                  OnClick="ProcessPayment"
+                  Disabled="@(!_success || _processing)"
+                  Class="px-8">
+            @if (_processing)
+            {
+                <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                <MudText Class="ms-2">Processando...</MudText>
+            }
+            else
+            {
+                <MudText>Enviar cobrança no Whatsapp</MudText>
+            }
+        </MudButton>
+    </MudCardActions>
+</MudCard>
+
+@code {
+    private readonly PaymentModel _model = new();
+    private bool _success;
+    private bool _processing;
+    private MudForm _form = null!;
+
+    private async Task ProcessPayment()
+    {
+        await _form.Validate();
+        
+        if (_success)
+        {
+            _processing = true;
+            
+            try
+            {
+                var httpClient = new HttpClient();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "abc_dev_WGu1YTGHcj6j3eg23e0ehhEz");
+                
+                var request = new AbacateCreatePaymentRequest
+                {
+                    Frequency = "ONE_TIME",
+                    Methods = ["PIX"],
+                    Products = new List<AbacateProduct>
+                    {
+                        new AbacateProduct
+                        {
+                            ExternalId = "1",
+                            Name = "test product",
+                            Quantity = 1,
+                            Price = 1000,
+                            Description = "test description",   
+                        }
+                    },
+                    ReturnUrl = "https://localhost:5279/ResultPagamento?success=no",
+                    CompletionUrl = "https://localhost:5279/ResultPagamento?success=yes",
+                    Customer = new AbacateCustomer()
+                    {
+                        Name = string.Join(" ", _model.Nome, _model.Sobrenome),
+                        Cellphone = _model.Telefone,
+                        Email = _model.Email,
+                        TaxId = _model.Cpf,
+                    }
+                };
+
+                var serializedRequest = JsonSerializer.Serialize(request);
+                var stringContent = new StringContent(serializedRequest, Encoding.UTF8, MediaTypeNames.Application.Json);
+
+                var response = await httpClient.PostAsync("https://api.abacatepay.com/v1/billing/create", stringContent);
+                var stringResponse = await response.Content.ReadAsStringAsync();
+                
+                var result = JsonSerializer.Deserialize<AbacateCreatePaymentResult>(stringResponse);
+                if (result!.Data is null)
+                {
+                    throw new Exception(result.Error);
+                }
+                
+                await JsRuntime.InvokeVoidAsync("open", result.Data.Url);
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add($"Erro ao processar pagamento: {ex.Message}", Severity.Error);
+                _processing = false;
+            }
+        }
+    }
+}
+
+@code {
+    
+    public class PaymentModel
+    {
+        public string Nome { get; set; } = string.Empty;
+        public string Sobrenome { get; set; } = string.Empty;
+        public string Cpf { get; set; } = string.Empty;
+        public string Telefone { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+    }
+
+    public class PaymentResponse
+    {
+        public bool Success { get; set; }
+        public string PaymentUrl { get; set; } = string.Empty;
+        public string Message { get; set; } = string.Empty;
+    }
+
+    public class AbacateCreatePaymentResult
+    {
+        public CreatePaymentResult? Data { get; set; }
+        public string? Error { get; set; }
+    }
+
+    public class CreatePaymentResult
+    {
+        public string Id { get; set; }
+        public string Url { get; set; }
+        public int Amount { get; set; }
+        public string Status { get; set; }
+        public bool DevMode { get; set; }
+        public List<string> Methods { get; set; }
+        public List<Product> Products { get; set; }
+        public string Frequency { get; set; }
+        public object NextBilling { get; set; }
+        public Customer Customer { get; set; }
+    }
+
+    public class Product
+    {
+        public string Id { get; set; }
+        public string ExternalId { get; set; }
+        public int Quantity { get; set; }
+    }
+
+    public class Customer
+    {
+        public string Id { get; set; }
+        public Metadata Metadata { get; set; }
+    }
+
+    public class Metadata
+    {
+        public string Name { get; set; }
+        public string Cellphone { get; set; }
+        public string Email { get; set; }
+        public string TaxId { get; set; }
+    }
+    
+    public class AbacateCreatePaymentRequest
+    {
+        public string Frequency { get; set; }
+        public string[] Methods { get; set; }
+        public List<AbacateProduct> Products { get; set; }
+        public string ReturnUrl { get; set; }
+        public string CompletionUrl { get; set; }
+        public AbacateCustomer Customer { get; set; }
+    }
+
+    public class AbacateCustomer
+    {
+        public string Name { get; set; }
+        public string Cellphone { get; set; }
+        public string Email { get; set; }
+        public string TaxId { get; set; }
+    }
+
+    public class AbacateProduct
+    {
+        public string ExternalId { get; set; }
+        public string Name { get; set; }
+        public int Quantity { get; set; }
+        public int Price { get; set; }
+        public string Description { get; set; }
+    }
+
+}

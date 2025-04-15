@@ -1,0 +1,59 @@
+@layout HomeLayout
+@page "/ResultPagamento"
+
+<PageTitle>Confirmação de Pagamento</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Small" Class="d-flex justify-center align-center" Style="height: 70vh;">
+    <MudPaper Elevation="3" Class="pa-8 rounded-lg" Width="100%">
+        @if (IsPaymentSuccessful)
+        {
+            <div class="d-flex flex-column align-center">
+                <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Color="Color.Success" Size="Size.Large" Class="mb-4" Style="width: 80px; height: 80px;" />
+                <MudText Typo="Typo.h4" Align="Align.Center" Class="mb-2">Pagamento Realizado com Sucesso!</MudText>
+                <MudText Typo="Typo.body1" Align="Align.Center" Class="mb-6">
+                    Obrigado por sua compra. O pagamento foi processado e confirmado.
+                </MudText>
+                <MudDivider Class="my-4" />
+                <MudText Typo="Typo.body2" Align="Align.Center" Class="mb-4">
+                    Um comprovante foi enviado para o seu e-mail.
+                </MudText>
+                <MudButton Variant="Variant.Filled" 
+                          Color="Color.Primary" 
+                          Size="Size.Large" 
+                          StartIcon="@Icons.Material.Filled.Home"
+                          Link="/" 
+                          Class="mt-4 px-8">
+                    Voltar para a Página Inicial
+                </MudButton>
+            </div>
+        }
+        else
+        {
+            <div class="d-flex flex-column align-center">
+                <MudIcon Icon="@Icons.Material.Filled.Error" Color="Color.Error" Size="Size.Large" Class="mb-4" Style="width: 80px; height: 80px;" />
+                <MudText Typo="Typo.h4" Align="Align.Center" Class="mb-2">Falha no Pagamento</MudText>
+                <MudText Typo="Typo.body1" Align="Align.Center" Class="mb-6">
+                    Não foi possível processar seu pagamento. Por favor, tente novamente.
+                </MudText>
+                <MudDivider Class="my-4" />
+                <MudText Typo="Typo.body2" Align="Align.Center" Class="mb-4">
+                    Se o problema persistir, entre em contato com o suporte.
+                </MudText>
+                <MudButton Variant="Variant.Filled" 
+                          Color="Color.Primary" 
+                          Size="Size.Large" 
+                          StartIcon="@Icons.Material.Filled.Refresh"
+                          Link="/" 
+                          Class="mt-4 px-8">
+                    Tentar Novamente
+                </MudButton>
+            </div>
+        }
+    </MudPaper>
+</MudContainer>
+
+@code {
+    [SupplyParameterFromQuery] [Parameter] public string Success { get; set; } = "false";
+
+    private bool IsPaymentSuccessful => Success.Equals("yes", StringComparison.InvariantCultureIgnoreCase);
+}
