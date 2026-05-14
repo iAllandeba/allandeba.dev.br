@@ -53,9 +53,11 @@
     left: 50%;
     padding: 10vmin;
     position: fixed;
-    text-align: center;
     top: 50%;
-    transform: translate(-50%,-50%)
+    transform: translate(-50%,-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .container {
@@ -65,37 +67,42 @@
     height: 100vh;
 }
 
-.loading-progress {
-    width: 8rem;
-    height: 8rem;
-    margin-bottom: 1rem;
+.terminal-loader {
+    display: flex;
+    align-items: center;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.9rem;
+    white-space: nowrap;
 }
 
-    .loading-progress circle {
-        fill: none;
-        stroke: #232c35;
-        stroke-width: 0.6rem;
-        transform-origin: 50% 50%;
-        transform: rotate(-90deg);
-    }
+.t-user  { color: #5fadad; }
+.t-at    { color: #6c7a8a; }
+.t-host  { color: #adb9c4; }
+.t-colon { color: #6c7a8a; }
+.t-path  { color: #5fadad; }
+.t-sym   { color: #adb9c4; }
+.t-cmd   { color: #adb9c4; }
 
-        .loading-progress circle:last-child {
-            stroke: #adb9c4;
-            stroke-dasharray: calc(3.141 * var(--blazor-load-percentage, 0%) * 0.8), 500%;
-            transition: stroke-dasharray 0.05s ease-in-out;
-        }
-
-.loading-progress-text {
-    color: #adb9c4;
-    position: absolute;
-    text-align: center;
-    font-weight: bold;
-    inset: calc(20vh + 3.25rem) 0 auto 0.2rem;
+.t-cursor {
+    display: inline-block;
+    width: 0.55ch;
+    height: 1em;
+    background: #2a8fb2;
+    vertical-align: middle;
+    margin-left: 2px;
+    animation: loader-blink 1.1s step-end infinite;
 }
 
-    .loading-progress-text:after {
-        content: var(--blazor-load-percentage-text, "Carregando...");
-    }
+@keyframes loader-blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+.terminal-loader-pct::after {
+    content: var(--blazor-load-percentage-text, '');
+    display: block;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.72rem;
+    color: #6c7a8a;
+    margin-top: 0.35rem;
+}
 
 html {
     scroll-behavior: smooth;
