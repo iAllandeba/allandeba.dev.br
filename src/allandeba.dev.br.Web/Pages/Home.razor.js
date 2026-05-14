@@ -147,8 +147,9 @@ function _animateContact() {
 }
 
 function _updateSection(name) {
+    var labels = { hero: 'quem-sou-eu', about: 'sobre', experience: 'experiencia', projects: 'projetos', contact: 'contato' };
     var el = document.getElementById('sb-section');
-    if (el) el.textContent = name;
+    if (el) el.textContent = labels[name] || name;
     document.querySelectorAll('.nav-links a[data-section]').forEach(function (a) {
         a.classList.toggle('active', a.dataset.section === name);
     });

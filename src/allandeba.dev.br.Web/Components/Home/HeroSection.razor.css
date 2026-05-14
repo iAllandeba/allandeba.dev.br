@@ -81,7 +81,7 @@
 .hero-tech-badge {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.72rem;
-    color: var(--dim);
+    color: var(--muted);
     background: var(--bg-raised);
     border: 1px solid var(--bg-border);
     padding: 0.2rem 0.55rem;

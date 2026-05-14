@@ -32,7 +32,6 @@
 
 .sb-name  { color: rgba(255, 255, 255, 0.95); font-weight: 500; }
 .sb-sep   { color: rgba(255, 255, 255, 0.4); }
-.sb-stack { color: rgba(255, 255, 255, 0.7); }
 
 #sb-section { color: rgba(255, 255, 255, 0.85); }
 #sb-clock   { color: rgba(255, 255, 255, 0.75); font-variant-numeric: tabular-nums; }
