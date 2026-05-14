@@ -18,7 +18,7 @@
 }
 
 .ct-arrow-g  { color: var(--green); }
-.ct-arrow-d  { color: var(--dim); }
+.ct-arrow-d  { color: var(--muted); }
 .ct-status-text { color: var(--muted); }
 
 .ct-channels {
@@ -37,7 +37,7 @@
     font-size: 0.82rem;
 }
 
-.ct-ch-key { color: var(--dim); }
+.ct-ch-key { color: var(--muted); }
 
 .ct-ch-val {
     color: var(--teal2);
@@ -49,7 +49,7 @@
 
 .ct-ch-status {
     font-size: 0.75rem;
-    color: var(--dim);
+    color: var(--muted);
     white-space: nowrap;
     transition: color 0.3s;
 }
@@ -81,7 +81,7 @@
 .progress-text {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.72rem;
-    color: var(--dim);
+    color: var(--muted);
     letter-spacing: -0.03em;
 }
 

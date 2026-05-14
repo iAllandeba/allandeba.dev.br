@@ -22,7 +22,7 @@
     flex-shrink: 0;
 }
 
-.nav-logo-dim  { color: var(--dim); }
+.nav-logo-dim  { color: var(--muted); }
 .nav-logo-sep  { color: var(--teal2); }
 .nav-logo-name { color: var(--gold); }
 
