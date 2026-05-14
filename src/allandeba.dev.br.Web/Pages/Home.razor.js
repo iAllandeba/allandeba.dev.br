@@ -193,6 +193,7 @@ export function init() {
             _initHero();
             _initScrollTriggers();
             _initContactTrigger();
+            _initChatwoot();
         }
     });
 
@@ -211,6 +212,13 @@ export function init() {
         ease: 'power3.inOut',
         delay: 0.5
     });
+}
+
+function _initChatwoot() {
+    var s = document.createElement('script');
+    s.src = 'js/chatwoot.js';
+    s.async = true;
+    document.head.appendChild(s);
 }
 
 export function setBodyClass(cls, add) {
