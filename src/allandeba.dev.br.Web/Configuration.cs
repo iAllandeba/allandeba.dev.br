@@ -19,39 +19,43 @@ public class Configuration
         },
         PaletteLight = new PaletteLight
         {
-            Primary = new MudColor("#202326"),
-            PrimaryContrastText = new MudColor("#E7E9EB"),
-            TextPrimary = new MudColor("#202326"),
-
-            Secondary = new MudColor("#E7E9EB"),
-            Tertiary = new MudColor("#C08C43"),
-
-            Background = new MudColor("#314157"),
-            Surface = new MudColor("#E7E9EB"),
-
-            AppbarBackground = new MudColor("#E7E9EB"),
-            AppbarText = new MudColor("#000000"),
-
-            DrawerBackground = new MudColor("#E7E9EB"),
-            DrawerText = new MudColor("#000000"),
+            Primary = new MudColor("#E2E6E9"),
+            PrimaryContrastText = new MudColor("#1A2530"),
+            Secondary = new MudColor("#C08C43"),    // gold
+            Tertiary = new MudColor("#155A72"),     // teal
+            Info = new MudColor("#1A7A9A"),         // teal2
+            Background = new MudColor("#EEF1F3"),
+            Surface = new MudColor("#E2E6E9"),
+            BackgroundGray = new MudColor("#C8D0D8"),
+            TextPrimary = new MudColor("#1A2530"),
+            TextSecondary = new MudColor("#3A5A6E"),
+            TextDisabled = new MudColor("#6A8A9E"),
+            Success = new MudColor("#2D7A38"),
+            Error = new MudColor("#A03030"),
+            AppbarBackground = new MudColor("#E2E6E9"),
+            AppbarText = new MudColor("#1A2530"),
+            DrawerBackground = new MudColor("#E2E6E9"),
+            DrawerText = new MudColor("#1A2530"),
         },
         PaletteDark = new PaletteDark
         {
-            Primary = new MudColor("#152831"),
-            TextPrimary = new MudColor("#bfc4c9"),
-
-            Secondary = new MudColor("#C08c43"),
-
-            Tertiary = new MudColor("#1B6F8E"),
-
-            Background = new MudColor("#202326"),
-            Surface = new MudColor("#30353a"),
-
-            AppbarBackground = new MudColor("#bb873e"),
-            AppbarText = new MudColor("#E7E9EB"),
-
-            DrawerBackground = new MudColor("#bb873e"),
-            DrawerText = new MudColor("#E7E9EB"),
+            Primary = new MudColor("#132230"),
+            PrimaryContrastText = new MudColor("#DFE4E0"),
+            Secondary = new MudColor("#C08C43"),    // gold
+            Tertiary = new MudColor("#1B6F8E"),     // teal
+            Info = new MudColor("#2A8FB2"),         // teal2
+            Background = new MudColor("#0D1B24"),
+            Surface = new MudColor("#132230"),
+            BackgroundGray = new MudColor("#1E3040"),
+            TextPrimary = new MudColor("#DFE4E0"),
+            TextSecondary = new MudColor("#7A9BAE"),
+            TextDisabled = new MudColor("#3A5A6E"),
+            Success = new MudColor("#5FAD6A"),
+            Error = new MudColor("#E07070"),
+            AppbarBackground = new MudColor("#132230"),
+            AppbarText = new MudColor("#DFE4E0"),
+            DrawerBackground = new MudColor("#132230"),
+            DrawerText = new MudColor("#DFE4E0"),
         }
     };
 }
