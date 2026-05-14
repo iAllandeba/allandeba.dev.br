@@ -38,11 +38,6 @@ function _initHero() {
         { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' },
         '-=0.05'
     )
-    .fromTo('.hero-cursor-line',
-        { opacity: 0 },
-        { opacity: 1, duration: 0.2 },
-        '-=0.05'
-    )
     .fromTo('.hero-buttons',
         { opacity: 0, y: 8 },
         { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' },
@@ -59,6 +54,27 @@ function _initScrollTriggers() {
             {
                 opacity: 1,
                 y: 0,
+                stagger: 0.08,
+                duration: 0.5,
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: section,
+                    start: 'top 72%',
+                    end: 'bottom 20%',
+                    toggleActions: 'play reverse play reverse'
+                }
+            }
+        );
+    });
+
+    document.querySelectorAll('.section-reveal').forEach(function (section) {
+        var elementsX = section.querySelectorAll('.anim-x');
+        if (!elementsX.length) return;
+        gsap.fromTo(elementsX,
+            { opacity: 0, x: 20 },
+            {
+                opacity: 1,
+                x: 0,
                 stagger: 0.08,
                 duration: 0.5,
                 ease: 'power2.out',
@@ -133,6 +149,9 @@ function _animateContact() {
 function _updateSection(name) {
     var el = document.getElementById('sb-section');
     if (el) el.textContent = name;
+    document.querySelectorAll('.nav-links a[data-section]').forEach(function (a) {
+        a.classList.toggle('active', a.dataset.section === name);
+    });
 }
 
 function _initNavMobile() {

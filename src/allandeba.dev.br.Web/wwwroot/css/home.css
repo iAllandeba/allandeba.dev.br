@@ -124,14 +124,16 @@ body.home-page::-webkit-scrollbar-thumb:hover { background: var(--teal2); }
 }
 
 .btn-t.primary {
-    background: color-mix(in oklch, var(--teal2) 12%, transparent);
+    background: color-mix(in oklch, var(--teal2) 18%, transparent);
     border-color: var(--teal2);
-    color: var(--teal2);
+    color: var(--text);
+    font-weight: 600;
 }
 
 .btn-t.primary:hover {
-    background: color-mix(in oklch, var(--teal2) 24%, transparent);
+    background: color-mix(in oklch, var(--teal2) 30%, transparent);
     color: var(--text);
+    box-shadow: 0 0 0 1px color-mix(in oklch, var(--teal2) 40%, transparent);
 }
 
 /* ============================================================
@@ -168,6 +170,11 @@ body.home-page::-webkit-scrollbar-thumb:hover { background: var(--teal2); }
 .anim {
     opacity: 0;
     transform: translateY(16px);
+}
+
+.anim-x {
+    opacity: 0;
+    transform: translateX(20px);
 }
 
 /* ============================================================

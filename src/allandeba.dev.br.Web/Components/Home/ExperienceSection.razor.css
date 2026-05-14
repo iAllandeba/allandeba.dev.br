@@ -46,6 +46,11 @@
     margin: 0.4rem 0 0.75rem;
 }
 
+.exp-context::before {
+    content: '> ';
+    color: var(--green);
+}
+
 .exp-bullets {
     list-style: none;
     margin: 0;
@@ -58,7 +63,7 @@
 .exp-bullets li {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.78rem;
-    color: var(--dim);
+    color: var(--muted);
     display: flex;
     align-items: flex-start;
     gap: 0.5rem;
@@ -71,7 +76,10 @@
     margin-top: 0.05em;
 }
 
-.exp-bullets li strong { color: var(--green); font-weight: 600; }
+.exp-bullets li ::deep strong {
+    color: var(--green);
+    font-weight: 600;
+}
 
 .exp-tags {
     display: flex;
