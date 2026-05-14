@@ -103,6 +103,14 @@
     margin-top: 0.5rem;
 }
 
+#chat-btn {
+    display: none;
+}
+
+#chat-btn.ready {
+    display: inline-block;
+}
+
 .gold-btn {
     color: var(--gold);
     border-color: rgba(192, 140, 67, 0.4);
