@@ -68,6 +68,28 @@
     <link rel="icon" type="image/png" href="img/favicon/favicon.ico" />
     <link href="img/favicon/site.webmanifest" rel="manifest" />
     <HeadOutlet />
+    <script>
+        (function () {
+            try {
+                var raw = localStorage.getItem('theme');
+                var isDark;
+                if (raw) {
+                    var obj = JSON.parse(raw);
+                    var decoded = atob(obj.value || obj.Value || '').replace(/"/g, '');
+                    if (decoded === '2') {
+                        isDark = true;
+                    } else if (decoded === '1') {
+                        isDark = false;
+                    } else {
+                        isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    }
+                } else {
+                    isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                }
+                document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+            } catch (e) { }
+        })();
+    </script>
 </head>
 
 <body>
