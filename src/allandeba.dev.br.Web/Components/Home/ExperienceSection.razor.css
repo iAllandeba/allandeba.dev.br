@@ -34,7 +34,7 @@
 .exp-period {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.7rem;
-    color: var(--dim);
+    color: var(--muted);
     white-space: nowrap;
     text-align: right;
 }
@@ -91,7 +91,7 @@
 .exp-tag {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.65rem;
-    color: var(--dim);
+    color: var(--muted);
     background: var(--bg-raised);
     border: 1px solid var(--bg-border);
     padding: 0.15rem 0.5rem;

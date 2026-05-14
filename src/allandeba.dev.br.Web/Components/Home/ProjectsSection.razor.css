@@ -91,7 +91,7 @@
 }
 
 .git-err-sym { color: var(--red); font-weight: 700; }
-.p-dim       { color: var(--dim); }
+.p-dim       { color: var(--muted); }
 
 @media (max-width: 600px) {
     .git-entry-header { grid-template-columns: 1fr; }
