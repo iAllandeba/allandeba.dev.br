@@ -1,0 +1,187 @@
+/* ============================================================
+   TERMINAL CSS VARIABLES — scoped to home page only
+   ============================================================ */
+
+body.home-page {
+    --gold:      var(--mud-palette-secondary);
+    --teal:      var(--mud-palette-tertiary);
+    --teal2:     var(--mud-palette-info);
+    --bg:        var(--mud-palette-background);
+    --bg-raised: var(--mud-palette-surface);
+    --bg-border: var(--mud-palette-background-grey);
+    --text:      var(--mud-palette-text-primary);
+    --muted:     var(--mud-palette-text-secondary);
+    --dim:       var(--mud-palette-text-disabled);
+    --green:     var(--mud-palette-success);
+    --red:       var(--mud-palette-error);
+}
+
+/* ============================================================
+   TERMINAL BASE STYLES
+   ============================================================ */
+
+body.home-page {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+body.home-page::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.04;
+    pointer-events: none;
+    z-index: 0;
+}
+
+body.home-page::-webkit-scrollbar { width: 5px; }
+body.home-page::-webkit-scrollbar-track { background: var(--bg); }
+body.home-page::-webkit-scrollbar-thumb { background: var(--dim); border-radius: 3px; }
+body.home-page::-webkit-scrollbar-thumb:hover { background: var(--teal2); }
+
+/* ============================================================
+   SECTION BASE
+   ============================================================ */
+
+.terminal-section {
+    padding: 6rem 2rem;
+    position: relative;
+    z-index: 1;
+}
+
+.terminal-section-inner {
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--teal2);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 0.5rem;
+}
+
+.section-title {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 700;
+    color: var(--text);
+    margin: 0 0 2rem 0;
+}
+
+/* ============================================================
+   PROMPT LINE
+   ============================================================ */
+
+.prompt-line {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(0.82rem, 1.3vw, 0.95rem);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-wrap: wrap;
+}
+
+.p-user  { color: var(--green); }
+.p-at    { color: var(--dim); }
+.p-host  { color: var(--teal2); }
+.p-colon { color: var(--dim); }
+.p-path  { color: var(--teal2); }
+.p-sym   { color: var(--green); margin-right: 0.5em; }
+.p-cmd   { color: var(--text); }
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+
+.btn-t {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--muted);
+    background: transparent;
+    border: 1px solid var(--bg-border);
+    padding: 0.55rem 1.1rem;
+    border-radius: 3px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.btn-t:hover {
+    background: color-mix(in oklch, var(--teal2) 8%, transparent);
+    border-color: var(--teal2);
+    color: var(--text);
+}
+
+.btn-t.primary {
+    background: color-mix(in oklch, var(--teal2) 12%, transparent);
+    border-color: var(--teal2);
+    color: var(--teal2);
+}
+
+.btn-t.primary:hover {
+    background: color-mix(in oklch, var(--teal2) 24%, transparent);
+    color: var(--text);
+}
+
+/* ============================================================
+   TECH TAGS
+   ============================================================ */
+
+.md-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 1.25rem;
+}
+
+.md-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--teal2);
+    background: rgba(27, 111, 142, 0.1);
+    border: 1px solid rgba(27, 111, 142, 0.25);
+    padding: 0.2rem 0.55rem;
+    border-radius: 2px;
+}
+
+.md-tag::before {
+    content: '#';
+    color: var(--dim);
+    margin-right: 0.2em;
+}
+
+/* ============================================================
+   SCROLL ANIMATION HELPERS
+   ============================================================ */
+
+.anim {
+    opacity: 0;
+    transform: translateY(16px);
+}
+
+/* ============================================================
+   SHIMMER (loading skeleton)
+   ============================================================ */
+
+@keyframes shimmer {
+    0%   { background-position: -600px 0; }
+    100% { background-position: 600px 0; }
+}
+
+.shimmer {
+    background: linear-gradient(90deg, var(--bg-raised) 25%, var(--bg-border) 50%, var(--bg-raised) 75%);
+    background-size: 600px 100%;
+    animation: shimmer 1.4s infinite linear;
+    border-radius: 2px;
+}

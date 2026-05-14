@@ -3,7 +3,7 @@
 @inject ThemeManagerService ThemeManagerService
 @inject EventAggregator EventAggregator
 
-<MudMenu Icon="@_themeIcon" Color="Color.Primary">
+<MudMenu Icon="@_themeIcon" Color="Color.Secondary">
     <MudMenuItem OnClick="() => ThemeManagerService.SetThemeAsync(EThemeType.Light)">
         <MudIcon Icon="@Icons.Material.Rounded.LightMode" Class="me-2" />Light
     </MudMenuItem>

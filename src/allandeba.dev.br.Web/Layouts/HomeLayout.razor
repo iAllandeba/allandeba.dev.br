@@ -1,18 +1,11 @@
-﻿@using allandeba.dev.br.Web.Components.ThemeManager
+@using allandeba.dev.br.Web.Components.ThemeManager
 
 @inherits LayoutComponentBase
 
+<HeadContent>
+    <link rel="stylesheet" href="css/home.css" />
+</HeadContent>
+
 <ThemeManager />
 <MudPopoverProvider />
-
-<MudLayout>
-    <MudAppBar Color="Color.Secondary" Fixed="false" Dense="true">
-        <HomeNavMenu/>
-        <ThemeSwitcher/>
-    </MudAppBar>
-    <MudMainContent>
-        <MudContainer Class="mt-4">
-            @Body
-        </MudContainer>
-    </MudMainContent>
-</MudLayout>
+@Body

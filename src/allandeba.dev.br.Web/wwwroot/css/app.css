@@ -97,6 +97,7 @@
         content: var(--blazor-load-percentage-text, "Carregando...");
     }
 
-code {
-    color: #c02d76;
+html {
+    scroll-behavior: smooth;
 }
+

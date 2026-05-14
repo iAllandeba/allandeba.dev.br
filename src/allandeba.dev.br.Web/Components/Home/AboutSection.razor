@@ -1,0 +1,72 @@
+<section id="about" class="terminal-section section-reveal" data-section="about">
+    <div class="terminal-section-inner">
+        <div class="prompt-line anim">
+            <span class="p-user">allandeba</span><span class="p-at">&#64;</span><span class="p-host">dev</span><span
+            class="p-colon">:</span><span class="p-path">~/sobre</span><span class="p-sym">&nbsp;$&nbsp;</span><span
+            class="p-cmd">cat </span><span class="p-arg">./sobre.md</span>
+        </div>
+
+        <div class="about-grid">
+            <div class="about-left">
+                <h2 class="section-title anim">Allan Debastiani</h2>
+
+                <h3 class="about-subhead anim">Sobre mim</h3>
+                <p class="about-p anim">
+                    Desenvolvedor <strong>full-stack brasileiro</strong> apaixonado por construir software que
+                    resolve problemas reais de forma elegante e confiável. Atuo com
+                    <strong>C# e .NET</strong> como base, sempre buscando código limpo,
+                    arquitetura sólida e código <em>fácil de evoluir</em>.
+                </p>
+
+                <h3 class="about-subhead anim">Stack &amp; Processo</h3>
+                <p class="about-p anim">
+                    Experiência com todo o ciclo: da modelagem de banco até o deploy via
+                    <strong>Docker</strong> e <strong>GitHub Actions</strong>.
+                    <code>PostgreSQL</code> com <code>Entity Framework Core</code>,
+                    migrations automáticas, autenticação via <code>ASP.NET Core Identity</code>
+                    e APIs RESTful robustas.
+                </p>
+                <p class="about-p anim">
+                    No servidor, <strong>nginx</strong> como reverse proxy —
+                    arquitetura containerizada, ambientes separados para staging e produção,
+                    rollback automatizado no pipeline.
+                </p>
+
+                <div class="md-tags anim">
+                    @foreach (var tag in _tags)
+                    {
+                        <span class="md-tag">@tag</span>
+                    }
+                </div>
+            </div>
+
+            <div class="about-metrics">
+                @foreach (var m in _metrics)
+                {
+                    <div class="metric anim">
+                        <div class="metric-number">@m.Number</div>
+                        <div class="metric-label">@m.Label</div>
+                        <div class="metric-divider"></div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@code {
+    private record Metric(string Number, string Label);
+
+    private Metric[] _metrics =
+    {
+        new("5+", "anos de experiência"),
+        new(".NET", "especialização principal"),
+    };
+
+    private string[] _tags =
+    {
+        "C#", ".NET Core", "Blazor", "EF Core",
+        "PostgreSQL", "Docker", "nginx", "GitHub Actions", "PWA",
+    };
+}

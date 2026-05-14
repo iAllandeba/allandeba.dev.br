@@ -1,0 +1,73 @@
+<section id="experience" class="terminal-section section-reveal" data-section="experience">
+    <div class="terminal-section-inner">
+        <div class="prompt-line anim">
+            <span class="p-user">allandeba</span><span class="p-at">&#64;</span><span class="p-host">dev</span><span
+            class="p-colon">:</span><span class="p-path">~/experiencia</span><span
+            class="p-sym">&nbsp;$&nbsp;</span><span class="p-cmd">cat </span><span
+            class="p-arg">./experiencia.md</span>
+        </div>
+
+        @foreach (var job in _jobs)
+        {
+            <div class="exp-entry anim">
+                <div class="exp-header">
+                    <div>
+                        <div class="exp-company">@job.Company</div>
+                        <div class="exp-role">@job.Role</div>
+                    </div>
+                    <div class="exp-period">@job.Period</div>
+                </div>
+                <div class="exp-context">&gt;&nbsp;@job.Context</div>
+                <ul class="exp-bullets">
+                    @foreach (var bullet in job.Bullets)
+                    {
+                        <li>@((MarkupString)bullet)</li>
+                    }
+                </ul>
+                <div class="exp-tags">
+                    @foreach (var tag in job.Tags)
+                    {
+                        <span class="exp-tag">@tag</span>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+
+@code {
+    private record Job(string Company, string Role, string Period, string Context, string[] Bullets, string[] Tags);
+
+    private Job[] _jobs =
+    {
+        new(
+            Company: "Montreal Viagens",
+            Role: "Full Stack Engineer",
+            Period: "Set 2024 → Hoje",
+            Context: "10.000+ usuários mensais · setor de viagens",
+            Bullets: new[]
+            {
+                "Deploy <strong>30% mais rápido e seguro</strong> via CI/CD end-to-end com Azure DevOps",
+                "Economia de <strong>~€800 por equipe</strong> com solução web interna (Blazor + SQL Server)",
+                "APIs RESTful robustas para integrações com sistemas de terceiros",
+                "Batch de 1.000 registros: de <strong>dias para minutos</strong> com automação .NET",
+            },
+            Tags: new[] { ".NET Core", "C#", "Blazor", "SQL Server", "Azure DevOps", "REST APIs" }
+        ),
+        new(
+            Company: "Desbravador Software",
+            Role: "Full Stack Engineer",
+            Period: "Mar 2021 → Set 2024",
+            Context: "App hoteleiro em produção em 10+ países · milhares de usuários",
+            Bullets: new[]
+            {
+                "Mensageria <strong>40% mais rápida</strong> com sistema de envio automatizado",
+                "Queries PostgreSQL <strong>30% mais velozes</strong> via CTEs otimizadas",
+                "Mentoria de devs júnior em Clean Code, arquitetura e melhores práticas",
+                "Integração de sistemas cross-plataforma com REST APIs"
+            },
+            Tags: new[] { ".NET Core", "C#", "Delphi", "PostgreSQL", "REST APIs", "JavaScript" }
+        )
+    };
+}

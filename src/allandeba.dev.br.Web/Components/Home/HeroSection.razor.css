@@ -1,0 +1,121 @@
+.hero-section {
+    min-height: 100vh;
+    padding-top: 44px;
+    padding-bottom: 4rem;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(var(--bg-border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--bg-border) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 40%, transparent 30%, black 100%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 40%, transparent 30%, black 100%);
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 0;
+}
+
+#hero-glow {
+    position: absolute;
+    width: 700px;
+    height: 700px;
+    top: 50%;
+    left: 38%;
+    transform: translate(-50%, -55%);
+    background: radial-gradient(circle, rgba(27, 111, 142, 0.18) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.terminal-block {
+    max-width: 920px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 1;
+}
+
+.hero-name {
+    font-size: clamp(3.5rem, 7vw, 6rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: var(--text);
+    line-height: 1.05;
+    margin: 0.75rem 0 0.5rem;
+}
+
+.hero-role {
+    font-size: clamp(1rem, 1.6vw, 1.15rem);
+    font-weight: 400;
+    color: var(--teal2);
+    margin: 0 0 1rem;
+}
+
+.hero-value {
+    font-size: clamp(0.95rem, 1.4vw, 1.05rem);
+    color: var(--muted);
+    line-height: 1.65;
+    max-width: 560px;
+    margin: 0 0 1.25rem;
+}
+
+.hero-value strong { color: var(--text); font-weight: 600; }
+
+.hero-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.hero-tech-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--dim);
+    background: var(--bg-raised);
+    border: 1px solid var(--bg-border);
+    padding: 0.2rem 0.55rem;
+    border-radius: 2px;
+}
+
+.hero-tech-badge.hi {
+    color: var(--teal2);
+    border-color: rgba(42, 143, 178, 0.3);
+    background: rgba(42, 143, 178, 0.05);
+}
+
+.hero-cursor-line {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(0.82rem, 1.3vw, 0.95rem);
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.25rem;
+}
+
+.hero-cursor {
+    color: var(--teal2);
+    animation: cursor-blink 1.1s step-end infinite;
+}
+
+.hero-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+}
+
+.gold { color: var(--gold); }
+
+@keyframes cursor-blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+}

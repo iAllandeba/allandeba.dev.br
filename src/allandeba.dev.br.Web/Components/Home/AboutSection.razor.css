@@ -1,0 +1,81 @@
+#about { background: var(--bg); }
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 200px;
+    gap: 3rem;
+    align-items: start;
+}
+
+.about-subhead {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--teal2);
+    margin: 1.5rem 0 0.5rem;
+    font-weight: 700;
+}
+
+.about-p {
+    font-size: clamp(0.88rem, 1.3vw, 0.97rem);
+    color: var(--muted);
+    line-height: 1.75;
+    margin: 0 0 0.5rem;
+}
+
+.about-p strong { color: var(--text); font-weight: 600; }
+.about-p em     { color: var(--teal2); font-style: normal; }
+.about-p code   {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.88em;
+    color: var(--teal2);
+    background: rgba(42, 143, 178, 0.1);
+    border: 1px solid rgba(42, 143, 178, 0.2);
+    padding: 0.05em 0.4em;
+    border-radius: 2px;
+}
+
+.about-metrics {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+    padding-top: 0.5rem;
+}
+
+.metric-number {
+    font-size: 2.6rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: var(--gold);
+    line-height: 1;
+}
+
+.metric-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-top: 0.3rem;
+}
+
+.metric-divider {
+    width: 28px;
+    height: 1px;
+    background: var(--bg-border);
+    margin-top: 0.75rem;
+}
+
+@media (max-width: 768px) {
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .about-metrics {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+    }
+}

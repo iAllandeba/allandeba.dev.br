@@ -1,0 +1,118 @@
+.t-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 44px;
+    background: color-mix(in oklch, var(--bg-raised) 85%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--bg-border);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    padding: 0 1.5rem;
+    gap: 1rem;
+}
+
+.nav-logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.nav-logo-dim  { color: var(--dim); }
+.nav-logo-sep  { color: var(--teal2); }
+.nav-logo-name { color: var(--gold); }
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    justify-content: center;
+    gap: 0;
+}
+
+.nav-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 0 1rem;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--text);
+    background: rgba(42, 143, 178, 0.06);
+    border-bottom-color: var(--teal2);
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+.nav-mobile-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+}
+
+.nav-mobile-toggle span {
+    display: block;
+    width: 18px;
+    height: 2px;
+    background: var(--muted);
+    border-radius: 1px;
+    transition: background 0.15s;
+}
+
+.nav-mobile-toggle:hover span { background: var(--text); }
+
+.nav-mobile-menu {
+    display: none;
+    position: fixed;
+    top: 44px;
+    left: 0;
+    right: 0;
+    background: var(--bg-raised);
+    border-bottom: 1px solid var(--bg-border);
+    flex-direction: column;
+    z-index: 999;
+}
+
+.nav-mobile-menu.open { display: flex; }
+
+.nav-mobile-menu a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border-bottom: 1px solid var(--bg-border);
+    transition: color 0.15s, background 0.15s;
+}
+
+.nav-mobile-menu a:hover {
+    color: var(--text);
+    background: rgba(42, 143, 178, 0.06);
+}
+
+@media (max-width: 600px) {
+    .nav-links { display: none; }
+    .nav-mobile-toggle { display: flex; }
+}

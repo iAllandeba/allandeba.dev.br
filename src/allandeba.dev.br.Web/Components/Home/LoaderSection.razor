@@ -1,0 +1,37 @@
+<div id="loader">
+    <div id="loader-name">
+        @foreach (var item in _nameChars)
+        {
+            if (item.IsSpace)
+            {
+                <span class="char space">&nbsp;</span>
+            }
+            else
+            {
+                <span class="char @(item.IsGold ? "gold" : "")">@item.Char</span>
+            }
+        }
+    </div>
+    <div id="loader-sub">Desenvolvedor Full Stack</div>
+</div>
+
+
+@code {
+    private record NameChar(char Char, bool IsGold, bool IsSpace);
+
+    private List<NameChar> _nameChars = new();
+
+    protected override void OnInitialized()
+    {
+        const string firstName = "Allan";
+        const string lastName = "Debastiani";
+
+        foreach (var c in firstName)
+            _nameChars.Add(new NameChar(c, false, c == ' '));
+
+        _nameChars.Add(new NameChar(' ', false, true));
+
+        foreach (var c in lastName)
+            _nameChars.Add(new NameChar(c, true, c == ' '));
+    }
+}

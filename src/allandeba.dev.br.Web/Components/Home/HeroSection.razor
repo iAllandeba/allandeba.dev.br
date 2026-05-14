@@ -1,0 +1,64 @@
+<section id="hero" class="hero-section section-reveal" data-section="hero">
+    <div id="hero-glow"></div>
+    <div class="terminal-block">
+        <div class="prompt-line" style="opacity:0">
+            <span class="p-user">allandeba</span><span class="p-at">&#64;</span><span class="p-host">dev</span><span
+            class="p-colon">:</span><span class="p-path">~/quem-sou-eu</span><span
+            class="p-sym">&nbsp;$&nbsp;</span><span class="p-cmd">@foreach (var c in _cmdChars) {
+            <span class="char">@c</span>
+        }
+    </span>
+</div>
+
+
+<h1 class="hero-name" style="opacity:0">
+    Allan <span class="gold">Debastiani</span>
+</h1>
+
+<p class="hero-role" style="opacity:0">Desenvolvedor Full Stack · Brasil</p>
+
+<p class="hero-value" style="opacity:0">
+    Construo aplicações web completas:<br />
+    <strong>back, front, banco e deploy</strong> com C# e .NET.
+</p>
+
+<div class="hero-tech" style="opacity:0">
+    @foreach (var tech in _techStack)
+    {
+        <span class="hero-tech-badge @(tech.Hi ? "hi" : "")">@tech.Name</span>
+    }
+</div>
+
+<div class="hero-cursor-line" style="opacity:0">
+    <span class="p-user">allandeba</span><span class="p-at">&#64;</span><span class="p-host">dev</span><span
+    class="p-colon">:</span><span class="p-path">~/quem-sou-eu</span><span
+    class="p-sym">&nbsp;$&nbsp;</span><span class="hero-cursor">_</span>
+</div>
+
+<div class="hero-buttons" style="opacity:0">
+    <a href="#projects" class="btn-t primary">[ ver projetos ]</a>
+    <a href="https://github.com/allandeba" target="_blank" class="btn-t">[ github ↗ ]</a>
+    <a href="#contact" class="btn-t">[ contato ]</a>
+</div>
+</div>
+</section>
+
+
+@code {
+    private record TechBadge(string Name, bool Hi = false);
+
+    private TechBadge[] _techStack =
+    {
+        new("C#", Hi: true),
+        new(".NET Core", Hi: true),
+        new("Blazor", Hi: true),
+        new("EF Core"),
+        new("PostgreSQL"),
+        new("Docker"),
+        new("nginx"),
+        new("GitHub Actions"),
+        new("PWA"),
+    };
+
+    private char[] _cmdChars = "./quem-sou-eu.sh".ToCharArray();
+}
