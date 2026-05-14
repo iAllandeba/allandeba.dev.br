@@ -63,7 +63,7 @@
 
 .hero-value {
     font-size: clamp(0.95rem, 1.4vw, 1.05rem);
-    color: var(--muted);
+    color: var(--text);
     line-height: 1.65;
     max-width: 560px;
     margin: 0 0 1.25rem;
@@ -94,19 +94,6 @@
     background: rgba(42, 143, 178, 0.05);
 }
 
-.hero-cursor-line {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: clamp(0.82rem, 1.3vw, 0.95rem);
-    display: flex;
-    align-items: center;
-    margin-bottom: 1.25rem;
-}
-
-.hero-cursor {
-    color: var(--teal2);
-    animation: cursor-blink 1.1s step-end infinite;
-}
-
 .hero-buttons {
     display: flex;
     flex-wrap: wrap;
@@ -115,7 +102,3 @@
 
 .gold { color: var(--gold); }
 
-@keyframes cursor-blink {
-    0%, 100% { opacity: 1; }
-    50%       { opacity: 0; }
-}

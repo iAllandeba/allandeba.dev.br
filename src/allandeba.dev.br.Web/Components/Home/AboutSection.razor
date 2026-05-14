@@ -8,8 +8,6 @@
 
         <div class="about-grid">
             <div class="about-left">
-                <h2 class="section-title anim">Allan Debastiani</h2>
-
                 <h3 class="about-subhead anim">Sobre mim</h3>
                 <p class="about-p anim">
                     Desenvolvedor <strong>full-stack brasileiro</strong> apaixonado por construir software que
@@ -27,23 +25,15 @@
                     e APIs RESTful robustas.
                 </p>
                 <p class="about-p anim">
-                    No servidor, <strong>nginx</strong> como reverse proxy —
-                    arquitetura containerizada, ambientes separados para staging e produção,
-                    rollback automatizado no pipeline.
+                    No servidor, arquitetura containerizada, ambientes separados para staging e produção.
                 </p>
 
-                <div class="md-tags anim">
-                    @foreach (var tag in _tags)
-                    {
-                        <span class="md-tag">@tag</span>
-                    }
-                </div>
             </div>
 
             <div class="about-metrics">
                 @foreach (var m in _metrics)
                 {
-                    <div class="metric anim">
+                    <div class="metric anim-x">
                         <div class="metric-number">@m.Number</div>
                         <div class="metric-label">@m.Label</div>
                         <div class="metric-divider"></div>
@@ -61,12 +51,5 @@
     private Metric[] _metrics =
     {
         new("5+", "anos de experiência"),
-        new(".NET", "especialização principal"),
-    };
-
-    private string[] _tags =
-    {
-        "C#", ".NET Core", "Blazor", "EF Core",
-        "PostgreSQL", "Docker", "nginx", "GitHub Actions", "PWA",
     };
 }
