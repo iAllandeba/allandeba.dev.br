@@ -1,0 +1,100 @@
+#projects { background: var(--bg); }
+
+.git-entry {
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(58, 90, 110, 0.25);
+    cursor: default;
+}
+
+.git-entry:last-child { border-bottom: none; }
+
+.git-entry-header {
+    display: grid;
+    grid-template-columns: 7ch 1fr;
+    gap: 1rem;
+    align-items: start;
+}
+
+.git-hash {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--gold);
+    white-space: nowrap;
+}
+
+.git-body { display: flex; flex-direction: column; gap: 0.25rem; }
+
+.git-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.git-impact {
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-weight: 400;
+}
+
+.git-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.6rem;
+    padding-left: calc(7ch + 1rem);
+}
+
+.git-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 3px;
+    text-decoration: none;
+    color: var(--teal2);
+    border: 1px solid rgba(42, 143, 178, 0.35);
+    background: rgba(42, 143, 178, 0.06);
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.git-link:hover {
+    background: rgba(42, 143, 178, 0.15);
+    border-color: var(--teal2);
+    color: var(--text);
+}
+
+.git-link.live {
+    color: var(--green);
+    border-color: rgba(95, 173, 106, 0.35);
+    background: rgba(95, 173, 106, 0.06);
+}
+
+.git-link.live:hover {
+    background: rgba(95, 173, 106, 0.15);
+    border-color: var(--green);
+    color: var(--text);
+}
+
+.git-link-icon { font-size: 0.6rem; margin-right: 0.2rem; }
+
+.git-skeleton { opacity: 0.6; }
+.git-skeleton .git-body { gap: 0.3rem; }
+
+.git-error {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 0;
+}
+
+.git-err-sym { color: var(--red); font-weight: 700; }
+.p-dim       { color: var(--dim); }
+
+@media (max-width: 600px) {
+    .git-entry-header { grid-template-columns: 1fr; }
+    .git-hash { display: none; }
+    .git-links { padding-left: 0; }
+}

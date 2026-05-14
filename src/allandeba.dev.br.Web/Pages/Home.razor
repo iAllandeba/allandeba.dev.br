@@ -3,77 +3,62 @@
 @using allandeba.dev.br.Core.Common.Constants
 @using allandeba.dev.br.Core.Models.Github
 @using allandeba.dev.br.Core.Requests.Github
-@using allandeba.dev.br.Web.Components.Shared
+@using allandeba.dev.br.Web.Components.Home
 
 @inject IGithubHandler GithubHandler
+@inject IJSRuntime JS
+@implements IAsyncDisposable
 
-@if (_githubProjects is null)
-{
-    <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="250px"/>
-}
-else if (_githubProjects.Count > 0)
-{
-    <DynamicCarousel Items="@_githubProjects" PerRow="2" Fixed="true">
-        <CarouselItemsTemplate>
-            <MudCard Elevation="4" Class="pa-7 mud-height-full mud-width-full d-flex flex-column">
-                <MudCardHeader Style="margin: 0; padding: 0">
-                    <CardHeaderContent>
-                        <MudText Typo="Typo.h5"><strong>@context?.Name</strong></MudText>
-                    </CardHeaderContent>
-                    <CardHeaderActions>
-                        @if (context?.HasWebsite is true)
-                        {
-                            <MudButton Href="@context?.Website" Target="_blank" StartIcon="@Icons.Material.Filled.RunCircle" Variant="Variant.Text" Color="Color.Tertiary">Testar</MudButton>
-                        }
-                    </CardHeaderActions>
-                </MudCardHeader>
+<LoaderSection />
+<HomeNavMenu />
 
-                <MudCardContent style="margin: 0.5rem; padding: 0.5rem; word-wrap: break-word; font-size:small; align-content: center; align-items: center; display: flex;">
-                    @if (context.Description.Length > 172)
-                    {
-                        <MudText Typo="Typo.body1">@context?.Description.Substring(0, 172) ...</MudText>
-                    }
-                    else
-                    {
-                        <MudText Typo="Typo.body1">@context?.MarkDown</MudText>
-                    }
-                </MudCardContent>
+<HeroSection />
+<AboutSection />
+<ExperienceSection />
+<ProjectsSection Projects="_githubProjects" HasError="_hasError" />
+<ContactSection />
 
-                <MudCardActions>
-                    <MudButton Href="@context?.GithubUrl" Target="_blank" StartIcon="@Icons.Material.Filled.Code" Variant="Variant.Text" Color="Color.Tertiary">Read More</MudButton>
-                </MudCardActions>
-            </MudCard>
-        </CarouselItemsTemplate>
-    </DynamicCarousel>
-}
+<StatusBar />
 
-<MudGrid Class="mt-9" Spacing="12" Justify="Justify.Center">
-    <MudItem>
-        <MudIconButton Class="social-media-icon" Target="_blank" Href="https://www.linkedin.com/in/allan-debastiani/" Icon="@Icons.Custom.Brands.LinkedIn" Color="Color.Secondary" aria-label="linkedin" Size="Size.Large"/>
-    </MudItem>
-    
-    <MudItem>
-        <MudIconButton Class="social-media-icon" Target="_blank" Href="https://github.com/allandeba" Icon="@Icons.Custom.Brands.GitHub" Color="Color.Secondary" aria-label="github" Size="Size.Large"/>
-    </MudItem>
-</MudGrid>
-
-
-@code{
+@code {
     private List<GithubProject>? _githubProjects;
+    private bool _hasError;
+    private IJSObjectReference? _animModule;
 
     protected override async Task OnInitializedAsync()
     {
-        await FillGithubProjects();
+        try
+        {
+            var request = new GetGithubProjectRequest { User = OwnersInfo.GithubUser };
+            var response = await GithubHandler.GetFavoriteProjectsAsync(request);
+            if (response.IsSuccess)
+                _githubProjects = response.Data?.GithubProjects;
+            else
+                _hasError = true;
+        }
+        catch
+        {
+            _hasError = true;
+        }
     }
 
-    private async Task FillGithubProjects()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        var request = new GetGithubProjectRequest
+        if (!firstRender) return;
+        _animModule = await JS.InvokeAsync<IJSObjectReference>("import", "./Pages/Home.razor.js");
+        await _animModule.InvokeVoidAsync("setBodyClass", "home-page", true);
+        await _animModule.InvokeVoidAsync("init");
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        try
         {
-            User = OwnersInfo.GithubUser
-        };
-        var response = await GithubHandler.GetFavoriteProjectsAsync(request);
-        if (response.IsSuccess)
-            _githubProjects = response.Data?.GithubProjects;
+            if (_animModule is not null)
+                await _animModule.InvokeVoidAsync("setBodyClass", "home-page", false);
+        }
+        catch { }
+        if (_animModule is not null)
+            await _animModule.DisposeAsync();
     }
 }

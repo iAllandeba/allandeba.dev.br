@@ -1,0 +1,39 @@
+#loader {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+}
+
+#loader-name {
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(3rem, 9vw, 8rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: var(--text);
+    line-height: 1;
+}
+
+#loader-name .char {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(50px);
+    will-change: opacity, transform;
+}
+
+#loader-name .char.gold { color: var(--gold); }
+#loader-name .char.space { width: 0.3em; }
+
+#loader-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(0.65rem, 1.2vw, 0.78rem);
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--muted);
+    opacity: 0;
+}

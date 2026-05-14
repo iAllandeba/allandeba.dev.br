@@ -1,0 +1,100 @@
+#experience { background: var(--bg); }
+
+.exp-entry {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid rgba(58, 90, 110, 0.3);
+}
+
+.exp-entry:last-child { border-bottom: none; }
+
+.exp-header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    align-items: start;
+    margin-bottom: 0.5rem;
+}
+
+.exp-company {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.exp-role {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-top: 0.2rem;
+}
+
+.exp-period {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--dim);
+    white-space: nowrap;
+    text-align: right;
+}
+
+.exp-context {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin: 0.4rem 0 0.75rem;
+}
+
+.exp-bullets {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.exp-bullets li {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--dim);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.exp-bullets li::before {
+    content: '+';
+    color: var(--green);
+    flex-shrink: 0;
+    margin-top: 0.05em;
+}
+
+.exp-bullets li strong { color: var(--green); font-weight: 600; }
+
+.exp-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin-top: 0.75rem;
+}
+
+.exp-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--dim);
+    background: var(--bg-raised);
+    border: 1px solid var(--bg-border);
+    padding: 0.15rem 0.5rem;
+    border-radius: 2px;
+}
+
+@media (max-width: 600px) {
+    .exp-header {
+        grid-template-columns: 1fr;
+        gap: 0.2rem;
+    }
+
+    .exp-period { text-align: left; }
+}

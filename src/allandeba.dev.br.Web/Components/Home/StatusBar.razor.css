@@ -1,0 +1,43 @@
+#statusbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 22px;
+    background: var(--teal);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.66rem;
+    color: rgba(255, 255, 255, 0.9);
+    user-select: none;
+}
+
+.sb-left, .sb-right {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.sb-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: sb-blink 2s ease-in-out infinite;
+}
+
+.sb-name  { color: rgba(255, 255, 255, 0.95); font-weight: 500; }
+.sb-sep   { color: rgba(255, 255, 255, 0.4); }
+.sb-stack { color: rgba(255, 255, 255, 0.7); }
+
+#sb-section { color: rgba(255, 255, 255, 0.85); }
+#sb-clock   { color: rgba(255, 255, 255, 0.75); font-variant-numeric: tabular-nums; }
+
+@keyframes sb-blink {
+    0%, 80%, 100% { opacity: 1; }
+    40%            { opacity: 0.25; }
+}

@@ -1,3 +1,28 @@
-<MudLink Href="#" Color="Color.Primary">allandeba.dev.br</MudLink>
-<MudSpacer />
-<MudIconButton Href="/login" Icon="@Icons.Material.Filled.Login" Color="Color.Primary" />
+@using allandeba.dev.br.Web.Components.ThemeManager
+
+<nav class="t-nav">
+    <div class="nav-logo">
+        <span class="nav-logo-dim">~</span><span class="nav-logo-sep">/</span><span class="nav-logo-name">allan debastiani</span>
+    </div>
+
+    <div class="nav-links" id="nav-links">
+        <a href="#" data-section="about">about</a>
+        <a href="#" data-section="experience">experience</a>
+        <a href="#" data-section="projects">projects</a>
+        <a href="#" data-section="contact">contact</a>
+    </div>
+
+    <div class="nav-right">
+        <ThemeSwitcher />
+        <button class="nav-mobile-toggle" id="nav-mobile-toggle" aria-label="menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<div class="nav-mobile-menu" id="nav-mobile-menu">
+    <a href="#" data-section="about">about</a>
+    <a href="#" data-section="experience">experience</a>
+    <a href="#" data-section="projects">projects</a>
+    <a href="#" data-section="contact">contact</a>
+</div>
