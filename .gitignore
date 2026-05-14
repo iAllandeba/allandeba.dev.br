@@ -1,6 +1,4 @@
-@@ -1,78 +0,0 @@
-@@ -1,75 +0,0 @@
-﻿###################
+###################
 # compiled source #
 ###################
 *.com
@@ -76,5 +74,9 @@ _[Ss]cripts
 *.ncrunchsolution
 *.dot[Cc]over
 *.env
-.vs/
 .idea
+.agents
+.claude
+src/CLAUDE.md
+assets/demos/*
+.vs/
