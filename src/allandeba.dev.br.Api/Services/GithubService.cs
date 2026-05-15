@@ -4,15 +4,14 @@ using AngleSharp;
 
 namespace allandeba.dev.br.Api.Services;
 
-public class GithubService(ILogger<GithubService> logger)
+public class GithubService(ILogger<GithubService> logger, HttpClient httpClient)
 {
     public async Task<List<GithubProject>?> GetFavoriteProjects(string user)
     {
         var repositories = await GetFavoriteRepositories(user);
         if (!repositories.Any()) return [];
 
-        var tasks = repositories.Select(async repo =>
-            await GetProjectAsync(repo));
+        var tasks = repositories.Select(GetProjectAsync);
 
         var projects = await Task.WhenAll(tasks);
         return projects.OfType<GithubProject>().ToList();
@@ -22,18 +21,15 @@ public class GithubService(ILogger<GithubService> logger)
     {
         if (string.IsNullOrEmpty(repo))
         {
-            logger.LogWarning($"{nameof(GetProjectAsync)}: invalid parameter {nameof(repo)} with value: {repo}");
+            logger.LogWarning("{Method}: invalid parameter {Param} with value: {Value}", nameof(GetProjectAsync), nameof(repo), repo);
             return null;
         }
 
         var url = $"https://api.github.com/repos{repo}";
-        using var client = new HttpClient();
         GithubProject? project = null;
         try
         {
-            client.DefaultRequestHeaders.Add("User-Agent", "allandeba.dev.br");
-
-            var response = await client.GetAsync(url);
+            var response = await httpClient.GetAsync(url);
             if (response.IsSuccessStatusCode)
             {
                 var dto = await response.Content.ReadFromJsonAsync<GithubProjectDto>();
@@ -56,11 +52,9 @@ public class GithubService(ILogger<GithubService> logger)
     private async Task<PortfolioMetadataDto?> GetPortfolioMetadataAsync(string fullName)
     {
         var url = $"https://raw.githubusercontent.com/{fullName}/HEAD/portfolio.json";
-        using var client = new HttpClient { Timeout = TimeSpan.FromSeconds(10) };
         try
         {
-            client.DefaultRequestHeaders.Add("User-Agent", "allandeba.dev.br");
-            var response = await client.GetAsync(url);
+            var response = await httpClient.GetAsync(url);
             if (!response.IsSuccessStatusCode) return null;
             return await response.Content.ReadFromJsonAsync<PortfolioMetadataDto>();
         }

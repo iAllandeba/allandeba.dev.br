@@ -29,6 +29,10 @@ public static class BuilderExtension
         //     httpClient.DefaultRequestHeaders.Add("ApiKey", options.ApiKey);
         //     httpClient.DefaultRequestHeaders.Add(HeaderNames.UserAgent, UserAgents.Get());
         // });
+        builder.Services.AddHttpClient<GithubService>(client =>
+        {
+            client.DefaultRequestHeaders.Add("User-Agent", "allandeba.dev.br");
+        });
     }
     
     public static void AddAppSettings(this WebApplicationBuilder builder)
@@ -100,7 +104,6 @@ public static class BuilderExtension
     public static void AddServices(this WebApplicationBuilder builder)
     {
         builder.Services.AddTransient<IGithubHandler, GithubHandler>();
-        builder.Services.AddTransient<GithubService>();
         builder.Services.AddTransient<IAccountHandler, AccountHandler>();
     }
 
