@@ -32,6 +32,7 @@ public static class BuilderExtension
         builder.Services.AddHttpClient<GithubService>(client =>
         {
             client.DefaultRequestHeaders.Add("User-Agent", "allandeba.dev.br");
+            client.Timeout = TimeSpan.FromSeconds(10);
         });
     }
     
