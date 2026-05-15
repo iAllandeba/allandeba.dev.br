@@ -1,16 +1,28 @@
 #projects { background: var(--bg); }
 
+@keyframes gitEntryIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.git-entry-anim {
+    animation: gitEntryIn 0.5s ease-out forwards;
+}
+
 .git-entry {
-    padding: 1rem 0;
-    border-bottom: 1px solid rgba(58, 90, 110, 0.25);
+    padding: 1rem 0.75rem;
+    border-bottom: 1px solid rgba(58, 90, 110, 0.3);
+    border-radius: 4px;
+    transition: background 0.15s;
     cursor: default;
 }
 
 .git-entry:last-child { border-bottom: none; }
+.git-entry:hover { background: var(--bg-raised); }
 
 .git-entry-header {
     display: grid;
-    grid-template-columns: 7ch 1fr;
+    grid-template-columns: auto 1fr;
     gap: 1rem;
     align-items: start;
 }
@@ -20,29 +32,38 @@
     font-size: 0.82rem;
     font-weight: 700;
     color: var(--gold);
+    min-width: 7ch;
+    padding-top: 0.15rem;
     white-space: nowrap;
 }
 
 .git-body { display: flex; flex-direction: column; gap: 0.25rem; }
 
 .git-title {
+    font-family: 'Outfit', sans-serif;
     font-size: 1rem;
     font-weight: 600;
     color: var(--text);
 }
 
 .git-impact {
+    font-family: 'Outfit', sans-serif;
     font-size: 0.85rem;
-    color: var(--muted);
-    font-weight: 400;
+    color: var(--green);
+    font-weight: 500;
+}
+
+.git-desc {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--dim);
 }
 
 .git-links {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4rem;
-    margin-top: 0.6rem;
-    padding-left: calc(7ch + 1rem);
+    gap: 0.5rem;
+    margin-top: 0.5rem;
 }
 
 .git-link {
@@ -51,10 +72,15 @@
     padding: 0.3rem 0.8rem;
     border-radius: 3px;
     text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-weight: 500;
+    cursor: pointer;
     color: var(--teal2);
     border: 1px solid rgba(42, 143, 178, 0.35);
     background: rgba(42, 143, 178, 0.06);
-    transition: background 0.15s, border-color 0.15s, color 0.15s;
+    transition: all 0.15s;
 }
 
 .git-link:hover {
@@ -75,9 +101,27 @@
     color: var(--text);
 }
 
-.git-link-icon { font-size: 0.6rem; margin-right: 0.2rem; }
+.git-link-icon { font-size: 0.7rem; }
 
-.git-skeleton { opacity: 0.6; }
+.git-diff {
+    display: none;
+    margin-top: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: var(--bg);
+    border: 1px solid var(--bg-border);
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    line-height: 1.7;
+}
+
+.git-entry:hover .git-diff { display: block; }
+
+.d-info { color: var(--teal2); display: block; }
+.d-meta { color: var(--muted); display: block; }
+.d-add  { color: var(--green); display: block; }
+
+.git-skeleton { opacity: 1; animation: none; }
 .git-skeleton .git-body { gap: 0.3rem; }
 
 .git-error {

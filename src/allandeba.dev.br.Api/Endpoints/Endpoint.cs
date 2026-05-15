@@ -29,7 +29,8 @@ public static class Endpoint
 
         endpoints.MapGroup("v1/github")
             .WithTags("Github")
-            .MapEndpoint<GetFavoriteProjectsEndpoint>();
+            .MapEndpoint<GetFavoriteProjectsEndpoint>()
+            .MapEndpoint<ClearGithubCacheEndpoint>();
     }
 
     private static IEndpointRouteBuilder MapEndpoint<TEndpoint>(this IEndpointRouteBuilder app)

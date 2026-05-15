@@ -39,34 +39,55 @@
         }
         else
         {
+            var idx = 0;
             @foreach (var project in Projects)
             {
                 var hash = GetHash(project.Name);
                 var shortDesc = project.Description?.Length > 80
                     ? project.Description[..80] + "..."
                     : project.Description ?? "";
+                var delay = (idx++ * 0.08).ToString("F2", System.Globalization.CultureInfo.InvariantCulture);
 
-                <div class="git-entry anim">
+                <div class="git-entry git-entry-anim" style="animation-delay: @(delay)s">
                     <div class="git-entry-header">
                         <span class="git-hash">@hash</span>
                         <div class="git-body">
-                            <div class="git-title">@project.Name</div>
-                            @if (!string.IsNullOrWhiteSpace(project.Description))
+                            <div class="git-title">@project.DisplayTitle</div>
+                            @if (project.HasImpact)
                             {
-                                <div class="git-impact">@shortDesc</div>
+                                <span class="git-impact">@project.Impact</span>
+                            }
+                            else if (!string.IsNullOrWhiteSpace(project.Description))
+                            {
+                                <span class="git-impact">@shortDesc</span>
+                            }
+                            @if (project.HasTechStack)
+                            {
+                                <span class="git-desc">@project.TechStackDisplay</span>
+                            }
+                            <div class="git-links">
+                                <a href="@project.GithubUrl" target="_blank" class="git-link">
+                                    <span class="git-link-icon">&#x2325;</span> Ver no GitHub
+                                </a>
+                                @if (project.HasWebsite)
+                                {
+                                    <a href="@project.Website" target="_blank" class="git-link live">
+                                        <span class="git-link-icon">&#x25B6;</span> Abrir aplica&#231;&#227;o
+                                    </a>
+                                }
+                            </div>
+                            @if (project.HasDiff)
+                            {
+                                <div class="git-diff">
+                                    <span class="d-info">diff --git a/@project.Name b/@project.Name</span>
+                                    <span class="d-meta">--- Antes: @project.DiffBefore</span>
+                                    @foreach (var line in project.DiffAdded)
+                                    {
+                                        <span class="d-add">+++ @line</span>
+                                    }
+                                </div>
                             }
                         </div>
-                    </div>
-                    <div class="git-links">
-                        <a href="@project.GithubUrl" target="_blank" class="git-link">
-                            <span class="git-link-icon">⌥</span> Ver no GitHub
-                        </a>
-                        @if (project.HasWebsite && !string.IsNullOrWhiteSpace(project.Website))
-                        {
-                            <a href="@project.Website" target="_blank" class="git-link live">
-                                <span class="git-link-icon">▶</span> Abrir aplicação
-                            </a>
-                        }
                     </div>
                 </div>
             }
