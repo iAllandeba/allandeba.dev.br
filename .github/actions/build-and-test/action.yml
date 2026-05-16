@@ -22,7 +22,7 @@ runs:
 
     - name: Install wasm workload
       if: ${{ inputs.install-wasm-tools == 'true' }}
-      run: dotnet workload restore ${{ inputs.project-path }}
+      run: dotnet workload install wasm-tools-net8
       shell: bash
 
     - name: Restore dependencies
