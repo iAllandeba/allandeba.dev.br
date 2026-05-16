@@ -34,6 +34,7 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
           project-path: ${{ env.PROJECT_PATH }}
+          install-wasm-tools: 'true'
 
       - name: Docker Build and Push
         uses: ./.github/actions/docker-build

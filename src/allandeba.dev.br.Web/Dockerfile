@@ -11,6 +11,8 @@ FROM mcr.microsoft.com/dotnet/sdk:$DOTNET_VERSION AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /app
 
+RUN dotnet workload install wasm-tools
+
 COPY ["src/allandeba.dev.br.Web/allandeba.dev.br.Web.csproj", "allandeba.dev.br.Web/"]
 COPY ["src/allandeba.dev.br.Core/allandeba.dev.br.Core.csproj", "allandeba.dev.br.Core/"]
 RUN dotnet restore "allandeba.dev.br.Web/allandeba.dev.br.Web.csproj"

@@ -7,6 +7,10 @@ inputs:
   project-path:
     description: 'The project path of .NET to use'
     required: true
+  install-wasm-tools:
+    description: 'Install wasm-tools workload (required for Blazor WASM AOT)'
+    required: false
+    default: 'false'
 
 runs:
   using: "composite"
@@ -15,6 +19,11 @@ runs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: ${{ inputs.dotnet-version }}
+
+    - name: Install wasm workload
+      if: ${{ inputs.install-wasm-tools == 'true' }}
+      run: dotnet workload install wasm-tools
+      shell: bash
 
     - name: Restore dependencies
       run: dotnet restore ${{ inputs.project-path }}
