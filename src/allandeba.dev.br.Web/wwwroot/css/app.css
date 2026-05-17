@@ -129,3 +129,10 @@ html {
 html { background: #0D1B24; }
 [data-theme='light'] html { background: #EEF1F3; }
 
+
+@media (prefers-reduced-motion: reduce) {
+    .anim, .anim-x { opacity: 1 !important; transform: none !important; }
+    .t-cursor { animation: none; }
+    .loading { animation: none; }
+}
+

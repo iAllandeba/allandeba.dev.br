@@ -192,31 +192,22 @@ function _startClock() {
     _clockInterval = setInterval(update, 1000);
 }
 
-export function init() {
-    if (typeof gsap === 'undefined') return;
-    gsap.registerPlugin(ScrollTrigger);
-    _startClock();
-    _initNavMobile();
+function _skipAnimations() {
+    document.querySelectorAll('[style*="opacity:0"]').forEach(function (el) { el.style.opacity = ''; });
+    var loaderEl = document.getElementById('loader');
+    if (loaderEl) loaderEl.style.display = 'none';
+}
 
-    var loader = document.getElementById('loader');
-    if (!loader) {
-        _initHero();
-        _initScrollTriggers();
-        _initContactTrigger();
-        return;
-    }
-
+function _runLoader(loader) {
     var chars = loader.querySelectorAll('.char');
     var sub = loader.querySelector('#loader-sub');
     var tl = gsap.timeline({
         onComplete: function () {
             _initHero();
             _initScrollTriggers();
-            _initContactTrigger();
             _initChatwoot();
         }
     });
-
     tl.fromTo(chars,
         { opacity: 0, y: 50 },
         { opacity: 1, y: 0, stagger: 0.04, duration: 0.8, ease: 'power3.out' }
@@ -235,10 +226,36 @@ export function init() {
 }
 
 function _initChatwoot() {
-    var s = document.createElement('script');
-    s.src = 'js/chatwoot.js';
-    s.async = true;
-    document.head.appendChild(s);
+    var script = document.createElement('script');
+    script.src = 'js/chatwoot.js';
+    script.async = true;
+    document.head.appendChild(script);
+}
+
+export function init() {
+    if (typeof gsap === 'undefined') return;
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Sempre roda — comportamento, não animação
+    _startClock();
+    _initNavMobile();
+    _initContactTrigger();
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        _skipAnimations();
+        _initChatwoot();
+        return;
+    }
+
+    var loader = document.getElementById('loader');
+    if (!loader) {
+        _initHero();
+        _initScrollTriggers();
+        _initChatwoot();
+        return;
+    }
+
+    _runLoader(loader);
 }
 
 export function setBodyClass(cls, add) {
