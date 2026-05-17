@@ -1,6 +1,7 @@
 {
   "name": "Allan Debastiani",
   "short_name": "Allan Debastiani",
+  "start_url": "/",
   "icons": [
     {
       "src": "/img/favicon/web-app-manifest-192x192.png",
