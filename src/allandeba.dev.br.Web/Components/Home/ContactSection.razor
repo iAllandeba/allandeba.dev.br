@@ -1,3 +1,6 @@
+@inject IJSRuntime JS
+@implements IAsyncDisposable
+
 <section id="contact" class="terminal-section section-reveal" data-section="contact" aria-label="Contato">
     <div class="terminal-section-inner">
         <div class="prompt-line anim">
@@ -49,7 +52,8 @@
             </div>
 
             <div class="ct-chat-area">
-                <button type="button" id="chat-btn" class="btn-t gold-btn" onclick="if(window.$chatwoot){window.$chatwoot.toggle()}else{window.location='mailto:allandeba@icloud.com'}">
+                <button type="button" id="chat-btn" class="btn-t gold-btn" aria-label="Enviar mensagem"
+                        @onclick="OpenContact">
                     ./enviar-mensagem
                 </button>
             </div>
@@ -57,3 +61,24 @@
     </div>
 </section>
 
+@code {
+    private IJSObjectReference? _module;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+        _module = await JS.InvokeAsync<IJSObjectReference>("import", "./Components/Home/ContactSection.razor.js");
+    }
+
+    private async Task OpenContact()
+    {
+        if (_module is not null)
+            await _module.InvokeVoidAsync("openContact");
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_module is not null)
+            await _module.DisposeAsync();
+    }
+}
