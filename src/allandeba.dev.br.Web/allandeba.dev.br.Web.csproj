@@ -8,7 +8,8 @@
 
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
       <RunAOTCompilation>true</RunAOTCompilation>
-  </PropertyGroup>  
+      <PublishTrimmed>true</PublishTrimmed>
+  </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Deba.Caching" Version="2.0.2" />
