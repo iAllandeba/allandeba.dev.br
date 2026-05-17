@@ -117,3 +117,7 @@
     .nav-links { display: none; }
     .nav-mobile-toggle { display: flex; }
 }
+
+@media (prefers-reduced-motion: no-preference) {
+    .t-nav { opacity: 0; }
+}

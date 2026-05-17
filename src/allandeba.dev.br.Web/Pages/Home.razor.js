@@ -1,4 +1,5 @@
 var _clockInterval = null;
+var _chromeSelectors = ['.t-nav', '#statusbar'];
 
 function _typewriter(selector, perCharDuration) {
     var el = document.querySelector(selector);
@@ -194,6 +195,10 @@ function _startClock() {
 
 function _skipAnimations() {
     document.querySelectorAll('[style*="opacity:0"]').forEach(function (el) { el.style.opacity = ''; });
+    _chromeSelectors.forEach(function (selector) {
+        var el = document.querySelector(selector);
+        if (el) el.style.opacity = '1';
+    });
     var loaderEl = document.getElementById('loader');
     if (loaderEl) loaderEl.style.display = 'none';
 }
@@ -222,7 +227,12 @@ function _runLoader(loader) {
         duration: 0.75,
         ease: 'power3.inOut',
         delay: 0.5
-    });
+    })
+    .to(_chromeSelectors, {
+        opacity: 1,
+        duration: 0.4,
+        ease: 'power2.out'
+    }, '-=0.3');
 }
 
 function _initChatwoot() {
@@ -249,6 +259,7 @@ export function init() {
 
     var loader = document.getElementById('loader');
     if (!loader) {
+        gsap.set(_chromeSelectors, { opacity: 1 });
         _initHero();
         _initScrollTriggers();
         _initChatwoot();

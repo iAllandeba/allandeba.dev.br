@@ -40,3 +40,7 @@
     0%, 80%, 100% { opacity: 1; }
     40%            { opacity: 0.25; }
 }
+
+@media (prefers-reduced-motion: no-preference) {
+    #statusbar { opacity: 0; }
+}
