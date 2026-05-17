@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://allandeba.dev.br/sitemap.xml
