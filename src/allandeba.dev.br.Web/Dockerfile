@@ -11,6 +11,7 @@ FROM mcr.microsoft.com/dotnet/sdk:$DOTNET_VERSION AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /app
 
+RUN apt-get update && apt-get install -y python3 --no-install-recommends && rm -rf /var/lib/apt/lists/*
 RUN dotnet workload install wasm-tools
 
 COPY ["src/allandeba.dev.br.Web/allandeba.dev.br.Web.csproj", "allandeba.dev.br.Web/"]
