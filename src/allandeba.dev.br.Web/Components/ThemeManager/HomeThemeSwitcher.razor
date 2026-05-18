@@ -1,0 +1,65 @@
+@using allandeba.dev.br.Web.Common.Enums
+@using allandeba.dev.br.Web.Services
+@inject ThemeManagerService ThemeManagerService
+@implements IDisposable
+
+<div class="theme-dropdown">
+    <button class="theme-btn" @onclick="Toggle" title="tema: @_title">@_icon</button>
+
+    @if (_isOpen)
+    {
+        <div class="theme-backdrop" @onclick="Close"></div>
+        <div class="theme-menu">
+            <button class="theme-option @(_current == EThemeType.Light ? "active" : "")"
+                    @onclick='() => SetThemeAsync(EThemeType.Light)'>
+                ☀ <span>light</span>
+            </button>
+            <button class="theme-option @(_current == EThemeType.Dark ? "active" : "")"
+                    @onclick='() => SetThemeAsync(EThemeType.Dark)'>
+                🌙 <span>dark</span>
+            </button>
+            <button class="theme-option @(_current == EThemeType.System ? "active" : "")"
+                    @onclick='() => SetThemeAsync(EThemeType.System)'>
+                ⚡ <span>auto</span>
+            </button>
+        </div>
+    }
+</div>
+
+@code {
+    private EThemeType _current = EThemeType.System;
+    private string _icon = "⚡";
+    private string _title = "auto";
+    private bool _isOpen;
+
+    protected override void OnInitialized()
+    {
+        ThemeManagerService.OnThemeChanged += OnThemeChanged;
+    }
+
+    private void Toggle() => _isOpen = !_isOpen;
+    private void Close() => _isOpen = false;
+
+    private async Task SetThemeAsync(EThemeType theme)
+    {
+        _isOpen = false;
+        await ThemeManagerService.SetThemeAsync(theme);
+    }
+
+    private void OnThemeChanged(EThemeType theme)
+    {
+        _current = theme;
+        (_icon, _title) = theme switch
+        {
+            EThemeType.Light => ("☀", "light"),
+            EThemeType.Dark  => ("🌙", "dark"),
+            _                => ("⚡", "auto")
+        };
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        ThemeManagerService.OnThemeChanged -= OnThemeChanged;
+    }
+}

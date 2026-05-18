@@ -1,0 +1,71 @@
+.theme-dropdown {
+    position: relative;
+}
+
+.theme-btn {
+    font-size: 1rem;
+    line-height: 1;
+    background: transparent;
+    border: none;
+    padding: 0.2rem 0.3rem;
+    cursor: pointer;
+    opacity: 0.45;
+    transition: opacity 0.15s;
+    user-select: none;
+}
+
+.theme-btn:hover {
+    opacity: 1;
+}
+
+.theme-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1001;
+}
+
+.theme-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    z-index: 1002;
+    background: var(--bg-raised);
+    border: 1px solid var(--bg-border);
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    min-width: 110px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+}
+
+.theme-option {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    background: transparent;
+    border: none;
+    padding: 0.5rem 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-align: left;
+    transition: background 0.12s, color 0.12s;
+}
+
+.theme-option:hover {
+    background: rgba(42, 143, 178, 0.08);
+    color: var(--text);
+}
+
+.theme-option.active {
+    color: var(--teal2);
+}
+
+.theme-option.active::after {
+    content: '←';
+    margin-left: auto;
+    font-size: 0.65rem;
+    opacity: 0.6;
+}

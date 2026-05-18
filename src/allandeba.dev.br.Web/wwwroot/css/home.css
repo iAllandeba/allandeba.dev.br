@@ -3,17 +3,31 @@
    ============================================================ */
 
 body.home-page {
-    --gold:      var(--mud-palette-secondary);
-    --teal:      var(--mud-palette-tertiary);
-    --teal2:     var(--mud-palette-info);
-    --bg:        var(--mud-palette-background);
-    --bg-raised: var(--mud-palette-surface);
-    --bg-border: var(--mud-palette-background-grey);
-    --text:      var(--mud-palette-text-primary);
-    --muted:     var(--mud-palette-text-secondary);
-    --dim:       var(--mud-palette-text-disabled);
-    --green:     var(--mud-palette-success);
-    --red:       var(--mud-palette-error);
+    --gold:      #C08C43;
+    --teal:      #155A72;
+    --teal2:     #1A7A9A;
+    --bg:        #EEF1F3;
+    --bg-raised: #E2E6E9;
+    --bg-border: #C8D0D8;
+    --text:      #1A2530;
+    --muted:     #3A5A6E;
+    --dim:       #6A8A9E;
+    --green:     #2D7A38;
+    --red:       #A03030;
+}
+
+:root[data-theme="dark"] body.home-page {
+    --gold:      #C08C43;
+    --teal:      #1B6F8E;
+    --teal2:     #2A8FB2;
+    --bg:        #0D1B24;
+    --bg-raised: #132230;
+    --bg-border: #1E3040;
+    --text:      #DFE4E0;
+    --muted:     #7A9BAE;
+    --dim:       #3A5A6E;
+    --green:     #5FAD6A;
+    --red:       #E07070;
 }
 
 /* ============================================================
