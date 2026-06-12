@@ -21,21 +21,22 @@ public class LanguageService(
         eventAggregator.Publish(language);
     }
 
-    public async Task<ELanguageType> InitAsync()
-    {
-        var stored = await localStorageCache.GetItemAsync<ELanguageType?>(_cacheKey);
-        // No stored choice: trust the boot script's detection already applied to <html lang>.
-        Current = stored ?? await DetectFromHtmlLangAsync();
-        await js.InvokeVoidAsync("setHtmlLang", ToCulture(Current));
-        return Current;
-    }
+    // Synchronous so it runs before the first paint (called from Home.OnInitialized).
+    // The boot script in index.html already resolved the language — stored choice or
+    // navigator detection — into <html lang>, so the first render is correct and no
+    // re-render is needed.
+    public void Init()
+        => Current = DetectFromHtmlLang();
 
     public static string ToCulture(ELanguageType language)
         => language == ELanguageType.Portuguese ? "pt-BR" : "en";
 
-    private async Task<ELanguageType> DetectFromHtmlLangAsync()
+    private ELanguageType DetectFromHtmlLang()
     {
-        var htmlLang = await js.InvokeAsync<string>("getHtmlLang");
+        if (js is not IJSInProcessRuntime jsSync)
+            return ELanguageType.English;
+
+        var htmlLang = jsSync.Invoke<string>("getHtmlLang");
         return htmlLang?.StartsWith("pt", StringComparison.OrdinalIgnoreCase) == true
             ? ELanguageType.Portuguese
             : ELanguageType.English;
