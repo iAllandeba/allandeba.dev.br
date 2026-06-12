@@ -1,5 +1,6 @@
 var _clockInterval = null;
 var _chromeSelectors = ['.t-nav', '#statusbar'];
+var _activeSection = 'hero';
 
 function _typewriter(selector, perCharDuration) {
     var el = document.querySelector(selector);
@@ -120,6 +121,8 @@ function _animateContact() {
     var statuses = document.querySelectorAll('.ct-ch-status');
     if (!bar) return;
 
+    var channels = document.querySelector('.ct-channels');
+    var onlineLabel = (channels && channels.dataset.onlineLabel) || '[ online ]';
     var totalBlocks = 20;
     gsap.fromTo(bar,
         { width: '0%' },
@@ -135,9 +138,9 @@ function _animateContact() {
                     blocks.textContent =
                         '█'.repeat(filled) + '░'.repeat(totalBlocks - filled);
                 }
-                if (statuses[0] && p >= 33) { statuses[0].classList.add('ok'); statuses[0].textContent = '[ online ]'; }
-                if (statuses[1] && p >= 66) { statuses[1].classList.add('ok'); statuses[1].textContent = '[ online ]'; }
-                if (statuses[2] && p >= 90) { statuses[2].classList.add('ok'); statuses[2].textContent = '[ online ]'; }
+                if (statuses[0] && p >= 33) { statuses[0].classList.add('ok'); statuses[0].textContent = onlineLabel; }
+                if (statuses[1] && p >= 66) { statuses[1].classList.add('ok'); statuses[1].textContent = onlineLabel; }
+                if (statuses[2] && p >= 90) { statuses[2].classList.add('ok'); statuses[2].textContent = onlineLabel; }
             },
             onComplete: function () {
                 if (result) result.style.display = 'flex';
@@ -148,9 +151,10 @@ function _animateContact() {
 }
 
 function _updateSection(name) {
-    var labels = { hero: 'quem-sou-eu', about: 'sobre', experience: 'experiencia', projects: 'projetos', contact: 'contato' };
+    _activeSection = name;
     var el = document.getElementById('sb-section');
-    if (el) el.textContent = labels[name] || name;
+    var section = document.getElementById(name);
+    if (el && section) el.textContent = section.dataset.label || name;
     document.querySelectorAll('.nav-links a[data-section]').forEach(function (a) {
         a.classList.toggle('active', a.dataset.section === name);
     });
@@ -186,7 +190,7 @@ function _startClock() {
         var el = document.getElementById('sb-clock');
         if (!el) return;
         var now = new Date();
-        el.textContent = now.toLocaleTimeString('pt-BR', { hour12: false });
+        el.textContent = now.toLocaleTimeString(document.documentElement.lang || 'en', { hour12: false });
     };
     update();
     if (_clockInterval) clearInterval(_clockInterval);
@@ -250,6 +254,7 @@ export function init() {
     _startClock();
     _initNavMobile();
     _initContactTrigger();
+    _updateSection(_activeSection);
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         _skipAnimations();
@@ -272,4 +277,8 @@ export function init() {
 export function setBodyClass(cls, add) {
     if (add) document.body.classList.add(cls);
     else document.body.classList.remove(cls);
+}
+
+export function refreshSection() {
+    _updateSection(_activeSection);
 }

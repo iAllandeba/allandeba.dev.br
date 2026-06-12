@@ -1,0 +1,4 @@
+.lang-active {
+    color: var(--mud-palette-secondary);
+    font-weight: 600;
+}

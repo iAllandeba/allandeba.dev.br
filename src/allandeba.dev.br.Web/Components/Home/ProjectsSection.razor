@@ -1,10 +1,13 @@
 @using allandeba.dev.br.Core.Models.Github
+@using allandeba.dev.br.Web.Localization
+@inherits LocalizedComponentBase
+@inject IContentProvider Site
 
-<section id="projects" class="terminal-section section-reveal" data-section="projects" aria-label="Projetos">
+<section id="projects" class="terminal-section section-reveal" data-section="projects" data-label="@Site.Content.StatusBar.Projects" aria-label="Projetos">
     <div class="terminal-section-inner">
         <div class="prompt-line anim">
             <span class="p-user">allandeba</span><span class="p-at">&#64;</span><span class="p-host">dev</span><span
-            class="p-colon">:</span><span class="p-path">~/projetos</span><span
+            class="p-colon">:</span><span class="p-path">@Site.Content.Projects.Path</span><span
             class="p-sym">&nbsp;$&nbsp;</span><span class="p-cmd">git log --oneline --all</span>
         </div>
 
@@ -12,7 +15,7 @@
         {
             <div class="git-error anim">
                 <span class="git-err-sym">!</span>
-                <span>failed to load repositories — check connection</span>
+                <span>@Site.Content.Projects.ErrorLoad</span>
             </div>
         }
         else if (Projects is null)
@@ -34,7 +37,7 @@
         {
             <div class="git-error anim">
                 <span class="git-err-sym p-dim">~</span>
-                <span>no repositories found</span>
+                <span>@Site.Content.Projects.Empty</span>
             </div>
         }
         else
@@ -67,12 +70,12 @@
                             }
                             <div class="git-links">
                                 <a href="@project.GithubUrl" target="_blank" rel="noopener noreferrer" class="git-link">
-                                    <span class="git-link-icon">&#x2325;</span> Ver no GitHub
+                                    <span class="git-link-icon">&#x2325;</span> @Site.Content.Projects.ViewGithub
                                 </a>
                                 @if (project.HasWebsite)
                                 {
                                     <a href="@project.Website" target="_blank" rel="noopener noreferrer" class="git-link live">
-                                        <span class="git-link-icon">&#x25B6;</span> Abrir aplica&#231;&#227;o
+                                        <span class="git-link-icon">&#x25B6;</span> @Site.Content.Projects.OpenApp
                                     </a>
                                 }
                             </div>
@@ -80,7 +83,7 @@
                             {
                                 <div class="git-diff">
                                     <span class="d-info">diff --git a/@project.Name b/@project.Name</span>
-                                    <span class="d-meta">--- Antes: @project.DiffBefore</span>
+                                    <span class="d-meta">--- @Site.Content.Projects.DiffBefore @project.DiffBefore</span>
                                     @foreach (var line in project.DiffAdded)
                                     {
                                         <span class="d-add">+++ @line</span>

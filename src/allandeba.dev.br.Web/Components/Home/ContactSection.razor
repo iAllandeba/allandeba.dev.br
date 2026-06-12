@@ -1,38 +1,41 @@
+@using allandeba.dev.br.Web.Localization
+@inherits LocalizedComponentBase
 @inject IJSRuntime JS
+@inject IContentProvider Site
 @implements IAsyncDisposable
 
-<section id="contact" class="terminal-section section-reveal" data-section="contact" aria-label="Contato">
+<section id="contact" class="terminal-section section-reveal" data-section="contact" data-label="@Site.Content.StatusBar.Contact" aria-label="Contato">
     <div class="terminal-section-inner">
         <div class="prompt-line anim">
             <span class="p-user">allandeba</span><span class="p-at">&#64;</span><span class="p-host">dev</span><span
-            class="p-colon">:</span><span class="p-path">~/contato</span><span
-            class="p-sym">&nbsp;$&nbsp;</span><span class="p-cmd">./contato.sh</span>
+            class="p-colon">:</span><span class="p-path">@Site.Content.Contact.Path</span><span
+            class="p-sym">&nbsp;$&nbsp;</span><span class="p-cmd">@Site.Content.Contact.Cmd</span>
         </div>
 
         <div class="ct-output">
             <div class="ct-status-line anim">
                 <span class="ct-arrow-g">&gt;</span>
                 <span class="ct-arrow-d">&gt;</span>
-                <span class="ct-status-text">Iniciando handshake...</span>
+                <span class="ct-status-text">@Site.Content.Contact.Handshake</span>
             </div>
 
-            <div class="ct-channels anim">
+            <div class="ct-channels anim" data-online-label="@Site.Content.Contact.Online">
                 <div class="ct-channel">
                     <span class="ct-ch-key">email</span>
                     <a href="mailto:allandeba@icloud.com" class="ct-ch-val">allandeba&#64;icloud.com</a>
-                    <span class="ct-ch-status">[ aguardando ]</span>
+                    <span class="ct-ch-status">@Site.Content.Contact.Waiting</span>
                 </div>
                 <div class="ct-channel">
                     <span class="ct-ch-key">linkedin</span>
                     <a href="https://www.linkedin.com/in/allan-debastiani/" target="_blank" rel="noopener noreferrer"
                        class="ct-ch-val">allan-debastiani</a>
-                    <span class="ct-ch-status">[ aguardando ]</span>
+                    <span class="ct-ch-status">@Site.Content.Contact.Waiting</span>
                 </div>
                 <div class="ct-channel">
                     <span class="ct-ch-key">github</span>
                     <a href="https://github.com/allandeba" target="_blank" rel="noopener noreferrer"
                        class="ct-ch-val">allandeba</a>
-                    <span class="ct-ch-status">[ aguardando ]</span>
+                    <span class="ct-ch-status">@Site.Content.Contact.Waiting</span>
                 </div>
             </div>
 
@@ -48,13 +51,13 @@
 
             <div class="ct-result" id="contact-result" style="display:none">
                 <span class="ct-arrow-g">&gt;</span>
-                <span class="ct-result-text">Todos os canais online. Pronto para conectar.</span>
+                <span class="ct-result-text">@Site.Content.Contact.Result</span>
             </div>
 
             <div class="ct-chat-area">
                 <button type="button" id="chat-btn" class="btn-t gold-btn" aria-label="Enviar mensagem"
                         @onclick="OpenContact">
-                    ./enviar-mensagem
+                    @Site.Content.Contact.Button
                 </button>
             </div>
         </div>
@@ -78,6 +81,8 @@
 
     public async ValueTask DisposeAsync()
     {
+        // Base.Dispose handles language unsubscribe; this only owns the JS module.
+        Dispose();
         if (_module is not null)
             await _module.DisposeAsync();
     }

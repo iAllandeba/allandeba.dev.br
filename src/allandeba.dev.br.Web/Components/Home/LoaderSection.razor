@@ -1,3 +1,7 @@
+@using allandeba.dev.br.Web.Localization
+@inherits LocalizedComponentBase
+@inject IContentProvider Site
+
 <div id="loader">
     <div id="loader-name">
         @foreach (var item in _nameChars)
@@ -12,7 +16,7 @@
             }
         }
     </div>
-    <div id="loader-sub">Desenvolvedor Full Stack</div>
+    <div id="loader-sub">@Site.Content.Loader.Sub</div>
 </div>
 
 
@@ -23,6 +27,8 @@
 
     protected override void OnInitialized()
     {
+        base.OnInitialized();
+
         const string firstName = "Allan";
         const string lastName = "Debastiani";
 

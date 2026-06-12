@@ -3,11 +3,19 @@
 @using allandeba.dev.br.Core.Common.Constants
 @using allandeba.dev.br.Core.Models.Github
 @using allandeba.dev.br.Core.Requests.Github
+@using allandeba.dev.br.Web.Common.Enums
 @using allandeba.dev.br.Web.Components.Home
+@using allandeba.dev.br.Web.Localization
+@using allandeba.dev.br.Web.Services
 
 @inject IGithubHandler GithubHandler
 @inject IJSRuntime JS
+@inject LanguageService LanguageService
+@inject IContentProvider Site
+@inject EventAggregator EventAggregator
 @implements IAsyncDisposable
+
+<PageTitle>@Site.Content.Meta.Title</PageTitle>
 
 <LoaderSection />
 <HomeNavMenu />
@@ -27,6 +35,9 @@
 
     protected override async Task OnInitializedAsync()
     {
+        await LanguageService.InitAsync();
+        EventAggregator.Subscribe<ELanguageType>(OnLanguageChanged);
+
         try
         {
             var request = new GetGithubProjectRequest { User = OwnersInfo.GithubUser };
@@ -48,10 +59,20 @@
         _animModule = await JS.InvokeAsync<IJSObjectReference>("import", "./Pages/Home.razor.js");
         await _animModule.InvokeVoidAsync("setBodyClass", "home-page", true);
         await _animModule.InvokeVoidAsync("init");
+        await JS.InvokeVoidAsync("setMetaDescription", Site.Content.Meta.Description);
+    }
+
+    private async void OnLanguageChanged(ELanguageType language)
+    {
+        await InvokeAsync(StateHasChanged);
+        await JS.InvokeVoidAsync("setMetaDescription", Site.Content.Meta.Description);
+        if (_animModule is not null)
+            await _animModule.InvokeVoidAsync("refreshSection");
     }
 
     public async ValueTask DisposeAsync()
     {
+        EventAggregator.Unsubscribe<ELanguageType>(OnLanguageChanged);
         try
         {
             if (_animModule is not null)

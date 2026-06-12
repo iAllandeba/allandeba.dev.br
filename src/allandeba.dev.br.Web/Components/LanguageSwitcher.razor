@@ -1,0 +1,19 @@
+@using allandeba.dev.br.Web.Common.Enums
+@using allandeba.dev.br.Web.Services
+@inherits LocalizedComponentBase
+@inject LanguageService LanguageService
+
+<MudMenu Icon="@Icons.Material.Rounded.Language" Color="Color.Secondary">
+    <MudMenuItem OnClick="() => LanguageService.SetLanguageAsync(ELanguageType.English)">
+        <span class="@_activeClass(ELanguageType.English)">EN&nbsp;·&nbsp;English</span>
+    </MudMenuItem>
+
+    <MudMenuItem OnClick="() => LanguageService.SetLanguageAsync(ELanguageType.Portuguese)">
+        <span class="@_activeClass(ELanguageType.Portuguese)">PT&nbsp;·&nbsp;Português</span>
+    </MudMenuItem>
+</MudMenu>
+
+@code {
+    private string _activeClass(ELanguageType language)
+        => LanguageService.Current == language ? "lang-active" : string.Empty;
+}
