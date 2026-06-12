@@ -1,10 +1,14 @@
-<section id="hero" class="hero-section section-reveal" data-section="hero" aria-label="Apresentação">
+@using allandeba.dev.br.Web.Localization
+@inherits LocalizedComponentBase
+@inject IContentProvider Site
+
+<section id="hero" class="hero-section section-reveal" data-section="hero" data-label="@Site.Content.StatusBar.Hero" aria-label="Apresentação">
     <div id="hero-glow"></div>
     <div class="terminal-block">
         <div class="prompt-line" style="opacity:0">
             <span class="p-user">allandeba</span><span class="p-at">&#64;</span><span class="p-host">dev</span><span
-            class="p-colon">:</span><span class="p-path">~/quem-sou-eu</span><span
-            class="p-sym">&nbsp;$&nbsp;</span><span class="p-cmd">@foreach (var c in _cmdChars) {
+            class="p-colon">:</span><span class="p-path">@Site.Content.Hero.Path</span><span
+            class="p-sym">&nbsp;$&nbsp;</span><span class="p-cmd">@foreach (var c in Site.Content.Hero.Cmd) {
             <span class="char">@c</span>
         }
     </span>
@@ -15,11 +19,10 @@
     Allan <span class="gold">Debastiani</span>
 </h1>
 
-<p class="hero-role" style="opacity:0">Desenvolvedor Full Stack · Brasil</p>
+<p class="hero-role" style="opacity:0">@Site.Content.Hero.Role</p>
 
 <p class="hero-value" style="opacity:0">
-    Construo aplicações web completas:<br />
-    <strong>back, front, banco e deploy</strong> com C# e .NET.
+    @((MarkupString)Site.Content.Hero.ValueHtml)
 </p>
 
 <div class="hero-tech" style="opacity:0">
@@ -30,9 +33,9 @@
 </div>
 
 <div class="hero-buttons" style="opacity:0">
-    <a href="#projects" class="btn-t primary">[ ver projetos ]</a>
+    <a href="#projects" class="btn-t primary">@Site.Content.Hero.BtnProjects</a>
     <a href="https://github.com/allandeba" target="_blank" rel="noopener noreferrer" class="btn-t">[ github ↗ ]</a>
-    <a href="#contact" class="btn-t">[ contato ]</a>
+    <a href="#contact" class="btn-t">@Site.Content.Hero.BtnContact</a>
 </div>
 </div>
 </section>
@@ -53,6 +56,4 @@
         new("GitHub Actions"),
         new("PWA"),
     };
-
-    private char[] _cmdChars = "./quem-sou-eu.sh".ToCharArray();
 }
