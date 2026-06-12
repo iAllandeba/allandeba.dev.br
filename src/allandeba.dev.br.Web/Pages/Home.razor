@@ -33,11 +33,16 @@
     private bool _hasError;
     private IJSObjectReference? _animModule;
 
+    protected override void OnInitialized()
+    {
+        // Sync resolve before first paint so the initial render is in the correct
+        // language (boot script already set <html lang>) — no re-render on load.
+        LanguageService.Init();
+        EventAggregator.Subscribe<ELanguageType>(OnLanguageChanged);
+    }
+
     protected override async Task OnInitializedAsync()
     {
-        await LanguageService.InitAsync();
-        EventAggregator.Subscribe<ELanguageType>(OnLanguageChanged);
-
         try
         {
             var request = new GetGithubProjectRequest { User = OwnersInfo.GithubUser };
