@@ -7,6 +7,7 @@ using MudBlazor.Services;
 using allandeba.dev.br.Core.Handlers;
 using allandeba.dev.br.Web.Handlers;
 using allandeba.dev.br.Web.Handlers.Github;
+using allandeba.dev.br.Web.Localization;
 using allandeba.dev.br.Web.Services;
 using Deba.Caching;
 using Deba.Caching.Models;
@@ -32,16 +33,13 @@ builder.Services
 
 builder.Services.AddSingleton<EventAggregator>();
 builder.Services.AddScoped<ThemeManagerService>();
+builder.Services.AddScoped<LanguageService>();
+builder.Services.AddScoped<IContentProvider, ContentProvider>();
 builder.Services.AddDebaCaching(ECachingType.LocalStorage);
 
 builder.Services.AddTransient<IAccountHandler, AccountHandler>();
 builder.Services.AddTransient<IGithubHandler, GithubHandler>();
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-
-builder.Services.AddLocalization();
-// CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("pt-BR");
-// CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("pt-BR");
-
 
 await builder.Build().RunAsync();
