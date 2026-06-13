@@ -3,8 +3,8 @@ namespace allandeba.dev.br.Web.Localization;
 public class EnglishContent : ISiteContent
 {
     public MetaContent Meta { get; } = new(
-        Title: "Allan Debastiani — Full Stack C# .NET Blazor Developer",
-        Description: "Allan Debastiani — Full Stack Developer, Brazil. Complete web applications with C#, .NET, Blazor, PostgreSQL and Docker.");
+        Title: "Allan Debastiani — Full Stack C# .NET Blazor Engineer",
+        Description: "Allan Debastiani — Full Stack Engineer, Brazil. Complete web applications with C#, .NET, Blazor, PostgreSQL and Docker.");
 
     public NavContent Nav { get; } = new(
         About: "about",
@@ -13,12 +13,12 @@ public class EnglishContent : ISiteContent
         Contact: "contact");
 
     public LoaderContent Loader { get; } = new(
-        Sub: "Full Stack Developer");
+        Sub: "Full Stack Engineer");
 
     public HeroContent Hero { get; } = new(
         Path: "~/whoami",
         Cmd: "./whoami.sh",
-        Role: "Full Stack Developer · Brazil",
+        Role: "Full Stack Engineer · Brazil",
         ValueHtml: "I build complete web applications:<br /><strong>back, front, database and deploy</strong> with C# and .NET.",
         BtnProjects: "[ view projects ]",
         BtnContact: "[ contact ]");
@@ -28,7 +28,7 @@ public class EnglishContent : ISiteContent
         Cmd: "./about.md",
         HeadBio: "About me",
         HeadStack: "Stack & Process",
-        BioHtml: "Brazilian <strong>full-stack developer</strong> passionate about building software that solves real problems elegantly and reliably. I work with <strong>C# and .NET</strong> at the core, always pursuing clean code, solid architecture and code that is <em>easy to evolve</em>.",
+        BioHtml: "Brazilian <strong>Full Stack Engineer</strong> passionate about building software that solves real problems elegantly and reliably. I work with <strong>C# and .NET</strong> at the core, always pursuing clean code, solid architecture and code that is <em>easy to evolve</em>.",
         StackHtml: "Experience across the whole cycle: from database modeling to deployment via <strong>Docker</strong> and <strong>GitHub Actions</strong>. <code>PostgreSQL</code> with <code>Entity Framework Core</code>, automatic migrations, authentication via <code>ASP.NET Core Identity</code> and robust RESTful APIs.",
         ServerHtml: "On the server: containerized architecture, separate environments for staging and production.",
         MetricLabel: "years of experience");
