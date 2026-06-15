@@ -35,8 +35,6 @@
 
     protected override void OnInitialized()
     {
-        // Sync resolve before first paint so the initial render is in the correct
-        // language (boot script already set <html lang>) — no re-render on load.
         LanguageService.Init();
         EventAggregator.Subscribe<ELanguageType>(OnLanguageChanged);
     }
