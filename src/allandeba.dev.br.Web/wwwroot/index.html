@@ -31,7 +31,8 @@
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Allan Debastiani — Full Stack C# .NET Engineer" />
-    <meta name="twitter:description" content="Complete web applications with C#, .NET, Blazor, PostgreSQL and Docker." />
+    <meta name="twitter:description"
+        content="Complete web applications with C#, .NET, Blazor, PostgreSQL and Docker." />
     <meta name="twitter:image" content="https://allandeba.dev.br/img/favicon/web-app-manifest-512x512.png" />
 
     <!-- FAVICON -->
@@ -109,7 +110,7 @@
 </head>
 
 <body>
-    <div id="app">
+    <div id="boot-splash" aria-hidden="true">
         <div class="container">
             <div class="loading"></div>
             <div class="loading" style="animation-direction:alternate-reverse;animation-duration:4s;"></div>
@@ -126,14 +127,53 @@
         </div>
     </div>
 
+    <div id="app"></div>
+
     <script>
+        // Boot splash: static terminal loader shown before Blazor WASM finishes booting.
+        // Kept until the app paints (its own loader on home, any content elsewhere),
+        // then removed so there's no flash between splash and app.
         (function () {
-            try {
-                if (document.documentElement.lang === 'pt-BR') {
-                    var cmd = document.querySelector('.terminal-loader .t-cmd');
-                    if (cmd) cmd.textContent = 'carregando';
-                }
-            } catch (e) { }
+            var splash = document.getElementById('boot-splash');
+            if (!splash) return;
+
+            if (document.documentElement.lang === 'pt-BR') {
+                var cmd = splash.querySelector('.t-cmd');
+                if (cmd) cmd.textContent = 'carregando';
+            }
+
+            var app = document.getElementById('app');
+            var isHome = location.pathname === '/' || location.pathname === '';
+
+            // True once Blazor has visibly taken over the page.
+            function appHasPainted() {
+                // Home: wait for the Blazor loader specifically — app chrome can
+                // mount before it, and removing early would flash a blank page.
+                if (document.getElementById('loader')) return true;
+                // Other pages: any rendered child means Blazor is up.
+                if (!isHome && app && app.firstElementChild) return true;
+                // Error path: Blazor failed and showed its error UI.
+                var errorUi = document.getElementById('blazor-error-ui');
+                return !!(errorUi && getComputedStyle(errorUi).display !== 'none');
+            }
+
+            var observer = new MutationObserver(function () {
+                if (appHasPainted()) removeSplash();
+            });
+
+            function removeSplash() {
+                observer.disconnect();
+                splash.remove();
+            }
+
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true,
+                attributes: true,
+                attributeFilter: ['style'] // catches blazor-error-ui becoming visible
+            });
+
+            if (appHasPainted()) removeSplash();
         })();
     </script>
 

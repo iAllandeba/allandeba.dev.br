@@ -37,9 +37,35 @@
     }
 }
 
+/* First-paint palette — single source of truth for the boot splash AND the Blazor
+   Mirrors PaletteDark/PaletteLight in Configuration.cs. */
+:root {
+    --boot-bg:     #0D1B24;
+    --boot-bg-alt: #132230;
+    --boot-name:   #DFE4E0;
+    --boot-gold:   #C08C43;
+    --boot-sub:    #7A9BAE;
+    --boot-pct:    #3A5A6E;
+}
+
+[data-theme='light'] {
+    --boot-bg:     #EEF1F3;
+    --boot-bg-alt: #E2E6E9;
+    --boot-name:   #1A2530;
+    --boot-sub:    #3A5A6E;
+    --boot-pct:    #6A8A9E;
+}
+
+#boot-splash {
+    position: fixed;
+    inset: 0;
+    z-index: 9000;
+    background: var(--boot-bg);
+}
+
 .loading {
     animation: slide 3s ease-in-out infinite alternate;
-    background-image: linear-gradient(-60deg, #0D1B24 50%, #132230 50%);
+    background-image: linear-gradient(-60deg, var(--boot-bg) 50%, var(--boot-bg-alt) 50%);
     bottom: 0;
     left: -50%;
     opacity: .5;
@@ -49,19 +75,9 @@
     z-index: -1
 }
 
-[data-theme='light'] .loading {
-    background-image: linear-gradient(-60deg, #EEF1F3 50%, #E2E6E9 50%);
-}
-
 .loading-cont {
-    left: 50%;
-    padding: 10vmin;
     position: fixed;
-    top: 50%;
-    transform: translate(-50%,-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    inset: 0;
 }
 
 .container {
@@ -72,10 +88,16 @@
 }
 
 .terminal-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
     align-items: center;
-    font-family: 'JetBrains Mono', 'Courier New', monospace;
-    font-size: 0.9rem;
+    font-family: ui-monospace, 'Cascadia Code', 'Cascadia Mono', 'Segoe UI Mono', Consolas, 'Courier New', monospace;
+    font-size: clamp(0.75rem, 1.6vw, 0.95rem);
+    letter-spacing: normal;
+    word-spacing: normal;
     white-space: nowrap;
 }
 
@@ -111,23 +133,27 @@
 
 @keyframes loader-blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
+.terminal-loader-pct {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, calc(-50% + 1.75rem));
+    text-align: center;
+}
+
 .terminal-loader-pct::after {
     content: var(--blazor-load-percentage-text, '');
     display: block;
-    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-family: ui-monospace, 'Cascadia Code', 'Cascadia Mono', 'Segoe UI Mono', Consolas, 'Courier New', monospace;
     font-size: 0.72rem;
-    color: #3A5A6E;
-    margin-top: 0.35rem;
+    color: var(--boot-pct);
 }
-
-[data-theme='light'] .terminal-loader-pct::after { color: #6A8A9E; }
 
 html {
     scroll-behavior: smooth;
 }
 
-html { background: #0D1B24; }
-[data-theme='light'] html { background: #EEF1F3; }
+html { background: var(--boot-bg); }
 
 
 @media (prefers-reduced-motion: reduce) {
