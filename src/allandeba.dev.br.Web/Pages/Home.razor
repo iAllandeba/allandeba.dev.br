@@ -41,6 +41,9 @@
 
     protected override async Task OnInitializedAsync()
     {
+        await LanguageService.InitAsync();
+        EventAggregator.Subscribe<ELanguageType>(OnLanguageChanged);
+
         try
         {
             var request = new GetGithubProjectRequest { User = OwnersInfo.GithubUser };
