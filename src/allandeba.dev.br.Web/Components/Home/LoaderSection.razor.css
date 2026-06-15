@@ -1,7 +1,7 @@
 #loader {
     position: fixed;
     inset: 0;
-    background: var(--bg);
+    background: var(--boot-bg);
     z-index: 10000;
     display: flex;
     flex-direction: column;
@@ -15,7 +15,7 @@
     font-size: clamp(3rem, 9vw, 8rem);
     font-weight: 800;
     letter-spacing: -0.04em;
-    color: var(--text);
+    color: var(--boot-name);
     line-height: 1;
 }
 
@@ -26,7 +26,7 @@
     will-change: opacity, transform;
 }
 
-#loader-name .char.gold { color: var(--gold); }
+#loader-name .char.gold { color: var(--boot-gold); }
 #loader-name .char.space { width: 0.3em; }
 
 #loader-sub {
@@ -34,6 +34,6 @@
     font-size: clamp(0.65rem, 1.2vw, 0.78rem);
     letter-spacing: 0.28em;
     text-transform: uppercase;
-    color: var(--muted);
+    color: var(--boot-sub);
     opacity: 0;
 }

@@ -2,7 +2,7 @@
 @inherits LocalizedComponentBase
 @inject IContentProvider Site
 
-<div id="loader">
+<div id="loader" aria-hidden="true">
     <div id="loader-name">
         @foreach (var item in _nameChars)
         {
