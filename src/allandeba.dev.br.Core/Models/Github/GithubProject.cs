@@ -1,5 +1,4 @@
 using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Components;
 
 namespace allandeba.dev.br.Core.Models.Github;
 
@@ -17,7 +16,6 @@ public class GithubProject
     public string DiffBefore { get; set; } = string.Empty;
     public List<string> DiffAdded { get; set; } = [];
 
-    [JsonIgnore] public MarkupString MarkDown => new MarkupString(Description);
     [JsonIgnore] public bool HasWebsite => !string.IsNullOrEmpty(Website);
     [JsonIgnore] public string DisplayTitle => !string.IsNullOrEmpty(Title) ? Title : Name;
     [JsonIgnore] public bool HasImpact => !string.IsNullOrEmpty(Impact);

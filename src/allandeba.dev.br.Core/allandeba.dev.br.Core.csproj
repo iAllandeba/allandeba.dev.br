@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <PackageReference Include="Deba.Extensions" Version="1.0.*" />
-    <PackageReference Include="Microsoft.AspNetCore.Components" Version="8.0.13" />
   </ItemGroup>
 
 </Project>
