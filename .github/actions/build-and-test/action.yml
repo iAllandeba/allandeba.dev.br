@@ -11,6 +11,10 @@ inputs:
     description: 'Install wasm-tools workload (required for Blazor WASM AOT)'
     required: false
     default: 'false'
+  test-path:
+    description: 'The test project to run (empty string skips the test step)'
+    required: false
+    default: 'src/allandeba.dev.br.Tests/allandeba.dev.br.Tests.csproj'
 
 runs:
   using: "composite"
@@ -33,6 +37,7 @@ runs:
       run: dotnet build ${{ inputs.project-path }} --no-restore --configuration Release
       shell: bash
 
-#    - name: Run Unit Tests
-#      run: dotnet test src/tests --configuration Release
-#      shell: bash
+    - name: Run Unit Tests
+      if: ${{ inputs.test-path != '' }}
+      run: dotnet test ${{ inputs.test-path }} --configuration Release
+      shell: bash
