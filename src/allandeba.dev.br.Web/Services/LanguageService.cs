@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using allandeba.dev.br.Web.Common.Enums;
 using Deba.Caching.Interfaces;
 using Microsoft.JSInterop;
@@ -31,6 +32,7 @@ public class LanguageService(
     public static string ToCulture(ELanguageType language)
         => language == ELanguageType.Portuguese ? "pt-BR" : "en";
 
+    [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Return type is string, no JSON metadata needed for trimming.")]
     private ELanguageType DetectFromHtmlLang()
     {
         if (js is not IJSInProcessRuntime jsSync)
