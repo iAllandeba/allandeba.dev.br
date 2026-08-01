@@ -13,7 +13,7 @@ using Deba.Caching;
 using Deba.Caching.Models;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
-Configuration.BackendUrl = builder.Configuration.GetValue<string>("BackendUrl") ?? string.Empty;
+Configuration.BackendUrl = builder.Configuration["BackendUrl"] ?? string.Empty;
 
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
