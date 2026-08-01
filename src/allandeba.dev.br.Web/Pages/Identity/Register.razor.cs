@@ -49,11 +49,11 @@ public partial class RegisterPage : ComponentBase
 
             if (result.IsSuccess)
             {
-                Snackbar.Add(result.Message!, Severity.Success);
+                Snackbar.Add(result.Message ?? "Usuário criado com sucesso", Severity.Success);
                 NavigationManager.NavigateTo("/login");
             }
             else
-                Snackbar.Add(result.Message!, Severity.Error);
+                Snackbar.Add(result.Message ?? "Não foi possível criar um usuário", Severity.Error);
         }
         catch (Exception ex)
         {
