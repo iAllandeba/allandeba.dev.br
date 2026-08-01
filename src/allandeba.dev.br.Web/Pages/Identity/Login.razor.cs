@@ -1,12 +1,14 @@
 using allandeba.dev.br.Core.Handlers;
 using allandeba.dev.br.Core.Requests.Account;
+using allandeba.dev.br.Web.Components;
+using allandeba.dev.br.Web.Localization;
 using allandeba.dev.br.Web.Security;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
 namespace allandeba.dev.br.Web.Pages.Identity;
 
-public partial class LoginPage : ComponentBase
+public partial class LoginPage : LocalizedComponentBase
 {
     #region Services
 
@@ -14,6 +16,7 @@ public partial class LoginPage : ComponentBase
     [Inject] public NavigationManager NavigationManager { get; set; } = null!;
     [Inject] public ISnackbar Snackbar { get; set; } = null!;
     [Inject] public ICookieAuthenticationStateProvider AuthenticationStateProvider { get; set; } = null!;
+    [Inject] public IContentProvider ContentProvider { get; set; } = null!;
 
     #endregion
 
@@ -54,7 +57,7 @@ public partial class LoginPage : ComponentBase
                 NaviagateToAuthenticatedUrl();
             }
             else
-                Snackbar.Add(result.Message ?? "Não foi possível efetuar o login", Severity.Error);
+                Snackbar.Add(result.Message ?? ContentProvider.Content.Auth.LoginFailed, Severity.Error);
         }
         catch (Exception ex)
         {

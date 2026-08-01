@@ -89,4 +89,9 @@ public class PortugueseContent : ISiteContent
         Experience: "experiencia",
         Projects: "projetos",
         Contact: "contato");
+
+    public AuthContent Auth { get; } = new(
+        LoginFailed: "Não foi possível efetuar o login",
+        RegisterFailed: "Não foi possível criar o usuário",
+        RegisterSucceeded: "Usuário criado com sucesso");
 }

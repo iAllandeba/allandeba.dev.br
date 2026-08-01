@@ -11,7 +11,13 @@ public interface ISiteContent
     ProjectsContent Projects { get; }
     ContactContent Contact { get; }
     StatusBarContent StatusBar { get; }
+    AuthContent Auth { get; }
 }
+
+public record AuthContent(
+    string LoginFailed,
+    string RegisterFailed,
+    string RegisterSucceeded);
 
 public record MetaContent(string Title, string Description);
 

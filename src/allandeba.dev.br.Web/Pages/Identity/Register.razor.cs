@@ -1,12 +1,14 @@
 using allandeba.dev.br.Core.Handlers;
 using allandeba.dev.br.Core.Requests.Account;
+using allandeba.dev.br.Web.Components;
+using allandeba.dev.br.Web.Localization;
 using allandeba.dev.br.Web.Security;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
 namespace allandeba.dev.br.Web.Pages.Identity;
 
-public partial class RegisterPage : ComponentBase
+public partial class RegisterPage : LocalizedComponentBase
 {
     #region Dependencies
 
@@ -14,6 +16,7 @@ public partial class RegisterPage : ComponentBase
     [Inject] public NavigationManager NavigationManager { get; set; } = null!;
     [Inject] public ISnackbar Snackbar { get; set; } = null!;
     [Inject] public ICookieAuthenticationStateProvider AuthenticationStateProvider { get; set; } = null!;
+    [Inject] public IContentProvider ContentProvider { get; set; } = null!;
 
     #endregion
 
@@ -49,11 +52,11 @@ public partial class RegisterPage : ComponentBase
 
             if (result.IsSuccess)
             {
-                Snackbar.Add(result.Message ?? "Usuário criado com sucesso", Severity.Success);
+                Snackbar.Add(result.Message ?? ContentProvider.Content.Auth.RegisterSucceeded, Severity.Success);
                 NavigationManager.NavigateTo("/login");
             }
             else
-                Snackbar.Add(result.Message ?? "Não foi possível criar um usuário", Severity.Error);
+                Snackbar.Add(result.Message ?? ContentProvider.Content.Auth.RegisterFailed, Severity.Error);
         }
         catch (Exception ex)
         {

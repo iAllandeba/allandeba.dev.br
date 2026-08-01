@@ -89,4 +89,9 @@ public class EnglishContent : ISiteContent
         Experience: "experience",
         Projects: "projects",
         Contact: "contact");
+
+    public AuthContent Auth { get; } = new(
+        LoginFailed: "Could not sign in",
+        RegisterFailed: "Could not create the account",
+        RegisterSucceeded: "Account created successfully");
 }
