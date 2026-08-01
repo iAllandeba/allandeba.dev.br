@@ -104,6 +104,42 @@ public class AppJsonContextTests
     }
 
     [Fact]
+    public void Response_WritesCodeAsUnderscoreCode_SoTheApiStillReadsIt()
+    {
+        // The camelCase policy must not rename the property: the wire name is "_code",
+        // not "code", and only the explicit [JsonPropertyName] keeps it that way.
+        var json = JsonSerializer.Serialize(
+            new Response<AccountResponse>(null, 404, "erro"), AppJsonContext.Default.AccountResponseResult);
+
+        Assert.Contains("\"_code\":404", json);
+        Assert.DoesNotContain("\"code\":", json);
+    }
+
+    [Fact]
+    public void Response_OmitsIsSuccess_BecauseItIsDerived()
+    {
+        var json = JsonSerializer.Serialize(
+            new Response<AccountResponse>(), AppJsonContext.Default.AccountResponseResult);
+
+        Assert.DoesNotContain("isSuccess", json, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void GithubProjects_ReportFailure_ForTheApiErrorPayload()
+    {
+        // What TypedResults.BadRequest(result) puts on the wire when the handler rejects
+        // the user name. The client reads this body instead of throwing on the status code.
+        var result = JsonSerializer.Deserialize(
+            """{"_code":400,"data":null,"message":"Usuário do github inválido","details":null}""",
+            AppJsonContext.Default.GithubProjectResult)!;
+
+        Assert.False(result.IsSuccess);
+        Assert.Equal(400, result.Code);
+        Assert.Equal("Usuário do github inválido", result.Message);
+        Assert.Null(result.Data);
+    }
+
+    [Fact]
     public void GithubProjects_ReadNestedCollection()
     {
         var apiOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web);
