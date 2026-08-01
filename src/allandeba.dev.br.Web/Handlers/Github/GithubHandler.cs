@@ -20,18 +20,23 @@ public class GithubHandler : IGithubHandler
         var uriBuilder = new UriBuilder(_httpClient.BaseAddress!)
         {
             Path = "/v1/github",
-            Query = $"githubUser={request.User}"
+            Query = $"githubUser={Uri.EscapeDataString(request.User)}"
         };
 
         try
         {
-            return await _httpClient.GetFromJsonAsync(uriBuilder.ToString(), AppJsonContext.Default.GithubProjectResult)
-                ?? new Response<GithubProjectResponse>(null, 400, "Não foi possível obter o projeto");
+            // The API answers with a Response body on failure too, so the body is read
+            // regardless of the status code to keep the message it carries.
+            var httpResponse = await _httpClient.GetAsync(uriBuilder.ToString());
+            var response = await httpResponse.Content.ReadFromJsonAsync(AppJsonContext.Default.GithubProjectResult);
+
+            return response ?? new Response<GithubProjectResponse>(
+                null, (int)httpResponse.StatusCode, "Não foi possível obter os projetos");
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
-            return new Response<GithubProjectResponse>(null, 500, e.Message);
+            Console.Error.WriteLine(e);
+            return new Response<GithubProjectResponse>(null, 500, "Não foi possível obter os projetos");
         }
     }
 }
