@@ -6,5 +6,5 @@ namespace allandeba.dev.br.Core.Handlers;
 
 public interface IGithubHandler
 {
-    Task<Response<GithubProjectResponse?>> GetFavoriteProjectsAsync(GetGithubProjectRequest request);
+    Task<Response<GithubProjectResponse>> GetFavoriteProjectsAsync(GetGithubProjectRequest request);
 }

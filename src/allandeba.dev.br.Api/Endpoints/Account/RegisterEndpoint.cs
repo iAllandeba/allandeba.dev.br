@@ -13,7 +13,7 @@ public class RegisterEndpoint : IEndpoint
         => app
             .MapPost("/register", HandleAsync);
 
-    private static async Task<Response<AccountResponse?>> HandleAsync(
+    private static async Task<Response<AccountResponse>> HandleAsync(
         [FromBody] RegisterRequest request,
         IAccountHandler handler
     )

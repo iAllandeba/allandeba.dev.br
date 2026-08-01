@@ -13,7 +13,7 @@ public class LoginEndpoint : IEndpoint
         => app
             .MapPost("/login", HandleAsync);
 
-    private static async Task<Response<AccountResponse?>> HandleAsync(
+    private static async Task<Response<AccountResponse>> HandleAsync(
         [FromBody] LoginRequest request,
         IAccountHandler handler
     )

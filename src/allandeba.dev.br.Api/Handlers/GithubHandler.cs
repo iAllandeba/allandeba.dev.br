@@ -10,7 +10,7 @@ namespace allandeba.dev.br.Api.Handlers;
 
 public class GithubHandler(GithubService githubService, IMemoryCacheService memoryCache) : IGithubHandler
 {
-    public async Task<Response<GithubProjectResponse?>> GetFavoriteProjectsAsync(GetGithubProjectRequest request)
+    public async Task<Response<GithubProjectResponse>> GetFavoriteProjectsAsync(GetGithubProjectRequest request)
     {
         try
         {
@@ -19,12 +19,12 @@ public class GithubHandler(GithubService githubService, IMemoryCacheService memo
             var projects = await memoryCache.GetOrSetAsync($"projects_{user}", () => githubService.GetFavoriteProjects(user), cacheOptions);
 
             return projects is null
-                ? new Response<GithubProjectResponse?>(null, 404, "Projetos não encontrados")
-                : new Response<GithubProjectResponse?> { Data = new() { GithubProjects = projects } };
+                ? new Response<GithubProjectResponse>(null, 404, "Projetos não encontrados")
+                : new Response<GithubProjectResponse> { Data = new() { GithubProjects = projects } };
         }
         catch
         {
-            return new Response<GithubProjectResponse?>(null, 500, "Não foi possível recuperar oo projetos");
+            return new Response<GithubProjectResponse>(null, 500, "Não foi possível recuperar oo projetos");
         }
     }
 }

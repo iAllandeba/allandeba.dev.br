@@ -12,7 +12,7 @@ public class LogoutEndpoint : IEndpoint
             .MapPost("/logout", HandleAsync)
             .RequireAuthorization();
 
-    private static async Task<Response<AccountResponse?>> HandleAsync(IAccountHandler handler)
+    private static async Task<Response<AccountResponse>> HandleAsync(IAccountHandler handler)
     {
         return await handler.LogoutAsync();
     }

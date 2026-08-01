@@ -12,7 +12,7 @@ namespace allandeba.dev.br.Api.Handlers;
 
 public class AccountHandler(SignInManager<Users> signInManager) : IAccountHandler
 {
-    public async Task<Response<AccountResponse?>> LoginAsync(LoginRequest request)
+    public async Task<Response<AccountResponse>> LoginAsync(LoginRequest request)
     {
         try
         {
@@ -23,16 +23,16 @@ public class AccountHandler(SignInManager<Users> signInManager) : IAccountHandle
             var result = await signInManager.PasswordSignInAsync(user, request.Password, true, false);
 
             return result.Succeeded
-                ? new Response<AccountResponse?>()
-                : new Response<AccountResponse?>(null, 404, "Ocorreu um erro ao efetuar o login");
+                ? new Response<AccountResponse>()
+                : new Response<AccountResponse>(null, 404, "Ocorreu um erro ao efetuar o login");
         }
         catch
         {
-            return new Response<AccountResponse?>(null, 500, "Não foi possível efetuar o login");
+            return new Response<AccountResponse>(null, 500, "Não foi possível efetuar o login");
         }
     }
 
-    public async Task<Response<AccountResponse?>> RegisterAsync(RegisterRequest request)
+    public async Task<Response<AccountResponse>> RegisterAsync(RegisterRequest request)
     {
         try
         {
@@ -47,27 +47,27 @@ public class AccountHandler(SignInManager<Users> signInManager) : IAccountHandle
             var result = await signInManager.UserManager.CreateAsync(newUser, request.Password);
 
             return result.Succeeded
-                ? new Response<AccountResponse?>()
-                : new Response<AccountResponse?>(null, 404, "Ocorreu um erro ao criar o usuário",
+                ? new Response<AccountResponse>()
+                : new Response<AccountResponse>(null, 404, "Ocorreu um erro ao criar o usuário",
                     result.Errors.ToText());
         }
         catch
         {
-            return new Response<AccountResponse?>(null, 500, "Não foi possível criar um usuário");
+            return new Response<AccountResponse>(null, 500, "Não foi possível criar um usuário");
         }
     }
 
-    public async Task<Response<AccountResponse?>> LogoutAsync()
+    public async Task<Response<AccountResponse>> LogoutAsync()
     {
         try
         {
             await signInManager.SignOutAsync();
 
-            return new Response<AccountResponse?>();
+            return new Response<AccountResponse>();
         }
         catch
         {
-            return new Response<AccountResponse?>(null, 500, "Não foi possível efetuar o logout");
+            return new Response<AccountResponse>(null, 500, "Não foi possível efetuar o logout");
         }
     }
 }

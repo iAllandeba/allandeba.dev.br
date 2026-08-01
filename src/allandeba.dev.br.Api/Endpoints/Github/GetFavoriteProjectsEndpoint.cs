@@ -16,7 +16,7 @@ public class GetFavoriteProjectsEndpoint : IEndpoint
         .WithSummary("Retorna os projetos salvos como favoritos no github")
         .WithDescription("Retorna os projetos salvos como favoritos no github")
         .WithOrder(1)
-        .Produces<Response<GithubProjectResponse?>>();
+        .Produces<Response<GithubProjectResponse>>();
 
     private static async Task<IResult> HandleAsync(
         ClaimsPrincipal user,

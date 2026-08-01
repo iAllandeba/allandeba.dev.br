@@ -6,7 +6,7 @@ namespace allandeba.dev.br.Core.Handlers;
 
 public interface IAccountHandler
 {
-    Task<Response<AccountResponse?>> LoginAsync(LoginRequest request);
-    Task<Response<AccountResponse?>> RegisterAsync(RegisterRequest request);
-    Task<Response<AccountResponse?>> LogoutAsync();
+    Task<Response<AccountResponse>> LoginAsync(LoginRequest request);
+    Task<Response<AccountResponse>> RegisterAsync(RegisterRequest request);
+    Task<Response<AccountResponse>> LogoutAsync();
 }
