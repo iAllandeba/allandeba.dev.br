@@ -24,7 +24,7 @@ public class GithubHandler(GithubService githubService, IMemoryCacheService memo
         }
         catch
         {
-            return new Response<GithubProjectResponse>(null, 500, "Não foi possível recuperar oo projetos");
+            return new Response<GithubProjectResponse>(null, 500, "Não foi possível recuperar os projetos");
         }
     }
 }
