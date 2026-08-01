@@ -19,6 +19,9 @@ public class Response<TData>
     public bool IsSuccess =>
         Code is >= 200 and <= 299;
 
+    // Explicit: the type has two public constructors, so leaving the choice implicit would
+    // rely on the serializer preferring the parameterless one.
+    [JsonConstructor]
     public Response() { }
 
     public Response(TData? data, int code = Configuration.DefaultStatusCode, string? message = null, string? details = null)
