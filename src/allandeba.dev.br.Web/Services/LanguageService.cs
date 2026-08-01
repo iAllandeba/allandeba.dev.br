@@ -32,7 +32,8 @@ public class LanguageService(
     public static string ToCulture(ELanguageType language)
         => language == ELanguageType.Portuguese ? "pt-BR" : "en";
 
-    [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Return type is string, no JSON metadata needed for trimming.")]
+    [UnconditionalSuppressMessage("Trimming", "IL2026",
+        Justification = "jsSync.Invoke<string> returns a primitive, so no serializer metadata has to survive trimming.")]
     private ELanguageType DetectFromHtmlLang()
     {
         if (js is not IJSInProcessRuntime jsSync)
