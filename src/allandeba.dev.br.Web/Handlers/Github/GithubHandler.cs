@@ -3,7 +3,7 @@ using allandeba.dev.br.Core.Handlers;
 using allandeba.dev.br.Core.Requests.Github;
 using allandeba.dev.br.Core.Responses;
 using allandeba.dev.br.Core.Responses.Github;
-using allandeba.dev.br.Web.Serialization;
+using allandeba.dev.br.Core.Serialization;
 
 namespace allandeba.dev.br.Web.Handlers.Github;
 

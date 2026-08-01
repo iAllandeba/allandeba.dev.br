@@ -4,12 +4,12 @@ using allandeba.dev.br.Core.Requests.Account;
 using allandeba.dev.br.Core.Responses;
 using allandeba.dev.br.Core.Responses.Account;
 using allandeba.dev.br.Core.Responses.Github;
-using allandeba.dev.br.Web.Serialization;
+using allandeba.dev.br.Core.Serialization;
 
 namespace allandeba.dev.br.Tests.Serialization;
 
 /// <summary>
-/// The Web project deserializes with the source-generated <see cref="AppJsonContext"/>, while the
+/// The Web client deserializes with the source-generated <see cref="AppJsonContext"/>, while the
 /// API serializes with reflection under the minimal-API defaults. Nothing in the compiler checks
 /// that those two agree, and a mismatch fails silently: fields land as null and IsSuccess reports
 /// success for a failed request. These tests pin the contract from the client side.

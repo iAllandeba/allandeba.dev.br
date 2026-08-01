@@ -1,7 +1,7 @@
 using System.Net.Http.Json;
 using System.Security.Claims;
 using allandeba.dev.br.Core.Models.Account;
-using allandeba.dev.br.Web.Serialization;
+using allandeba.dev.br.Core.Serialization;
 using Microsoft.AspNetCore.Components.Authorization;
 
 namespace allandeba.dev.br.Web.Security;

@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\allandeba.dev.br.Web\allandeba.dev.br.Web.csproj" />
+    <ProjectReference Include="..\allandeba.dev.br.Core\allandeba.dev.br.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

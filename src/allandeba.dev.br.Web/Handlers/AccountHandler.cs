@@ -4,7 +4,7 @@ using allandeba.dev.br.Core.Handlers;
 using allandeba.dev.br.Core.Requests.Account;
 using allandeba.dev.br.Core.Responses;
 using allandeba.dev.br.Core.Responses.Account;
-using allandeba.dev.br.Web.Serialization;
+using allandeba.dev.br.Core.Serialization;
 
 namespace allandeba.dev.br.Web.Handlers;
 
