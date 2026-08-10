@@ -4,13 +4,6 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
-    <TrimmerSingleWarn>false</TrimmerSingleWarn>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-      <RunAOTCompilation>true</RunAOTCompilation>
-      <PublishTrimmed>true</PublishTrimmed>
   </PropertyGroup>
 
   <ItemGroup>

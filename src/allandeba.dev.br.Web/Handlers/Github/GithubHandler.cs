@@ -3,7 +3,6 @@ using allandeba.dev.br.Core.Handlers;
 using allandeba.dev.br.Core.Requests.Github;
 using allandeba.dev.br.Core.Responses;
 using allandeba.dev.br.Core.Responses.Github;
-using allandeba.dev.br.Core.Serialization;
 
 namespace allandeba.dev.br.Web.Handlers.Github;
 
@@ -25,18 +24,13 @@ public class GithubHandler : IGithubHandler
 
         try
         {
-            // The API answers with a Response body on failure too, so the body is read
-            // regardless of the status code to keep the message it carries.
-            var httpResponse = await _httpClient.GetAsync(uriBuilder.ToString());
-            var response = await httpResponse.Content.ReadFromJsonAsync(AppJsonContext.Default.GithubProjectResult);
-
-            return response ?? new Response<GithubProjectResponse>(
-                null, (int)httpResponse.StatusCode, "Não foi possível obter os projetos");
+            return await _httpClient.GetFromJsonAsync<Response<GithubProjectResponse>>(uriBuilder.ToString())
+                ?? new Response<GithubProjectResponse>(null, 400, "Não foi possível obter o projeto");
         }
         catch (Exception e)
         {
-            Console.Error.WriteLine(e);
-            return new Response<GithubProjectResponse>(null, 500, "Não foi possível obter os projetos");
+            Console.WriteLine(e);
+            return new Response<GithubProjectResponse>(null, 500, e.Message);
         }
     }
 }

@@ -4,20 +4,19 @@ using allandeba.dev.br.Core.Requests.Account;
 using allandeba.dev.br.Core.Responses;
 using allandeba.dev.br.Core.Responses.Account;
 using allandeba.dev.br.Core.Responses.Github;
-using allandeba.dev.br.Core.Serialization;
 
 namespace allandeba.dev.br.Tests.Serialization;
 
 /// <summary>
-/// The Web client deserializes with the source-generated <see cref="AppJsonContext"/>, while the
-/// API serializes with reflection under the minimal-API defaults. Nothing in the compiler checks
-/// that those two agree, and a mismatch fails silently: fields land as null and IsSuccess reports
-/// success for a failed request. These tests pin the contract from the client side.
+/// Validates the JSON contract shared between the Web client and the API.
+/// Serialization and deserialization use the default Web JSON options with
+/// reflection because trimming and AOT are not enabled in this project.
 /// </summary>
 public class AppJsonContextTests
 {
-    // What the API actually puts on the wire. Minimal APIs serialize with
-    // JsonSerializerDefaults.Web, so every property is camelCase.
+    private static readonly JsonSerializerOptions JsonOptions =
+        new(JsonSerializerDefaults.Web);
+
     private const string FailedLoginPayload =
         """{"_code":404,"data":null,"message":"Ocorreu um erro ao efetuar o login","details":null}""";
 
@@ -27,7 +26,9 @@ public class AppJsonContextTests
     [Fact]
     public void Response_ReportsFailure_ForNonSuccessCode()
     {
-        var result = JsonSerializer.Deserialize(FailedLoginPayload, AppJsonContext.Default.AccountResponseResult)!;
+        var result = JsonSerializer.Deserialize<Response<AccountResponse>>(
+            FailedLoginPayload,
+            JsonOptions)!;
 
         Assert.False(result.IsSuccess);
         Assert.Equal(404, result.Code);
@@ -36,7 +37,9 @@ public class AppJsonContextTests
     [Fact]
     public void Response_ReportsSuccess_ForSuccessCode()
     {
-        var result = JsonSerializer.Deserialize(SuccessPayload, AppJsonContext.Default.AccountResponseResult)!;
+        var result = JsonSerializer.Deserialize<Response<AccountResponse>>(
+            SuccessPayload,
+            JsonOptions)!;
 
         Assert.True(result.IsSuccess);
     }
@@ -44,7 +47,9 @@ public class AppJsonContextTests
     [Fact]
     public void Response_ReadsMessage_FromCamelCasePayload()
     {
-        var result = JsonSerializer.Deserialize(FailedLoginPayload, AppJsonContext.Default.AccountResponseResult)!;
+        var result = JsonSerializer.Deserialize<Response<AccountResponse>>(
+            FailedLoginPayload,
+            JsonOptions)!;
 
         Assert.Equal("Ocorreu um erro ao efetuar o login", result.Message);
     }
@@ -52,10 +57,9 @@ public class AppJsonContextTests
     [Fact]
     public void Response_DefaultsToSuccess_WhenCodeIsAbsent()
     {
-        // A cached client build talking to an older API must not read a missing _code as failure.
-        var result = JsonSerializer.Deserialize(
+        var result = JsonSerializer.Deserialize<Response<AccountResponse>>(
             """{"data":null,"message":null,"details":null}""",
-            AppJsonContext.Default.AccountResponseResult)!;
+            JsonOptions)!;
 
         Assert.Equal(200, result.Code);
         Assert.True(result.IsSuccess);
@@ -64,12 +68,13 @@ public class AppJsonContextTests
     [Fact]
     public void Response_SurvivesRoundTripThroughTheApiSerializer()
     {
-        // Serialize exactly as the API does, deserialize exactly as the Web client does.
-        var apiOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web);
         var payload = JsonSerializer.Serialize(
-            new Response<AccountResponse>(null, 404, "erro", "detalhe"), apiOptions);
+            new Response<AccountResponse>(null, 404, "erro", "detalhe"),
+            JsonOptions);
 
-        var result = JsonSerializer.Deserialize(payload, AppJsonContext.Default.AccountResponseResult)!;
+        var result = JsonSerializer.Deserialize<Response<AccountResponse>>(
+            payload,
+            JsonOptions)!;
 
         Assert.False(result.IsSuccess);
         Assert.Equal("erro", result.Message);
@@ -79,11 +84,11 @@ public class AppJsonContextTests
     [Fact]
     public void User_ReadsEmailAndClaims_FromIdentityEndpointPayload()
     {
-        var user = JsonSerializer.Deserialize(
-            """{"email":"allan@example.com","isEmailConfirmed":true,"claims":{"sub":"1"}}""",
-            AppJsonContext.Default.User)!;
+        var user = JsonSerializer.Deserialize<User>(
+            """{"email":"test@example.com","isEmailConfirmed":true,"claims":{"sub":"1"}}""",
+            JsonOptions)!;
 
-        Assert.Equal("allan@example.com", user.Email);
+        Assert.Equal("test@example.com", user.Email);
         Assert.True(user.IsEmailConfirmed);
         Assert.Equal("1", user.Claims["sub"]);
     }
@@ -91,13 +96,12 @@ public class AppJsonContextTests
     [Fact]
     public void RoleClaims_ReadTypeAndValue_SoAuthorizationClaimsAreNotDropped()
     {
-        // CookieAuthenticationStateProvider filters out roles with an empty Type or Value,
-        // so a naming mismatch here silently removes every role from the principal.
-        var roles = JsonSerializer.Deserialize(
+        var roles = JsonSerializer.Deserialize<RoleClaim[]>(
             """[{"issuer":"LOCAL","originalIssuer":"LOCAL","type":"role","value":"admin","valueType":"string"}]""",
-            AppJsonContext.Default.RoleClaimArray)!;
+            JsonOptions)!;
 
         var role = Assert.Single(roles);
+
         Assert.Equal("role", role.Type);
         Assert.Equal("admin", role.Value);
         Assert.Equal("LOCAL", role.Issuer);
@@ -106,10 +110,9 @@ public class AppJsonContextTests
     [Fact]
     public void Response_WritesCodeAsUnderscoreCode_SoTheApiStillReadsIt()
     {
-        // The camelCase policy must not rename the property: the wire name is "_code",
-        // not "code", and only the explicit [JsonPropertyName] keeps it that way.
         var json = JsonSerializer.Serialize(
-            new Response<AccountResponse>(null, 404, "erro"), AppJsonContext.Default.AccountResponseResult);
+            new Response<AccountResponse>(null, 404, "erro"),
+            JsonOptions);
 
         Assert.Contains("\"_code\":404", json);
         Assert.DoesNotContain("\"code\":", json);
@@ -119,7 +122,8 @@ public class AppJsonContextTests
     public void Response_OmitsIsSuccess_BecauseItIsDerived()
     {
         var json = JsonSerializer.Serialize(
-            new Response<AccountResponse>(), AppJsonContext.Default.AccountResponseResult);
+            new Response<AccountResponse>(),
+            JsonOptions);
 
         Assert.DoesNotContain("isSuccess", json, StringComparison.OrdinalIgnoreCase);
     }
@@ -127,11 +131,9 @@ public class AppJsonContextTests
     [Fact]
     public void GithubProjects_ReportFailure_ForTheApiErrorPayload()
     {
-        // What TypedResults.BadRequest(result) puts on the wire when the handler rejects
-        // the user name. The client reads this body instead of throwing on the status code.
-        var result = JsonSerializer.Deserialize(
+        var result = JsonSerializer.Deserialize<Response<GithubProjectResponse>>(
             """{"_code":400,"data":null,"message":"Usuário do github inválido","details":null}""",
-            AppJsonContext.Default.GithubProjectResult)!;
+            JsonOptions)!;
 
         Assert.False(result.IsSuccess);
         Assert.Equal(400, result.Code);
@@ -142,7 +144,6 @@ public class AppJsonContextTests
     [Fact]
     public void GithubProjects_ReadNestedCollection()
     {
-        var apiOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web);
         var payload = JsonSerializer.Serialize(
             new Response<GithubProjectResponse>
             {
@@ -150,16 +151,25 @@ public class AppJsonContextTests
                 {
                     GithubProjects =
                     [
-                        new() { Name = "repo", Title = "Repo", TechStack = ["C#", "Blazor"] }
+                        new()
+                        {
+                            Name = "repo",
+                            Title = "Repo",
+                            TechStack = ["C#", "Blazor"]
+                        }
                     ]
                 }
             },
-            apiOptions);
+            JsonOptions);
 
-        var result = JsonSerializer.Deserialize(payload, AppJsonContext.Default.GithubProjectResult)!;
+        var result = JsonSerializer.Deserialize<Response<GithubProjectResponse>>(
+            payload,
+            JsonOptions)!;
 
         Assert.True(result.IsSuccess);
+
         var project = Assert.Single(result.Data!.GithubProjects!);
+
         Assert.Equal("repo", project.Name);
         Assert.Equal(["C#", "Blazor"], project.TechStack);
     }
@@ -167,11 +177,16 @@ public class AppJsonContextTests
     [Theory]
     [InlineData("email")]
     [InlineData("password")]
-    public void LoginRequest_SerializesCamelCase_SoTheApiBindsIt(string expectedProperty)
+    public void LoginRequest_SerializesCamelCase_SoTheApiBindsIt(
+        string expectedProperty)
     {
         var json = JsonSerializer.Serialize(
-            new LoginRequest { Email = "a@b.com", Password = "secret" },
-            AppJsonContext.Default.LoginRequest);
+            new LoginRequest
+            {
+                Email = "a@b.com",
+                Password = "secret"
+            },
+            JsonOptions);
 
         Assert.Contains($"\"{expectedProperty}\":", json);
     }
@@ -180,11 +195,16 @@ public class AppJsonContextTests
     public void RegisterRequest_RoundTripsThroughTheApiDeserializer()
     {
         var json = JsonSerializer.Serialize(
-            new RegisterRequest { Email = "a@b.com", Password = "secret" },
-            AppJsonContext.Default.RegisterRequest);
+            new RegisterRequest
+            {
+                Email = "a@b.com",
+                Password = "secret"
+            },
+            JsonOptions);
 
-        var apiOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web);
-        var bound = JsonSerializer.Deserialize<RegisterRequest>(json, apiOptions)!;
+        var bound = JsonSerializer.Deserialize<RegisterRequest>(
+            json,
+            JsonOptions)!;
 
         Assert.Equal("a@b.com", bound.Email);
         Assert.Equal("secret", bound.Password);

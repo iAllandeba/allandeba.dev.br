@@ -1,7 +1,6 @@
 using System.Net.Http.Json;
 using System.Security.Claims;
 using allandeba.dev.br.Core.Models.Account;
-using allandeba.dev.br.Core.Serialization;
 using Microsoft.AspNetCore.Components.Authorization;
 
 namespace allandeba.dev.br.Web.Security;
@@ -44,7 +43,7 @@ public class CookieAuthenticationStateProvider(IHttpClientFactory clientFactory)
     {
         try
         {
-            return await _client.GetFromJsonAsync("v1/identity/manage/info", AppJsonContext.Default.User);
+            return await _client.GetFromJsonAsync<User?>("v1/identity/manage/info");
         }
         catch
         {
@@ -71,7 +70,7 @@ public class CookieAuthenticationStateProvider(IHttpClientFactory clientFactory)
         RoleClaim[]? roles;
         try
         {
-            roles = await _client.GetFromJsonAsync("v1/identity/roles", AppJsonContext.Default.RoleClaimArray);
+            roles = await _client.GetFromJsonAsync<RoleClaim[]>("v1/identity/roles");
         }
         catch
         {
