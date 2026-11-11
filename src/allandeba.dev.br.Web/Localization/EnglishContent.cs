@@ -4,7 +4,7 @@ public class EnglishContent : ISiteContent
 {
     public MetaContent Meta { get; } = new(
         Title: "Allan Debastiani — Full Stack C# .NET Blazor Engineer",
-        Description: "Allan Debastiani — Full Stack Engineer, Brazil. Complete web applications with C#, .NET, Blazor, PostgreSQL and Docker.");
+        Description: "Allan Debastiani — Full Stack Engineer. Web applications with C#, .NET and Blazor, REST integrations, performance and observability.");
 
     public NavContent Nav { get; } = new(
         About: "about",
@@ -19,7 +19,7 @@ public class EnglishContent : ISiteContent
         Path: "~/whoami",
         Cmd: "./whoami.sh",
         Role: "Full Stack Engineer · Brazil",
-        ValueHtml: "I build complete web applications:<br /><strong>back, front, database and deploy</strong> with C# and .NET.",
+        ValueHtml: "I build complete web applications:<br /><strong>integrations, performance and reliable delivery</strong> with C#, .NET and Blazor.",
         BtnProjects: "[ view projects ]",
         BtnContact: "[ contact ]");
 
@@ -28,9 +28,9 @@ public class EnglishContent : ISiteContent
         Cmd: "./about.md",
         HeadBio: "About me",
         HeadStack: "Stack & Process",
-        BioHtml: "Brazilian <strong>Full Stack Engineer</strong> passionate about building software that solves real problems elegantly and reliably. I work with <strong>C# and .NET</strong> at the core, always pursuing clean code, solid architecture and code that is <em>easy to evolve</em>.",
-        StackHtml: "Experience across the whole cycle: from database modeling to deployment via <strong>Docker</strong> and <strong>GitHub Actions</strong>. <code>PostgreSQL</code> with <code>Entity Framework Core</code>, automatic migrations, authentication via <code>ASP.NET Core Identity</code> and robust RESTful APIs.",
-        ServerHtml: "On the server: containerized architecture, separate environments for staging and production.",
+        BioHtml: "Brazilian <strong>Full Stack Engineer</strong> with 5+ years in <strong>travel and hospitality</strong>. I build integrations and applications with <strong>C#, .NET and Blazor</strong> for systems serving <strong>10,000+ monthly users</strong> and hotel software used in <strong>10+ countries</strong>.",
+        StackHtml: "At <strong>Montreal Viagens</strong>, I led delivery of a centralized hotel-provider integration platform, from requirements and architecture to cross-team coordination and production. My stack includes <code>REST APIs</code>, <code>SQL Server</code>, <code>PostgreSQL</code> and <strong>Azure DevOps</strong> CI/CD, plus <strong>Docker</strong> and <strong>GitHub Actions</strong> for personal projects.",
+        ServerHtml: "Observability with <strong>OpenTelemetry and Grafana</strong>, developer mentoring and pre-release code reviews. I also help shape AI-assisted workflows with <strong>AWS Kiro</strong> and company-specific skills.",
         MetricLabel: "years of experience");
 
     public ExperienceContent Experience { get; } = new(
@@ -41,20 +41,35 @@ public class EnglishContent : ISiteContent
             new JobContent(
                 Company: "Montreal Viagens",
                 Role: "Full Stack Engineer",
-                Period: "Sep 2024 → Now",
+                Period: "Mar 2026 → Now",
+                Context: "Hotel-provider integrations · architecture, delivery and observability",
+                BulletsHtml: new[]
+                {
+                    "Led <strong>end-to-end delivery</strong> of a centralized hotel-provider integration platform: requirements, architecture, cross-team alignment and production release",
+                    "Availability queries: from <strong>~20 s to under 500 ms</strong> in like-for-like tests",
+                    "Built <strong>Blazor</strong> features for hotel and cache management and rule-based hotel selection",
+                    "Added <strong>OpenTelemetry and Grafana</strong> observability: traces, metrics and logs for troubleshooting and service health",
+                    "<strong>Mentored developers</strong> on task scope, completion criteria and code reviews before production releases",
+                    "Helped shape <strong>AI-assisted development</strong> workflows with AWS Kiro and company-specific skills",
+                },
+                Tags: new[] { ".NET Core", "C#", "Blazor", "SQL Server", "REST APIs", "OpenTelemetry", "Grafana", "AWS Kiro" }),
+            new JobContent(
+                Company: "Montreal Viagens",
+                Role: "Full Stack Engineer",
+                Period: "Oct 2024 → Jun 2026",
                 Context: "10,000+ monthly users · travel industry",
                 BulletsHtml: new[]
                 {
-                    "Deploys <strong>30% faster and safer</strong> via end-to-end CI/CD with Azure DevOps",
+                    "Cut .NET deployment time by <strong>30%</strong> with Azure DevOps CI/CD automation",
                     "Saved <strong>~€800 per team</strong> with an internal web solution (Blazor + SQL Server)",
-                    "Robust RESTful APIs for integrations with <strong>third-party systems</strong>",
+                    "Built a <strong>Postman collection with automated multi-role logins</strong> for cross-environment data access, collaboration and onboarding",
                     "1,000-record batch: from <strong>days to minutes</strong> with .NET automation",
                 },
-                Tags: new[] { ".NET Core", "C#", "Blazor", "SQL Server", "Azure DevOps", "REST APIs" }),
+                Tags: new[] { ".NET Core", "C#", "Blazor", "SQL Server", "Azure DevOps", "REST APIs", "Postman" }),
             new JobContent(
                 Company: "Desbravador Software",
                 Role: "Full Stack Engineer",
-                Period: "Mar 2021 → Sep 2024",
+                Period: "Apr 2021 → Oct 2024",
                 Context: "Hotel app in production in 10+ countries · thousands of users",
                 BulletsHtml: new[]
                 {
