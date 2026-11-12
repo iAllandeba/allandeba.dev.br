@@ -7,6 +7,8 @@
 @using allandeba.dev.br.Web.Components.Home
 @using allandeba.dev.br.Web.Localization
 @using allandeba.dev.br.Web.Services
+@using System.Diagnostics
+@using System.Reflection
 
 @inject IGithubHandler GithubHandler
 @inject IJSRuntime JS
@@ -32,6 +34,9 @@
     private List<GithubProject>? _githubProjects;
     private bool _hasError;
     private IJSObjectReference? _animModule;
+    private string? _projectsLoadResult;
+    private long _projectsLoadDurationMs;
+    private bool _projectsLoadReported;
 
     protected override void OnInitialized()
     {
@@ -41,12 +46,13 @@
 
     protected override async Task OnInitializedAsync()
     {
+        var timer = Stopwatch.StartNew();
         try
         {
             var request = new GetGithubProjectRequest { User = OwnersInfo.GithubUser };
             var response = await GithubHandler.GetFavoriteProjectsAsync(request);
-            if (response.IsSuccess)
-                _githubProjects = response.Data?.GithubProjects;
+            if (response.IsSuccess && response.Data?.GithubProjects is { } projects)
+                _githubProjects = projects;
             else
                 _hasError = true;
         }
@@ -54,15 +60,29 @@
         {
             _hasError = true;
         }
+        finally
+        {
+            _projectsLoadDurationMs = timer.ElapsedMilliseconds;
+            _projectsLoadResult = _hasError ? "error" : _githubProjects?.Count > 0 ? "success" : "empty";
+        }
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (!firstRender) return;
-        _animModule = await JS.InvokeAsync<IJSObjectReference>("import", "./Pages/Home.razor.js");
-        await _animModule.InvokeVoidAsync("setBodyClass", "home-page", true);
-        await _animModule.InvokeVoidAsync("init");
-        await JS.InvokeVoidAsync("setMetaDescription", Site.Content.Meta.Description);
+        if (firstRender)
+        {
+            _animModule = await JS.InvokeAsync<IJSObjectReference>("import", "./Pages/Home.razor.js");
+            await _animModule.InvokeVoidAsync("setBodyClass", "home-page", true);
+            var version = typeof(App).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
+            await _animModule.InvokeVoidAsync("init", version);
+            await JS.InvokeVoidAsync("setMetaDescription", Site.Content.Meta.Description);
+        }
+        if (_animModule is not null && _projectsLoadResult is not null && !_projectsLoadReported)
+        {
+            _projectsLoadReported = true;
+            await _animModule.InvokeVoidAsync("trackProjectsLoad", _projectsLoadResult,
+                _githubProjects?.Count ?? 0, _projectsLoadDurationMs);
+        }
     }
 
     private async void OnLanguageChanged(ELanguageType language)

@@ -1,16 +1,10 @@
-export function trackContact(channel, placement) {
-    if (typeof window.gtag !== 'function') return;
+import { trackEvent } from './analytics.js';
 
-    try {
-        window.gtag('event', 'contact_click', {
-            contact_channel: channel,
-            contact_placement: placement,
-            page_language: document.documentElement.lang || 'en',
-            transport_type: 'beacon'
-        });
-    } catch (error) {
-        console.warn('Contact analytics unavailable.', error);
-    }
+export function trackContact(channel, placement) {
+    trackEvent('contact_click', {
+        contact_channel: channel,
+        contact_placement: placement
+    });
 }
 
 function onContactClick(event) {

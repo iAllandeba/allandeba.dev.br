@@ -1,4 +1,6 @@
 import { initContactTracking, disposeContactTracking } from '../js/contact-analytics.js';
+import { initPortfolioTracking, disposePortfolioTracking } from '../js/portfolio-analytics.js';
+export { trackProjectsLoad } from '../js/portfolio-analytics.js';
 
 var _clockInterval = null;
 var _chromeSelectors = ['.t-nav', '#statusbar'];
@@ -107,7 +109,9 @@ function _initNavMobile() {
             var target = document.getElementById(a.dataset.section);
             if (target) {
                 e.preventDefault();
-                target.scrollIntoView({ behavior: 'smooth' });
+                target.scrollIntoView({
+                    behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'
+                });
             }
         });
     });
@@ -177,10 +181,11 @@ function _initChatwoot() {
     document.head.appendChild(script);
 }
 
-export function init() {
+export function init(siteVersion) {
     _startClock();
     _initNavMobile();
     initContactTracking();
+    initPortfolioTracking(siteVersion);
     _updateSection(_activeSection);
 
     if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined' ||
@@ -206,6 +211,7 @@ export function init() {
 
 export function dispose() {
     disposeContactTracking();
+    disposePortfolioTracking();
     if (_clockInterval) clearInterval(_clockInterval);
     _clockInterval = null;
 }

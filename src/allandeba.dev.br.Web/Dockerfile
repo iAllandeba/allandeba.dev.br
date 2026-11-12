@@ -29,8 +29,9 @@ RUN sed -i "s#${ACTUAL_BACKEND_URL}#${ENVIRONMENT_BACKEND_URL}#g" ./wwwroot/apps
 RUN dotnet build "allandeba.dev.br.Web.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
+ARG PORTFOLIO_VERSION=unknown
 WORKDIR /app/allandeba.dev.br.Web
-RUN dotnet publish "allandeba.dev.br.Web.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "allandeba.dev.br.Web.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false -p:InformationalVersion="$PORTFOLIO_VERSION"
 
 
 FROM nginx:alpine AS final

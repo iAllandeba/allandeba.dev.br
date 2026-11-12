@@ -51,7 +51,8 @@
                     : project.Description ?? "";
                 var delay = (idx++ * 0.08).ToString("F2", System.Globalization.CultureInfo.InvariantCulture);
 
-                <div class="git-entry git-entry-anim" style="animation-delay: @(delay)s">
+                <div class="git-entry git-entry-anim" style="animation-delay: @(delay)s"
+                     data-project-id="@(string.IsNullOrWhiteSpace(project.FullName) ? project.Name : project.FullName)" data-project-position="@idx">
                     <div class="git-entry-header">
                         <span class="git-hash">@hash</span>
                         <div class="git-body">
@@ -69,12 +70,12 @@
                                 <span class="git-desc">@project.TechStackDisplay</span>
                             }
                             <div class="git-links">
-                                <a href="@project.GithubUrl" target="_blank" rel="noopener noreferrer" class="git-link">
+                                <a href="@project.GithubUrl" target="_blank" rel="noopener noreferrer" class="git-link" data-project-destination="source">
                                     <span class="git-link-icon">&#x2325;</span> @Site.Content.Projects.ViewGithub
                                 </a>
                                 @if (project.HasWebsite)
                                 {
-                                    <a href="@project.Website" target="_blank" rel="noopener noreferrer" class="git-link live">
+                                    <a href="@project.Website" target="_blank" rel="noopener noreferrer" class="git-link live" data-project-destination="demo">
                                         <span class="git-link-icon">&#x25B6;</span> @Site.Content.Projects.OpenApp
                                     </a>
                                 }

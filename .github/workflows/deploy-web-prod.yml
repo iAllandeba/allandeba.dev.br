@@ -17,7 +17,7 @@ env:
   DOCKER_REPO: allandeba/allandeba.dev.br
   DOCKER_TAG: prod-${{ github.sha }}
   DOCKERFILE: ./src/allandeba.dev.br.Web/Dockerfile
-  DOCKER_ARGS: --build-arg ACTUAL_BACKEND_URL="http://localhost:5025" --build-arg ENVIRONMENT_BACKEND_URL="https://api.allandeba.dev.br"
+  DOCKER_ARGS: --build-arg ACTUAL_BACKEND_URL="http://localhost:5025" --build-arg ENVIRONMENT_BACKEND_URL="https://api.allandeba.dev.br" --build-arg PORTFOLIO_VERSION="${{ github.sha }}"
   DEPLOY_PORT: 9004
   HEALTH_CHECK_URL: https://allandeba.dev.br
   PROJECT_PATH: ./src/allandeba.dev.br.Web
