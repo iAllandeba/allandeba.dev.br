@@ -1,3 +1,5 @@
+import { initContactTracking, disposeContactTracking } from '../js/contact-analytics.js';
+
 var _clockInterval = null;
 var _chromeSelectors = ['.t-nav', '#statusbar'];
 var _activeSection = 'hero';
@@ -14,36 +16,11 @@ function _typewriter(selector, perCharDuration) {
 }
 
 function _initHero() {
-    var tl = gsap.timeline();
-    tl.fromTo('.prompt-line',
-        { opacity: 0 },
-        { opacity: 1, duration: 0.3, ease: 'power2.out' }
-    )
-    .add(function () { _typewriter('.p-cmd', 0.038); })
-    .fromTo('.hero-name',
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' },
-        '+=0.5'
-    )
-    .fromTo('.hero-role',
-        { opacity: 0, y: 12 },
-        { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' },
-        '-=0.1'
-    )
-    .fromTo('.hero-value',
-        { opacity: 0, y: 12 },
-        { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' },
-        '-=0.05'
-    )
-    .fromTo('.hero-tech',
-        { opacity: 0, y: 12 },
-        { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' },
-        '-=0.05'
-    )
-    .fromTo('.hero-buttons',
-        { opacity: 0, y: 8 },
-        { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' },
-        '-=0.05'
+    // Keep the role, evidence and contact actions visible throughout the reveal.
+    _typewriter('.hero-section .p-cmd', 0.038);
+    gsap.fromTo('.hero-name',
+        { y: 12 },
+        { y: 0, duration: 0.5, ease: 'power3.out' }
     );
 }
 
@@ -101,55 +78,6 @@ function _initScrollTriggers() {
     });
 }
 
-function _initContactTrigger() {
-    var contactSection = document.getElementById('contact');
-    if (!contactSection) return;
-    ScrollTrigger.create({
-        trigger: contactSection,
-        start: 'top 60%',
-        once: true,
-        onEnter: function () { _animateContact(); }
-    });
-}
-
-function _animateContact() {
-    var bar = document.getElementById('progress-bar-inner');
-    var pct = document.getElementById('progress-pct');
-    var blocks = document.getElementById('progress-blocks');
-    var result = document.getElementById('contact-result');
-    var chatBtn = document.getElementById('chat-btn');
-    var statuses = document.querySelectorAll('.ct-ch-status');
-    if (!bar) return;
-
-    var channels = document.querySelector('.ct-channels');
-    var onlineLabel = (channels && channels.dataset.onlineLabel) || '[ online ]';
-    var totalBlocks = 20;
-    gsap.fromTo(bar,
-        { width: '0%' },
-        {
-            width: '100%',
-            duration: 2.2,
-            ease: 'linear',
-            onUpdate: function () {
-                var p = Math.round(this.progress() * 100);
-                if (pct) pct.textContent = p + '%';
-                if (blocks) {
-                    var filled = Math.round((p / 100) * totalBlocks);
-                    blocks.textContent =
-                        '█'.repeat(filled) + '░'.repeat(totalBlocks - filled);
-                }
-                if (statuses[0] && p >= 33) { statuses[0].classList.add('ok'); statuses[0].textContent = onlineLabel; }
-                if (statuses[1] && p >= 66) { statuses[1].classList.add('ok'); statuses[1].textContent = onlineLabel; }
-                if (statuses[2] && p >= 90) { statuses[2].classList.add('ok'); statuses[2].textContent = onlineLabel; }
-            },
-            onComplete: function () {
-                if (result) result.style.display = 'flex';
-                if (chatBtn) chatBtn.classList.add('ready');
-            }
-        }
-    );
-}
-
 function _updateSection(name) {
     _activeSection = name;
     var el = document.getElementById('sb-section');
@@ -198,7 +126,10 @@ function _startClock() {
 }
 
 function _skipAnimations() {
-    document.querySelectorAll('[style*="opacity:0"]').forEach(function (el) { el.style.opacity = ''; });
+    document.querySelectorAll('.anim, .anim-x, [style*="opacity:0"]').forEach(function (el) {
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+    });
     _chromeSelectors.forEach(function (selector) {
         var el = document.querySelector(selector);
         if (el) el.style.opacity = '1';
@@ -247,20 +178,19 @@ function _initChatwoot() {
 }
 
 export function init() {
-    if (typeof gsap === 'undefined') return;
-    gsap.registerPlugin(ScrollTrigger);
-
-    // Sempre roda — comportamento, não animação
     _startClock();
     _initNavMobile();
-    _initContactTrigger();
+    initContactTracking();
     _updateSection(_activeSection);
 
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined' ||
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         _skipAnimations();
         _initChatwoot();
         return;
     }
+
+    gsap.registerPlugin(ScrollTrigger);
 
     var loader = document.getElementById('loader');
     if (!loader) {
@@ -272,6 +202,12 @@ export function init() {
     }
 
     _runLoader(loader);
+}
+
+export function dispose() {
+    disposeContactTracking();
+    if (_clockInterval) clearInterval(_clockInterval);
+    _clockInterval = null;
 }
 
 export function setBodyClass(cls, add) {

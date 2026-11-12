@@ -3,8 +3,8 @@ namespace allandeba.dev.br.Web.Localization;
 public class EnglishContent : ISiteContent
 {
     public MetaContent Meta { get; } = new(
-        Title: "Allan Debastiani — Full Stack C# .NET Blazor Engineer",
-        Description: "Allan Debastiani — Full Stack Engineer. Web applications with C#, .NET and Blazor, REST integrations, performance and observability.");
+        Title: "Allan Debastiani | Backend .NET Engineer | C# and ASP.NET Core",
+        Description: "Backend .NET Engineer with 5+ years of experience. C#, ASP.NET Core, APIs, integrations and performance. Also building full-stack applications with Blazor.");
 
     public NavContent Nav { get; } = new(
         About: "about",
@@ -13,15 +13,16 @@ public class EnglishContent : ISiteContent
         Contact: "contact");
 
     public LoaderContent Loader { get; } = new(
-        Sub: "Full Stack Engineer");
+        Sub: "Backend .NET Engineer");
 
     public HeroContent Hero { get; } = new(
         Path: "~/whoami",
         Cmd: "./whoami.sh",
-        Role: "Full Stack Engineer · Brazil",
-        ValueHtml: "I build complete web applications:<br /><strong>integrations, performance and reliable delivery</strong> with C#, .NET and Blazor.",
+        Role: "Backend .NET Engineer · Brazil",
+        ValueHtml: "<strong>5+ years with C# and .NET.</strong> APIs, integrations and performance, from architecture to production. I also build with Blazor.",
+        ProofHtml: "Led delivery of a hotel-provider integration platform. Availability queries: <strong>~20 s → under 500 ms</strong> in like-for-like tests.",
         BtnProjects: "[ view projects ]",
-        BtnContact: "[ contact ]");
+        BtnContact: "[ discuss a .NET role ]");
 
     public AboutContent About { get; } = new(
         Path: "~/about",
@@ -83,7 +84,7 @@ public class EnglishContent : ISiteContent
 
     public ProjectsContent Projects { get; } = new(
         Path: "~/projects",
-        ErrorLoad: "failed to load repositories — check connection",
+        ErrorLoad: "failed to load repositories | check connection",
         Empty: "no repositories found",
         ViewGithub: "View on GitHub",
         OpenApp: "Open app",
@@ -92,11 +93,10 @@ public class EnglishContent : ISiteContent
     public ContactContent Contact { get; } = new(
         Path: "~/contact",
         Cmd: "./contact.sh",
-        Handshake: "Starting handshake...",
-        Waiting: "[ waiting ]",
-        Online: "[ online ]",
-        Result: "All channels online. Ready to connect.",
-        Button: "./send-message");
+        Intro: "Have a .NET opportunity? Let's talk by email, LinkedIn or message.",
+        EmailButton: "[ send email ]",
+        LinkedInButton: "[ connect on LinkedIn ↗ ]",
+        Button: "[ send a message ]");
 
     public StatusBarContent StatusBar { get; } = new(
         Hero: "whoami",

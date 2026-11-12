@@ -30,6 +30,7 @@ public record HeroContent(
     string Cmd,
     string Role,
     string ValueHtml,
+    string ProofHtml,
     string BtnProjects,
     string BtnContact);
 
@@ -64,10 +65,9 @@ public record ProjectsContent(
 public record ContactContent(
     string Path,
     string Cmd,
-    string Handshake,
-    string Waiting,
-    string Online,
-    string Result,
+    string Intro,
+    string EmailButton,
+    string LinkedInButton,
     string Button);
 
 public record StatusBarContent(

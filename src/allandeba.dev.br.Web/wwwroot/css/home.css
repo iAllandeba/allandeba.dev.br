@@ -167,15 +167,6 @@ body.home-page::-webkit-scrollbar-thumb:hover { background: var(--teal2); }
    SCROLL ANIMATION HELPERS
    ============================================================ */
 
-.anim {
-    opacity: 0;
-    transform: translateY(16px);
-}
-
-.anim-x {
-    opacity: 0;
-    transform: translateX(20px);
-}
 
 /* ============================================================
    SHIMMER (loading skeleton)

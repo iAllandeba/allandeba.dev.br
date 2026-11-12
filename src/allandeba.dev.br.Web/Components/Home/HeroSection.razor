@@ -2,10 +2,10 @@
 @inherits LocalizedComponentBase
 @inject IContentProvider Site
 
-<section id="hero" class="hero-section section-reveal" data-section="hero" data-label="@Site.Content.StatusBar.Hero" aria-label="Apresentação">
+<section id="hero" class="hero-section section-reveal" data-section="hero" data-label="@Site.Content.StatusBar.Hero" aria-labelledby="hero-name">
     <div id="hero-glow"></div>
     <div class="terminal-block">
-        <div class="prompt-line" style="opacity:0">
+        <div class="prompt-line">
             <span class="p-user">allandeba</span><span class="p-at">&#64;</span><span class="p-host">dev</span><span
             class="p-colon">:</span><span class="p-path">@Site.Content.Hero.Path</span><span
             class="p-sym">&nbsp;$&nbsp;</span><span class="p-cmd">@foreach (var c in Site.Content.Hero.Cmd) {
@@ -15,28 +15,31 @@
 </div>
 
 
-<h1 class="hero-name" style="opacity:0">
+<h1 id="hero-name" class="hero-name">
     Allan <span class="gold">Debastiani</span>
 </h1>
 
-<p class="hero-role" style="opacity:0">@Site.Content.Hero.Role</p>
+<p class="hero-role">@Site.Content.Hero.Role</p>
 
-<p class="hero-value" style="opacity:0">
+<p class="hero-value">
     @((MarkupString)Site.Content.Hero.ValueHtml)
 </p>
 
-<div class="hero-tech" style="opacity:0">
+<p class="hero-proof">@((MarkupString)Site.Content.Hero.ProofHtml)</p>
+
+<div class="hero-buttons">
+    <a href="mailto:allandeba@icloud.com" class="btn-t primary" data-contact-channel="email" data-contact-placement="hero">@Site.Content.Hero.BtnContact</a>
+    <a href="https://www.linkedin.com/in/allan-debastiani/" target="_blank" rel="noopener noreferrer" class="btn-t" data-contact-channel="linkedin" data-contact-placement="hero">[ LinkedIn ↗ ]</a>
+    <a href="#projects" class="btn-t">@Site.Content.Hero.BtnProjects</a>
+</div>
+
+<div class="hero-tech">
     @foreach (var tech in _techStack)
     {
         <span class="hero-tech-badge @(tech.Hi ? "hi" : "")">@tech.Name</span>
     }
 </div>
 
-<div class="hero-buttons" style="opacity:0">
-    <a href="#projects" class="btn-t primary">@Site.Content.Hero.BtnProjects</a>
-    <a href="https://github.com/allandeba" target="_blank" rel="noopener noreferrer" class="btn-t">[ github ↗ ]</a>
-    <a href="#contact" class="btn-t">@Site.Content.Hero.BtnContact</a>
-</div>
 </div>
 </section>
 
@@ -44,17 +47,15 @@
 @code {
     private record TechBadge(string Name, bool Hi = false);
 
-    private TechBadge[] _techStack =
+    private readonly TechBadge[] _techStack =
     {
         new("C#", Hi: true),
-        new(".NET Core", Hi: true),
-        new("Blazor", Hi: true),
-        new("REST APIs"),
+        new("ASP.NET Core", Hi: true),
+        new("REST APIs", Hi: true),
+        new("EF Core"),
         new("SQL Server"),
         new("PostgreSQL"),
-        new("Azure DevOps"),
-        new("OpenTelemetry"),
-        new("Grafana"),
-        new("AWS Kiro"),
+        new("Docker"),
+        new("Blazor"),
     };
 }

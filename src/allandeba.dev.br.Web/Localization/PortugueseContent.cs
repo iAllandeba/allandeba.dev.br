@@ -3,8 +3,8 @@ namespace allandeba.dev.br.Web.Localization;
 public class PortugueseContent : ISiteContent
 {
     public MetaContent Meta { get; } = new(
-        Title: "Allan Debastiani — Full Stack Engineer C# .NET Blazor",
-        Description: "Allan Debastiani — Full Stack Engineer. C#, .NET e Blazor para viagens e hotelaria, integrações REST, performance e observabilidade.");
+        Title: "Allan Debastiani | Desenvolvedor Backend .NET | C# e ASP.NET Core",
+        Description: "Desenvolvedor Backend .NET com 5+ anos de experiência. C#, ASP.NET Core, APIs, integrações e performance. Atuação full stack com Blazor.");
 
     public NavContent Nav { get; } = new(
         About: "sobre",
@@ -13,15 +13,16 @@ public class PortugueseContent : ISiteContent
         Contact: "contato");
 
     public LoaderContent Loader { get; } = new(
-        Sub: "Full Stack Engineer");
+        Sub: "Desenvolvedor Backend .NET");
 
     public HeroContent Hero { get; } = new(
         Path: "~/quem-sou-eu",
         Cmd: "./quem-sou-eu.sh",
-        Role: "Full Stack Engineer · Brasil",
-        ValueHtml: "Construo aplicações web completas:<br /><strong>integrações, performance e entregas confiáveis</strong> com C#, .NET e Blazor.",
+        Role: "Desenvolvedor Backend .NET · Brasil",
+        ValueHtml: "<strong>5+ anos com C# e .NET.</strong> APIs, integrações e performance, da arquitetura à produção. Também atuo com Blazor.",
+        ProofHtml: "Liderei a entrega de uma plataforma de integração hoteleira. Consultas de disponibilidade: <strong>~20 s → menos de 500 ms</strong> em testes comparáveis.",
         BtnProjects: "[ ver projetos ]",
-        BtnContact: "[ contato ]");
+        BtnContact: "[ conversar sobre uma vaga ]");
 
     public AboutContent About { get; } = new(
         Path: "~/sobre",
@@ -83,7 +84,7 @@ public class PortugueseContent : ISiteContent
 
     public ProjectsContent Projects { get; } = new(
         Path: "~/projetos",
-        ErrorLoad: "falha ao carregar repositórios — verifique a conexão",
+        ErrorLoad: "falha ao carregar repositórios | verifique a conexão",
         Empty: "nenhum repositório encontrado",
         ViewGithub: "Ver no GitHub",
         OpenApp: "Abrir aplicação",
@@ -92,11 +93,10 @@ public class PortugueseContent : ISiteContent
     public ContactContent Contact { get; } = new(
         Path: "~/contato",
         Cmd: "./contato.sh",
-        Handshake: "Iniciando handshake...",
-        Waiting: "[ aguardando ]",
-        Online: "[ online ]",
-        Result: "Todos os canais online. Pronto para conectar.",
-        Button: "./enviar-mensagem");
+        Intro: "Vamos conversar sobre uma oportunidade .NET? Fale comigo por email, LinkedIn ou mensagem.",
+        EmailButton: "[ enviar email ]",
+        LinkedInButton: "[ falar pelo LinkedIn ↗ ]",
+        Button: "[ enviar mensagem ]");
 
     public StatusBarContent StatusBar { get; } = new(
         Hero: "quem-sou-eu",

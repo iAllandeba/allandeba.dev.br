@@ -79,9 +79,12 @@
         try
         {
             if (_animModule is not null)
+            {
+                await _animModule.InvokeVoidAsync("dispose");
                 await _animModule.InvokeVoidAsync("setBodyClass", "home-page", false);
+            }
         }
-        catch { }
+        catch (JSDisconnectedException) { }
         if (_animModule is not null)
             await _animModule.DisposeAsync();
     }
